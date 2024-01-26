@@ -992,6 +992,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ch09_nonPBR (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: b2c6cbd3cbd6fa24992dba6b65d8a276, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: b504250f6cdfb5e4993c690cd69ef82f, type: 2}
+    - target: {fileID: 5866666021909216657, guid: b2c6cbd3cbd6fa24992dba6b65d8a276, type: 3}
+      propertyPath: m_WarningMessage
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1164,7 +1172,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d6bcf7ddfeeb7c41b215df3640cf761, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  character: {fileID: 1890555150}
+  navMeshAgent: {fileID: 1890555153}
+  animator: {fileID: 1890555154}
   redBlock: {fileID: 595037362}
   blueBlock: {fileID: 39693293}
   greenBlock: {fileID: 1509083999}
@@ -1196,6 +1205,11 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!95 &1890555154 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: b2c6cbd3cbd6fa24992dba6b65d8a276, type: 3}
+  m_PrefabInstance: {fileID: 1453159887}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1985052488
 GameObject:
   m_ObjectHideFlags: 0

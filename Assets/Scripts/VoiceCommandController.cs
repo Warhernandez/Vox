@@ -1,8 +1,11 @@
 using UnityEngine;
+using UnityEngine.AI;
+using UnityEngine.TextCore.Text;
 
 public class VoiceCommandController : MonoBehaviour
 {
-    [SerializeField] private GameObject character;
+    [SerializeField] private NavMeshAgent navMeshAgent;
+    [SerializeField] private Animator animator;
     [SerializeField] private GameObject redBlock;
     [SerializeField] private GameObject blueBlock;
     [SerializeField] private GameObject greenBlock;
@@ -10,29 +13,28 @@ public class VoiceCommandController : MonoBehaviour
 
     private void Start()
     {
-        // Initialize the character position
-        MoveCharacterToPosition(character.transform.position);
+        SetDestination(navMeshAgent.transform.position);
     }
 
     public void ProcessVoiceCommand(string command)
     {
-        command = command.ToLower(); // Convert the command to lowercase for case-insensitive comparison
+        command = command.ToLower();
 
         if (command.Contains("red"))
         {
-            MoveCharacterToPosition(redBlock.transform.position);
+            SetDestination(redBlock.transform.position);
         }
         else if (command.Contains("blue"))
         {
-            MoveCharacterToPosition(blueBlock.transform.position);
+            SetDestination(blueBlock.transform.position);
         }
         else if (command.Contains("green"))
         {
-            MoveCharacterToPosition(greenBlock.transform.position);
+            SetDestination(greenBlock.transform.position);
         }
         else if (command.Contains("yellow"))
         {
-            MoveCharacterToPosition(yellowBlock.transform.position);
+            SetDestination(yellowBlock.transform.position);
         }
         else
         {
@@ -40,9 +42,15 @@ public class VoiceCommandController : MonoBehaviour
         }
     }
 
-    private void MoveCharacterToPosition(Vector3 targetPosition)
+    private void SetDestination(Vector3 targetPosition)
     {
-        // You can use your own logic here to smoothly move the character to the target position
-        character.transform.position = targetPosition;
+        navMeshAgent.SetDestination(targetPosition);
+
+        // Set IsMoving parameter based on whether the agent is moving
+        bool isMoving = navMeshAgent.velocity.magnitude > 0.1f;
+        animator.SetBool("IsMoving", isMoving);
+
+        // Set the speed parameter for better control over the blend tree
+        animator.SetFloat("Speed", isMoving ? 1f : 0f);
     }
 }
