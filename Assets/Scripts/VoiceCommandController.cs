@@ -11,9 +11,20 @@ public class VoiceCommandController : MonoBehaviour
     [SerializeField] private GameObject greenBlock;
     [SerializeField] private GameObject yellowBlock;
 
+    [SerializeField] private float movementThreshold = 0.1f;
+
     private void Start()
     {
         SetDestination(navMeshAgent.transform.position);
+    }
+
+    private void Update()
+    {
+        // Check if the character is moving based on a threshold
+        bool isMoving = navMeshAgent.velocity.magnitude > movementThreshold;
+        animator.SetBool("IsMoving", isMoving);
+        animator.SetFloat("Speed", Mathf.Clamp(navMeshAgent.velocity.magnitude / movementThreshold, 0f, 1f));
+        
     }
 
     public void ProcessVoiceCommand(string command)
@@ -22,18 +33,22 @@ public class VoiceCommandController : MonoBehaviour
 
         if (command.Contains("red"))
         {
+            FaceDestination();
             SetDestination(redBlock.transform.position);
         }
         else if (command.Contains("blue"))
         {
+            FaceDestination();
             SetDestination(blueBlock.transform.position);
         }
         else if (command.Contains("green"))
         {
+            FaceDestination();
             SetDestination(greenBlock.transform.position);
         }
         else if (command.Contains("yellow"))
         {
+            FaceDestination();
             SetDestination(yellowBlock.transform.position);
         }
         else
@@ -45,12 +60,12 @@ public class VoiceCommandController : MonoBehaviour
     private void SetDestination(Vector3 targetPosition)
     {
         navMeshAgent.SetDestination(targetPosition);
+    }
 
-        // Set IsMoving parameter based on whether the agent is moving
-        bool isMoving = navMeshAgent.velocity.magnitude > 0.1f;
-        animator.SetBool("IsMoving", isMoving);
-
-        // Set the speed parameter for better control over the blend tree
-        animator.SetFloat("Speed", isMoving ? 1f : 0f);
+    private void FaceDestination()
+    {
+        Vector3 direction = (navMeshAgent.destination - transform.position).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0f, direction.z));
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 10f);
     }
 }
