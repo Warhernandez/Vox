@@ -1101,10 +1101,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   navMeshAgent: {fileID: 1890555153}
   animator: {fileID: 1890555154}
-  redBlock: {fileID: 595037362}
-  blueBlock: {fileID: 39693293}
-  greenBlock: {fileID: 1509083999}
-  yellowBlock: {fileID: 1985052488}
+  destinationObjects:
+  - transform: {fileID: 39693294}
+    keywords:
+    - blue
+  - transform: {fileID: 1509084000}
+    keywords:
+    - green
+  - transform: {fileID: 1985052489}
+    keywords:
+    - yellow
+  - transform: {fileID: 595037363}
+    keywords:
+    - red
   movementThreshold: 0.01
 --- !u!195 &1890555153 stripped
 NavMeshAgent:

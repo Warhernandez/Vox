@@ -1,16 +1,12 @@
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.TextCore.Text;
+using System.Collections.Generic;
 
 public class VoiceCommandController : MonoBehaviour
 {
     [SerializeField] private NavMeshAgent navMeshAgent;
     [SerializeField] private Animator animator;
-    [SerializeField] private GameObject redBlock;
-    [SerializeField] private GameObject blueBlock;
-    [SerializeField] private GameObject greenBlock;
-    [SerializeField] private GameObject yellowBlock;
-
+    [SerializeField] private List<DestinationObject> destinationObjects = new List<DestinationObject>();
     [SerializeField] private float movementThreshold = 0.1f;
 
     private void Start()
@@ -24,37 +20,32 @@ public class VoiceCommandController : MonoBehaviour
         bool isMoving = navMeshAgent.velocity.magnitude > movementThreshold;
         animator.SetBool("IsMoving", isMoving);
         animator.SetFloat("Speed", Mathf.Clamp(navMeshAgent.velocity.magnitude / movementThreshold, 0f, 1f));
-        
+
+        // Face the destination if moving
+        if (isMoving)
+        {
+            FaceDestination();
+        }
     }
 
     public void ProcessVoiceCommand(string command)
     {
         command = command.ToLower();
 
-        if (command.Contains("red"))
+        foreach (var destinationObject in destinationObjects)
         {
-            FaceDestination();
-            SetDestination(redBlock.transform.position);
+            foreach (var keyword in destinationObject.keywords)
+            {
+                if (command.Contains(keyword))
+                {
+                    FaceDestination();
+                    SetDestination(destinationObject.transform.position);
+                    return; // Exit the loop if a matching keyword is found
+                }
+            }
         }
-        else if (command.Contains("blue"))
-        {
-            FaceDestination();
-            SetDestination(blueBlock.transform.position);
-        }
-        else if (command.Contains("green"))
-        {
-            FaceDestination();
-            SetDestination(greenBlock.transform.position);
-        }
-        else if (command.Contains("yellow"))
-        {
-            FaceDestination();
-            SetDestination(yellowBlock.transform.position);
-        }
-        else
-        {
-            Debug.Log("Unknown command: " + command);
-        }
+
+        Debug.Log("Unknown command: " + command);
     }
 
     private void SetDestination(Vector3 targetPosition)
@@ -68,4 +59,11 @@ public class VoiceCommandController : MonoBehaviour
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0f, direction.z));
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 10f);
     }
+}
+
+[System.Serializable]
+public class DestinationObject
+{
+    public Transform transform;
+    public List<string> keywords;
 }
