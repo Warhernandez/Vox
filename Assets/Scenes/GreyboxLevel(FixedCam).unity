@@ -1629,7 +1629,7 @@ GameObject:
   - component: {fileID: 968929446}
   - component: {fileID: 968929445}
   m_Layer: 0
-  m_Name: Painting
+  m_Name: BeatricePainting
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1647,7 +1647,8 @@ Transform:
   m_LocalPosition: {x: 3.414, y: 2.08, z: -10.061}
   m_LocalScale: {x: 0.17319831, y: 0.17319831, z: 0.29835144}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1261326721}
   m_Father: {fileID: 210961235}
   m_LocalEulerAnglesHint: {x: 90, y: -180, z: 0}
 --- !u!64 &968929445
@@ -1924,6 +1925,37 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &1261326720
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1261326721}
+  m_Layer: 0
+  m_Name: PaintingDestination
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1261326721
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1261326720}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 13.65, z: 6.51}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 968929444}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1264101680
 GameObject:
   m_ObjectHideFlags: 0
@@ -2695,14 +2727,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1607861314}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.020035306, y: 0.97993976, z: -0.1366328, w: 0.14369458}
-  m_LocalPosition: {x: -3.46, y: 1.9381127, z: 11.123}
+  m_LocalRotation: {x: -0.0076973885, y: 0.974723, z: -0.033998553, w: -0.22068064}
+  m_LocalPosition: {x: 3.375, y: -0.838, z: 7.14}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1833153908}
   m_Father: {fileID: 211316627}
-  m_LocalEulerAnglesHint: {x: 30.975, y: 163.884, z: 0.001}
+  m_LocalEulerAnglesHint: {x: 16.165, y: 191.761, z: 0}
 --- !u!114 &1607861317
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3159,12 +3191,12 @@ MonoBehaviour:
   navMeshAgent: {fileID: 1602557438}
   animator: {fileID: 1602557439}
   destinationObjects:
-  - transform: {fileID: 968929444}
+  - transform: {fileID: 1261326721}
     keywords:
     - painting
     - portrait
     - picture
-  movementThreshold: 0.1
+  movementThreshold: 1
 --- !u!4 &1723026669
 Transform:
   m_ObjectHideFlags: 0
