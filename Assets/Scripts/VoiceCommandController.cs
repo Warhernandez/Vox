@@ -1,12 +1,15 @@
 using UnityEngine;
 using UnityEngine.AI;
 using System.Collections.Generic;
+using TMPro;
 
 public class VoiceCommandController : MonoBehaviour
 {
     [SerializeField] private NavMeshAgent navMeshAgent;
     [SerializeField] private Animator animator;
+    [SerializeField] private TextMeshProUGUI InvnetoryText;
     [SerializeField] private List<DestinationObject> destinationObjects = new List<DestinationObject>();
+    [SerializeField] private List<Item> inventory = new List<Item>(); // New inventory list
     [SerializeField] private float movementThreshold = 0.1f;
 
     private void Start()
@@ -39,6 +42,14 @@ public class VoiceCommandController : MonoBehaviour
                 if (command.Contains(keyword))
                 {
                     FaceDestination();
+
+                    // Check if the destination object has an item, and add it to the inventory
+                    if (destinationObject.item != null)
+                    {
+                        AddToInventory(destinationObject.item);
+                        Debug.Log("Obtained item: " + destinationObject.item.itemName);
+                    }
+
                     SetDestination(destinationObject.transform.position);
                     return; // Exit the loop if a matching keyword is found
                 }
@@ -46,6 +57,12 @@ public class VoiceCommandController : MonoBehaviour
         }
 
         Debug.Log("Unknown command: " + command);
+    }
+
+    private void AddToInventory(Item item)
+    {
+        inventory.Add(item);
+        //InvnetoryText.text += " Key";
     }
 
     private void SetDestination(Vector3 targetPosition)
@@ -66,4 +83,12 @@ public class DestinationObject
 {
     public Transform transform;
     public List<string> keywords;
+    public Item item; // New property for associated item
+}
+
+[System.Serializable]
+public class Item
+{
+    public string itemName;
+    // You can add more properties here depending on your requirements
 }
