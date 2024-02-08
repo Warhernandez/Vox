@@ -188,7 +188,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 14005311}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.0068901493, y: 0.9673763, z: -0.25186375, w: -0.026464181}
+  m_LocalRotation: {x: -0.006890145, y: 0.9673763, z: -0.25186375, w: -0.026464164}
   m_LocalPosition: {x: 0.211, y: 1.677, z: 5.38}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1724,6 +1724,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &737725351
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 737725352}
+  m_Layer: 0
+  m_Name: Key
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &737725352
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 737725351}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1225877968}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &756252393
 GameObject:
   m_ObjectHideFlags: 3
@@ -2226,6 +2257,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1021913480}
+  - component: {fileID: 1021913481}
+  - component: {fileID: 1021913482}
   m_Layer: 0
   m_Name: ChestDestination
   m_TagString: Untagged
@@ -2242,12 +2275,110 @@ Transform:
   m_GameObject: {fileID: 1021913479}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.055112742, z: -0, w: 0.9984802}
-  m_LocalPosition: {x: -0.303, y: 0, z: 1.331}
+  m_LocalPosition: {x: -0.303, y: 0.61, z: 1.331}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 311463360}
   m_LocalEulerAnglesHint: {x: 0, y: 6.319, z: 0}
+--- !u!65 &1021913481
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1021913479}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1021913482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1021913479}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c593457cd8105e148906690e1707c592, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  trigger: 8
+  condition:
+    luaConditions: []
+    questConditions: []
+    acceptedTags:
+    - Player
+    acceptedGameObjects: []
+    luaWizardIndex: -1
+    lastEvaluationValue: 0
+  setQuestState: 1
+  questName: 
+  questState: 0
+  setQuestEntryState: 0
+  questEntryNumber: 1
+  questEntryState: 0
+  setAnotherQuestEntryState: 0
+  anotherQuestEntryNumber: 1
+  anotherQuestEntryState: 0
+  luaCode: 
+  sequence: 
+  sequenceSpeaker: {fileID: 0}
+  sequenceListener: {fileID: 0}
+  waitOneFrameOnStartOrEnable: 1
+  alertMessage: 
+  textTable: {fileID: 0}
+  alertDuration: 0
+  sendMessages: []
+  barkSource: 2
+  barkConversation: 
+  barkEntryID: -1
+  barkEntryTitle: 
+  barkText: What's this old thing?
+  barkTextSequence: 
+  barker: {fileID: 1602557440}
+  barkTarget: {fileID: 0}
+  barkOrder: 0
+  allowBarksDuringConversations: 0
+  skipBarkIfNoValidEntries: 0
+  cacheBarkLines: 0
+  conversation: 
+  conversationConversant: {fileID: 0}
+  conversationActor: {fileID: 0}
+  startConversationEntryID: -1
+  startConversationEntryTitle: 
+  exclusive: 0
+  replace: 0
+  queue: 0
+  skipIfNoValidEntries: 0
+  preventRestartOnSameFrameEnded: 0
+  stopConversationOnTriggerExit: 0
+  stopConversationIfTooFar: 0
+  maxConversationDistance: 5
+  monitorConversationDistanceFrequency: 1
+  showCursorDuringConversation: 0
+  pauseGameDuringConversation: 0
+  setActiveActions: []
+  setEnabledActions: []
+  setAnimatorStateActions: []
+  onExecute:
+    m_PersistentCalls:
+      m_Calls: []
+  useConversationTitlePicker: 1
+  useBarkTitlePicker: 1
+  useQuestNamePicker: 1
+  selectedDatabase: {fileID: 11400000, guid: cf07840dbc5f002418266705f6bce16d, type: 2}
 --- !u!1 &1101301568
 GameObject:
   m_ObjectHideFlags: 0
@@ -2455,6 +2586,38 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 114271071415363246, guid: 733fd5ce19c3a3049a9103c8ce1e13e8, type: 3}
   m_PrefabInstance: {fileID: 1412900293}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1225877967
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1225877968}
+  m_Layer: 0
+  m_Name: Items
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1225877968
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1225877967}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.391649, y: 0.0001001358, z: -17.8908}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 737725352}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1261326720
 GameObject:
   m_ObjectHideFlags: 0
@@ -2466,7 +2629,6 @@ GameObject:
   - component: {fileID: 1261326721}
   - component: {fileID: 1261326722}
   - component: {fileID: 1261326723}
-  - component: {fileID: 1261326724}
   m_Layer: 0
   m_Name: PaintingDestination
   m_TagString: Untagged
@@ -2553,7 +2715,7 @@ MonoBehaviour:
   barkConversation: 
   barkEntryID: -1
   barkEntryTitle: 
-  barkText: Woah...
+  barkText: Woah... I wonder how long it took to paint this...
   barkTextSequence: 
   barker: {fileID: 1602557440}
   barkTarget: {fileID: 0}
@@ -2587,39 +2749,6 @@ MonoBehaviour:
   useBarkTitlePicker: 1
   useQuestNamePicker: 1
   selectedDatabase: {fileID: 11400000, guid: cf07840dbc5f002418266705f6bce16d, type: 2}
---- !u!114 &1261326724
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1261326720}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a64578247383140469c45370654a984a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  actor: 
-  persistentDataName: 
-  portrait: {fileID: 0}
-  spritePortrait: {fileID: 0}
-  barkUISettings:
-    barkUI: {fileID: 0}
-    barkUIOffset: {x: 0, y: 2, z: 0}
-  standardDialogueUISettings:
-    subtitlePanelNumber: 0
-    customSubtitlePanel: {fileID: 0}
-    customSubtitlePanelOffset: {x: 0, y: 0, z: 0}
-    menuPanelNumber: 0
-    customMenuPanel: {fileID: 0}
-    customMenuPanelOffset: {x: 0, y: 0, z: 0}
-    useMenuPanelFor: 0
-    portraitAnimatorController: {fileID: 0}
-    setSubtitleColor: 0
-    applyColorToPrependedName: 0
-    prependActorNameSeparator: ': '
-    prependActorNameFormat: '{0}{1}'
-    subtitleColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &1264101680
 GameObject:
   m_ObjectHideFlags: 0
@@ -2979,6 +3108,58 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 783107655607565332, guid: 733fd5ce19c3a3049a9103c8ce1e13e8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8842773132840553130, guid: 733fd5ce19c3a3049a9103c8ce1e13e8, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8842773132840553130, guid: 733fd5ce19c3a3049a9103c8ce1e13e8, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8842773132840553130, guid: 733fd5ce19c3a3049a9103c8ce1e13e8, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8842773132840553130, guid: 733fd5ce19c3a3049a9103c8ce1e13e8, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8842773132840553130, guid: 733fd5ce19c3a3049a9103c8ce1e13e8, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8842773132840553130, guid: 733fd5ce19c3a3049a9103c8ce1e13e8, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8842773132840735070, guid: 733fd5ce19c3a3049a9103c8ce1e13e8, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8842773132840735070, guid: 733fd5ce19c3a3049a9103c8ce1e13e8, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8842773132840735070, guid: 733fd5ce19c3a3049a9103c8ce1e13e8, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8842773132840735070, guid: 733fd5ce19c3a3049a9103c8ce1e13e8, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8842773132840735070, guid: 733fd5ce19c3a3049a9103c8ce1e13e8, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8842773132840735070, guid: 733fd5ce19c3a3049a9103c8ce1e13e8, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8842773132840780442, guid: 733fd5ce19c3a3049a9103c8ce1e13e8, type: 3}
+      propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -4024,30 +4205,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   navMeshAgent: {fileID: 1602557438}
   animator: {fileID: 1602557439}
-  InvnetoryText: {fileID: 129604222}
   destinationObjects:
   - transform: {fileID: 1261326721}
     keywords:
     - painting
     - portrait
     - picture
+    isInteractable: 0
+    hasItem: 0
     item:
-      itemName: 
+      name: 
   - transform: {fileID: 1021913480}
     keywords:
     - chest
     - treasure
     - box
+    isInteractable: 1
+    hasItem: 1
     item:
-      itemName: 
-  - transform: {fileID: 1021913480}
+      name: key
+  - transform: {fileID: 678024863}
     keywords:
-    - chest
-    - treasure
-    - box
+    - Start
+    isInteractable: 0
+    hasItem: 0
     item:
-      itemName: 
-  inventory: []
+      name: 
   movementThreshold: 1
 --- !u!4 &1723026669
 Transform:
@@ -6756,3 +6939,4 @@ SceneRoots:
   - {fileID: 1410681962}
   - {fileID: 1264101683}
   - {fileID: 857723922}
+  - {fileID: 1225877968}

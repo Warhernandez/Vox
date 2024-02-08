@@ -1,16 +1,15 @@
 using UnityEngine;
 using UnityEngine.AI;
 using System.Collections.Generic;
-using TMPro;
 
 public class VoiceCommandController : MonoBehaviour
 {
     [SerializeField] private NavMeshAgent navMeshAgent;
     [SerializeField] private Animator animator;
-    [SerializeField] private TextMeshProUGUI InvnetoryText;
     [SerializeField] private List<DestinationObject> destinationObjects = new List<DestinationObject>();
-    [SerializeField] private List<Item> inventory = new List<Item>(); // New inventory list
     [SerializeField] private float movementThreshold = 0.1f;
+
+    private List<Item> inventory = new List<Item>(); // Inventory list to store collected items
 
     private void Start()
     {
@@ -33,36 +32,58 @@ public class VoiceCommandController : MonoBehaviour
 
     public void ProcessVoiceCommand(string command)
     {
-        command = command.ToLower();
+        command = command.ToLower(); // Convert command to lowercase
+
+        bool commandHandled = false;
 
         foreach (var destinationObject in destinationObjects)
         {
             foreach (var keyword in destinationObject.keywords)
             {
-                if (command.Contains(keyword))
+                if (command.Contains(keyword.ToLower())) // Check lowercase keyword
                 {
-                    FaceDestination();
-
-                    // Check if the destination object has an item, and add it to the inventory
-                    if (destinationObject.item != null)
+                    if (command.Contains("use"))
                     {
-                        AddToInventory(destinationObject.item);
-                        Debug.Log("Obtained item: " + destinationObject.item.itemName);
+                        // Check if the destination object is interactable
+                        if (destinationObject.isInteractable && destinationObject.hasItem)
+                        {
+                            // Add item to the inventory
+                            Item item = destinationObject.GetItem();
+                            if (item != null)
+                            {
+                                inventory.Add(item);
+                                Debug.Log("Picked up " + item.name);
+                                commandHandled = true;
+                            }
+                        }
+                        else
+                        {
+                            // Perform other interaction (e.g., open door)
+                            destinationObject.Interact();
+
+                            commandHandled = true;
+                        }
+                    }
+                    else
+                    {
+                        // Set destination regardless of interaction
+                        FaceDestination();
+                        SetDestination(destinationObject.transform.position);
+                        commandHandled = true;
                     }
 
-                    SetDestination(destinationObject.transform.position);
-                    return; // Exit the loop if a matching keyword is found
+                    break; // Exit the loop if a matching keyword is found
                 }
             }
+
+            if (commandHandled)
+                break;
         }
 
-        Debug.Log("Unknown command: " + command);
-    }
-
-    private void AddToInventory(Item item)
-    {
-        inventory.Add(item);
-        //InvnetoryText.text += " Key";
+        if (!commandHandled)
+        {
+            Debug.Log("Unknown command: " + command);
+        }
     }
 
     private void SetDestination(Vector3 targetPosition)
@@ -83,12 +104,30 @@ public class DestinationObject
 {
     public Transform transform;
     public List<string> keywords;
-    public Item item; // New property for associated item
+    public bool isInteractable = true;
+    public bool hasItem = false;
+    public Item item; // Reference to the item associated with this object
+
+    public void Interact()
+    {
+        // Implement interaction behavior here (e.g., open door)
+        Debug.Log("Interacting with object");
+    }
+
+    public Item GetItem()
+    {
+        if (hasItem)
+        {
+            hasItem = false; // Remove the item from the object
+            return item;
+        }
+        return null;
+    }
 }
 
 [System.Serializable]
 public class Item
 {
-    public string itemName;
-    // You can add more properties here depending on your requirements
+    public string name;
+    // Add any other properties relevant to the item
 }
