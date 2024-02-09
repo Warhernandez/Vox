@@ -8,6 +8,7 @@ public class VoiceCommandController : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private List<DestinationObject> destinationObjects = new List<DestinationObject>();
     [SerializeField] private float movementThreshold = 0.1f;
+    private bool isNearInteractable = false;
 
     private List<Item> inventory = new List<Item>(); // Inventory list to store collected items
 
@@ -30,21 +31,49 @@ public class VoiceCommandController : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        foreach (var destinationObject in destinationObjects)
+        {
+            if (other.gameObject == destinationObject.gameObject)
+            {
+                isNearInteractable = true;
+                Debug.Log("trigger enter.");
+                break;
+            }
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        foreach (var destinationObject in destinationObjects)
+        {
+            if (other.gameObject == destinationObject.gameObject)
+            {
+                isNearInteractable = false;
+                Debug.Log("trigger exit.");
+                break;
+            }
+        }
+    }
+
+
     public void ProcessVoiceCommand(string command)
     {
-        command = command.ToLower(); // Convert command to lowercase
+        command = command.Trim().ToLower(); // Convert command to lowercase and trim whitespace
 
         bool commandHandled = false;
 
-        foreach (var destinationObject in destinationObjects)
+        // Check for "use" command separately
+        if (command.StartsWith("use"))
         {
-            foreach (var keyword in destinationObject.keywords)
+            foreach (var destinationObject in destinationObjects)
             {
-                if (command.Contains(keyword.ToLower())) // Check lowercase keyword
+                foreach (var keyword in destinationObject.keywords)
                 {
-                    if (command.Contains("use"))
+                    if (command.Contains(keyword.ToLower())) // Check lowercase keyword
                     {
-                        // Check if the destination object is interactable
+                        // Check if the player is near an interactable object and if it has an item
                         if (destinationObject.isInteractable && destinationObject.hasItem)
                         {
                             // Add item to the inventory
@@ -54,32 +83,44 @@ public class VoiceCommandController : MonoBehaviour
                                 inventory.Add(item);
                                 Debug.Log("Picked up " + item.name);
                                 commandHandled = true;
+                                break;
                             }
                         }
                         else
                         {
-                            // Perform other interaction (e.g., open door)
-                            destinationObject.Interact();
-
+                            Debug.Log("No interactable object nearby or object has no item.");
                             commandHandled = true;
+                            break;
                         }
                     }
-                    else
+                }
+                if (commandHandled)
+                    break;
+            }
+        }
+
+        // Check for other commands
+        if (!commandHandled)
+        {
+            foreach (var destinationObject in destinationObjects)
+            {
+                foreach (var keyword in destinationObject.keywords)
+                {
+                    if (command.Contains(keyword.ToLower())) // Check lowercase keyword
                     {
                         // Set destination regardless of interaction
                         FaceDestination();
                         SetDestination(destinationObject.transform.position);
                         commandHandled = true;
+                        break;
                     }
-
-                    break; // Exit the loop if a matching keyword is found
                 }
+                if (commandHandled)
+                    break;
             }
-
-            if (commandHandled)
-                break;
         }
 
+        // Log unknown command if not handled
         if (!commandHandled)
         {
             Debug.Log("Unknown command: " + command);
@@ -102,6 +143,7 @@ public class VoiceCommandController : MonoBehaviour
 [System.Serializable]
 public class DestinationObject
 {
+    public GameObject gameObject; // Reference to the game object
     public Transform transform;
     public List<string> keywords;
     public bool isInteractable = true;
@@ -110,7 +152,7 @@ public class DestinationObject
 
     public void Interact()
     {
-        // Implement interaction behavior here (e.g., open door)
+        // Implement interaction behavior here (I.E. open door)
         Debug.Log("Interacting with object");
     }
 
