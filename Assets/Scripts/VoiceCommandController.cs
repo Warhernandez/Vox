@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 using System.Collections.Generic;
+using TMPro;
 
 public class VoiceCommandController : MonoBehaviour
 {
@@ -8,7 +9,11 @@ public class VoiceCommandController : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private List<DestinationObject> destinationObjects = new List<DestinationObject>();
     [SerializeField] private float movementThreshold = 0.1f;
+    public GameObject player;
     private bool isNearInteractable = false;
+    [SerializeField] private Material highlightMaterial; // Material used for highlighting
+
+    private bool isHighlighting = false; // Flag to track highlighting state
 
     private List<Item> inventory = new List<Item>(); // Inventory list to store collected items
 
@@ -33,6 +38,9 @@ public class VoiceCommandController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        
+
+
         foreach (var destinationObject in destinationObjects)
         {
             if (other.gameObject == destinationObject.gameObject)
@@ -60,11 +68,40 @@ public class VoiceCommandController : MonoBehaviour
 
     public void ProcessVoiceCommand(string command)
     {
-        command = command.Trim().ToLower(); // Convert command to lowercase and trim whitespace
-
+        command = command.ToLower();
         bool commandHandled = false;
 
-        // Check for "use" command separately
+        // Split the command into individual words
+        string[] words = command.Split(' ');
+
+        // Check for "use" command followed by "key" and "door" (or other objects)
+        if (words.Length >= 3 && words[0] == "use")
+        {
+            string itemName = words[1];
+            string targetObjectName = string.Join(" ", words, 2, words.Length - 2);
+
+            // Check if the player has the specified item in their inventory
+            Item item = inventory.Find(x => x.name.ToLower() == itemName);
+            if (item != null)
+            {
+                // Check if there is an interactable object with the specified name
+                DestinationObject targetObject = destinationObjects.Find(x => x.gameObject.name.ToLower() == targetObjectName);
+                if (targetObject != null && targetObject.isInteractable)
+                {
+                    // Use the item on the target object
+                    UseItemOnObject(item, targetObject);
+                    return;
+                }
+                else
+                {
+                    Debug.Log("Target object not found or is not interactable.");
+                }
+            }
+            else
+            {
+                Debug.Log("Item not found in inventory.");
+            }
+        }
         if (command.StartsWith("use"))
         {
             foreach (var destinationObject in destinationObjects)
@@ -126,6 +163,17 @@ public class VoiceCommandController : MonoBehaviour
             Debug.Log("Unknown command: " + command);
         }
     }
+    private void UseItemOnObject(Item item, DestinationObject targetObject)
+    {
+        // Implement logic for using the item on the object
+        Debug.Log("Using " + item.name + " on " + targetObject.gameObject.name);
+
+        // Remove the item from the inventory
+        inventory.Remove(item);
+
+        // Interact with the target object
+        targetObject.Interact();
+    }
 
     private void SetDestination(Vector3 targetPosition)
     {
@@ -139,7 +187,6 @@ public class VoiceCommandController : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 10f);
     }
 }
-
 [System.Serializable]
 public class DestinationObject
 {
@@ -150,10 +197,24 @@ public class DestinationObject
     public bool hasItem = false;
     public Item item; // Reference to the item associated with this object
 
+    private bool isNearby = false; // Flag to track if the player is nearby
+
+    public bool IsNearby => isNearby;
+
+    public void OnPlayerEnter()
+    {
+        isNearby = true;
+    }
+
+    public void OnPlayerExit()
+    {
+        isNearby = false;
+    }
+
     public void Interact()
     {
-        // Implement interaction behavior here (I.E. open door)
-        Debug.Log("Interacting with object");
+        // Implement interaction behavior here (e.g., open door)
+        Debug.Log("Interacting with object: " + gameObject.name);
     }
 
     public Item GetItem()

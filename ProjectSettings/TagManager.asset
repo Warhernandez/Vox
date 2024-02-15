@@ -4,10 +4,7 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - blue
-  - red
-  - yellow
-  - green
+  - Room
   layers:
   - Default
   - TransparentFX
