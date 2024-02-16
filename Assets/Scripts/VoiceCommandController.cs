@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using System.Collections.Generic;
 using TMPro;
+using cakeslice;
 
 public class VoiceCommandController : MonoBehaviour
 {
@@ -10,10 +11,6 @@ public class VoiceCommandController : MonoBehaviour
     [SerializeField] private List<DestinationObject> destinationObjects = new List<DestinationObject>();
     [SerializeField] private float movementThreshold = 0.1f;
     public GameObject player;
-    private bool isNearInteractable = false;
-    [SerializeField] private Material highlightMaterial; // Material used for highlighting
-
-    private bool isHighlighting = false; // Flag to track highlighting state
 
     private List<Item> inventory = new List<Item>(); // Inventory list to store collected items
 
@@ -28,87 +25,40 @@ public class VoiceCommandController : MonoBehaviour
         bool isMoving = navMeshAgent.velocity.magnitude > movementThreshold;
         animator.SetBool("IsMoving", isMoving);
         animator.SetFloat("Speed", Mathf.Clamp(navMeshAgent.velocity.magnitude / movementThreshold, 0f, 1f));
-
-        // Face the destination if moving
-        if (isMoving)
-        {
-            FaceDestination();
-        }
     }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        
-
-
-        foreach (var destinationObject in destinationObjects)
-        {
-            if (other.gameObject == destinationObject.gameObject)
-            {
-                isNearInteractable = true;
-                Debug.Log("trigger enter.");
-                break;
-            }
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        foreach (var destinationObject in destinationObjects)
-        {
-            if (other.gameObject == destinationObject.gameObject)
-            {
-                isNearInteractable = false;
-                Debug.Log("trigger exit.");
-                break;
-            }
-        }
-    }
-
 
     public void ProcessVoiceCommand(string command)
     {
         command = command.ToLower();
         bool commandHandled = false;
 
-        // Split the command into individual words
-        string[] words = command.Split(' ');
 
-        // Check for "use" command followed by "key" and "door" (or other objects)
-        if (words.Length >= 3 && words[0] == "use")
+        if (command.Contains("look"))
         {
-            string itemName = words[1];
-            string targetObjectName = string.Join(" ", words, 2, words.Length - 2);
-
-            // Check if the player has the specified item in their inventory
-            Item item = inventory.Find(x => x.name.ToLower() == itemName);
-            if (item != null)
+            foreach (var destinationObject in destinationObjects)
             {
-                // Check if there is an interactable object with the specified name
-                DestinationObject targetObject = destinationObjects.Find(x => x.gameObject.name.ToLower() == targetObjectName);
-                if (targetObject != null && targetObject.isInteractable)
+                Outline outlineScript = destinationObject.gameObject.GetComponent<Outline>();
+
+                if (outlineScript != null)
                 {
-                    // Use the item on the target object
-                    UseItemOnObject(item, targetObject);
-                    return;
+                    Debug.Log(destinationObject.gameObject.name + " has the Outline script attached.");
+                    // Do something with the object that has the Outline script attached
                 }
                 else
                 {
-                    Debug.Log("Target object not found or is not interactable.");
+                    Debug.Log(destinationObject.gameObject.name + " does not have the Outline script attached.");
                 }
-            }
-            else
-            {
-                Debug.Log("Item not found in inventory.");
+
             }
         }
+
         if (command.StartsWith("use"))
         {
             foreach (var destinationObject in destinationObjects)
             {
                 foreach (var keyword in destinationObject.keywords)
                 {
-                    if (command.Contains(keyword.ToLower())) // Check lowercase keyword
+                    if (command.Contains(keyword)) // Check lowercase keyword
                     {
                         // Check if the player is near an interactable object and if it has an item
                         if (destinationObject.isInteractable && destinationObject.hasItem)
@@ -136,7 +86,7 @@ public class VoiceCommandController : MonoBehaviour
             }
         }
 
-        // Check for other commands
+        // Check for move commands
         if (!commandHandled)
         {
             foreach (var destinationObject in destinationObjects)
@@ -146,7 +96,6 @@ public class VoiceCommandController : MonoBehaviour
                     if (command.Contains(keyword.ToLower())) // Check lowercase keyword
                     {
                         // Set destination regardless of interaction
-                        FaceDestination();
                         SetDestination(destinationObject.transform.position);
                         commandHandled = true;
                         break;
@@ -178,13 +127,6 @@ public class VoiceCommandController : MonoBehaviour
     private void SetDestination(Vector3 targetPosition)
     {
         navMeshAgent.SetDestination(targetPosition);
-    }
-
-    private void FaceDestination()
-    {
-        Vector3 direction = (navMeshAgent.destination - transform.position).normalized;
-        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0f, direction.z));
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 10f);
     }
 }
 [System.Serializable]

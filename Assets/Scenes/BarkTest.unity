@@ -1123,6 +1123,8 @@ GameObject:
   - component: {fileID: 1509084003}
   - component: {fileID: 1509084002}
   - component: {fileID: 1509084001}
+  - component: {fileID: 1509084004}
+  - component: {fileID: 1509084005}
   m_Layer: 0
   m_Name: GreenCube
   m_TagString: green
@@ -1217,6 +1219,32 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1509083999}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1509084004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1509083999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c72b3f4c374d0ba47824d73874ac6fd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1509084005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1509083999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbf3575480402db40813e763382412fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: 2
+  eraseRenderer: 0
 --- !u!1 &1876969511
 GameObject:
   m_ObjectHideFlags: 0
@@ -1278,17 +1306,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   navMeshAgent: {fileID: 1890555153}
   animator: {fileID: 1890555154}
-  InvnetoryText: {fileID: 0}
   destinationObjects:
-  - transform: {fileID: 677002055}
+  - gameObject: {fileID: 0}
+    transform: {fileID: 677002055}
     keywords:
     - green
     - box
     - cube
+    isInteractable: 1
+    hasItem: 0
     item:
-      itemName: 
-  inventory: []
+      name: 
   movementThreshold: 1
+  player: {fileID: 0}
+  highlightMaterial: {fileID: 0}
 --- !u!195 &1890555153 stripped
 NavMeshAgent:
   m_CorrespondingSourceObject: {fileID: 444744246616070421, guid: 733fd5ce19c3a3049a9103c8ce1e13e8, type: 3}
@@ -1351,6 +1382,7 @@ GameObject:
   - component: {fileID: 2055310958}
   - component: {fileID: 2055310957}
   - component: {fileID: 2055310956}
+  - component: {fileID: 2055310959}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1432,6 +1464,39 @@ Transform:
   m_Children: []
   m_Father: {fileID: 962960896}
   m_LocalEulerAnglesHint: {x: 30.119, y: 0, z: 0}
+--- !u!114 &2055310959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2055310955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a78da3f00f3328541b4526c0b0b5ec5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lineThickness: 1.25
+  lineIntensity: 0.5
+  fillAmount: 0.2
+  lineColor0: {r: 1, g: 0, b: 0, a: 1}
+  lineColor1: {r: 0, g: 1, b: 0, a: 1}
+  lineColor2: {r: 0, g: 0, b: 1, a: 1}
+  additiveRendering: 0
+  backfaceCulling: 1
+  fillColor: {r: 0, g: 0, b: 1, a: 1}
+  useFillColor: 0
+  cornerOutlines: 0
+  addLinesBetweenColors: 0
+  scaleWithScreenSize: 1
+  alphaCutoff: 0.5
+  flipY: 0
+  sourceCamera: {fileID: 0}
+  autoEnableOutlines: 0
+  outlineCamera: {fileID: 0}
+  outlineShaderMaterial: {fileID: 0}
+  renderTexture: {fileID: 0}
+  extraRenderTexture: {fileID: 0}
 --- !u!1001 &4659167862447050964
 PrefabInstance:
   m_ObjectHideFlags: 0
