@@ -318,7 +318,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &155194041
 Transform:
   m_ObjectHideFlags: 0
@@ -328,7 +328,7 @@ Transform:
   m_GameObject: {fileID: 155194040}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.239, z: 1.076}
+  m_LocalPosition: {x: 0, y: 0.239, z: 0.747}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -534,7 +534,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &234405370
 Transform:
   m_ObjectHideFlags: 0
@@ -2206,7 +2206,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4281874488
-  m_fontColor: {r: 0.21960786, g: 0.21960786, b: 0.21960786, a: 1}
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -4318,7 +4318,7 @@ MonoBehaviour:
   aimtargetTransform: {fileID: 155194041}
   pointOfInterest: {fileID: 0}
   origin: {x: 0, y: 0, z: 0}
-  visionRadius: 1.5
+  visionRadius: 1
   lerpSpeed: 20
 --- !u!43 &1606703291
 Mesh:
@@ -6362,7 +6362,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70b342d8ce5c2fd48b8fa3147d48d1d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Weight: 0.777
+  m_Weight: 0.7
   m_Effectors: []
 --- !u!1 &1833153907
 GameObject:
@@ -8001,11 +8001,11 @@ SceneRoots:
   m_Roots:
   - {fileID: 963194228}
   - {fileID: 705507995}
+  - {fileID: 1723026669}
   - {fileID: 1412900293}
   - {fileID: 2142970507}
   - {fileID: 211316627}
   - {fileID: 210961235}
-  - {fileID: 1723026669}
   - {fileID: 1410681962}
   - {fileID: 1264101683}
   - {fileID: 857723922}

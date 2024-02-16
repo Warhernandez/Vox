@@ -52,7 +52,7 @@ public class VoiceCommandController : MonoBehaviour
             }
         }
 
-        if (command.StartsWith("use"))
+        if (command.Contains("use"))
         {
             foreach (var destinationObject in destinationObjects)
             {
@@ -112,17 +112,17 @@ public class VoiceCommandController : MonoBehaviour
             Debug.Log("Unknown command: " + command);
         }
     }
-    private void UseItemOnObject(Item item, DestinationObject targetObject)
-    {
-        // Implement logic for using the item on the object
-        Debug.Log("Using " + item.name + " on " + targetObject.gameObject.name);
+    //private void UseItemOnObject(Item item, DestinationObject targetObject)
+    //{
+    //    // Implement logic for using the item on the object
+    //    Debug.Log("Using " + item.name + " on " + targetObject.gameObject.name);
 
-        // Remove the item from the inventory
-        inventory.Remove(item);
+    //    // Remove the item from the inventory
+    //    inventory.Remove(item);
 
-        // Interact with the target object
-        targetObject.Interact();
-    }
+    //    // Interact with the target object
+    //    targetObject.Interact();
+    //}
 
     private void SetDestination(Vector3 targetPosition)
     {
@@ -163,8 +163,11 @@ public class DestinationObject
     {
         if (hasItem)
         {
+            
             hasItem = false; // Remove the item from the object
+            //Debug.Log("Got: " + item);
             return item;
+            
         }
         return null;
     }

@@ -1319,7 +1319,6 @@ MonoBehaviour:
       name: 
   movementThreshold: 1
   player: {fileID: 0}
-  highlightMaterial: {fileID: 0}
 --- !u!195 &1890555153 stripped
 NavMeshAgent:
   m_CorrespondingSourceObject: {fileID: 444744246616070421, guid: 733fd5ce19c3a3049a9103c8ce1e13e8, type: 3}
