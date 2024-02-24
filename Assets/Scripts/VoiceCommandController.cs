@@ -11,7 +11,7 @@ public class VoiceCommandController : MonoBehaviour
     [SerializeField] private List<DestinationObject> destinationObjects = new List<DestinationObject>();
     [SerializeField] private float movementThreshold = 0.1f;
     public GameObject player;
-
+    [SerializeField] private TextMeshProUGUI InventoryText;
     private List<Item> inventory = new List<Item>(); // Inventory list to store collected items
 
     private void Start()
@@ -42,7 +42,7 @@ public class VoiceCommandController : MonoBehaviour
                 if (outlineScript != null)
                 {
                     Debug.Log(destinationObject.gameObject.name + " has the Outline script attached.");
-                    // Do something with the object that has the Outline script attached
+                    // Do something with the object that has the Outline script attached, still figurin' that out loool
                 }
                 else
                 {
@@ -52,7 +52,7 @@ public class VoiceCommandController : MonoBehaviour
             }
         }
 
-        if (command.Contains("use"))
+        if (command.Contains("examine") || command.Contains("look"))
         {
             foreach (var destinationObject in destinationObjects)
             {
@@ -69,8 +69,10 @@ public class VoiceCommandController : MonoBehaviour
                             {
                                 inventory.Add(item);
                                 Debug.Log("Picked up " + item.name);
+                                InventoryText.text += item.name;
                                 commandHandled = true;
                                 break;
+                                
                             }
                         }
                         else
