@@ -7375,7 +7375,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keypadUI: {fileID: 722684437}
-  correctCode: 1234
+  codeInputField: {fileID: 722684439}
+  correctCode: password
   door: {fileID: 1140067315}
 --- !u!65 &1949885081
 BoxCollider:
