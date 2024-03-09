@@ -408,9 +408,9 @@ namespace PixelCrushers.DialogueSystem
                     initialDatabase = databaseInstance;
                 }
                 bool visuallyMarkOldResponses = ((displaySettings != null) && (displaySettings.inputSettings != null) && (displaySettings.inputSettings.emTagForOldResponses != EmTag.None));
-                DialogueLua.includeSimStatus = includeSimStatus || visuallyMarkOldResponses;
+                DialogueSystem.includeSimStatus = includeSimStatus || visuallyMarkOldResponses;
                 Sequencer.reportMissingAudioFiles = displaySettings.cameraSettings.reportMissingAudioFiles;
-                PersistentDataManager.includeSimStatus = DialogueLua.includeSimStatus;
+                PersistentDataManager.includeSimStatus = DialogueSystem.includeSimStatus;
                 PersistentDataManager.includeActorData = persistentDataSettings.includeActorData;
                 PersistentDataManager.includeAllItemData = persistentDataSettings.includeAllItemData;
                 PersistentDataManager.includeLocationData = persistentDataSettings.includeLocationData;
@@ -1241,12 +1241,12 @@ namespace PixelCrushers.DialogueSystem
             Sprite sprite = null;
             if (string.IsNullOrEmpty(portraitName) || string.Equals(portraitName, "default"))
             {
-                DialogueLua.SetActorField(actorName, DialogueSystemFields.CurrentPortrait, string.Empty);
+                DialogueSystem.SetActorField(actorName, DialogueSystemFields.CurrentPortrait, string.Empty);
                 sprite = actor.GetPortraitSprite();
             }
             else
             {
-                DialogueLua.SetActorField(actorName, DialogueSystemFields.CurrentPortrait, portraitName);
+                DialogueSystem.SetActorField(actorName, DialogueSystemFields.CurrentPortrait, portraitName);
                 if (portraitName.StartsWith("pic="))
                 {
                     sprite = actor.GetPortraitSprite(Tools.StringToInt(portraitName.Substring("pic=".Length)));
@@ -1791,7 +1791,7 @@ namespace PixelCrushers.DialogueSystem
         {
             if (displaySettings.alertSettings.allowAlertsDuringConversations || !isConversationActive)
             {
-                string message = DialogueLua.GetVariable("Alert").asString;
+                string message = DialogueSystem.GetVariable("Alert").asString;
                 if (!string.IsNullOrEmpty(message) && !string.Equals(message, "nil"))
                 {
                     Lua.Run("Variable['Alert'] = ''");
@@ -2248,7 +2248,7 @@ namespace PixelCrushers.DialogueSystem
             Lua.RegisterFunction("QuestIDToName", this, SymbolExtensions.GetMethodInfo(() => ItemIDToName(0)));
             Lua.RegisterFunction("GetTextTableValue", this, SymbolExtensions.GetMethodInfo(() => GetLocalizedText(string.Empty)));
             // Register DialogueLua in case they got unregistered:
-            DialogueLua.RegisterLuaFunctions();
+            DialogueSystem.RegisterLuaFunctions();
         }
 
         private void UnregisterLuaFunctions()
@@ -2325,7 +2325,7 @@ namespace PixelCrushers.DialogueSystem
         public static void ChangeActorName(string actorName, string newDisplayName)
         {
             if (DialogueDebug.logInfo) Debug.Log("Dialogue System: Changing " + actorName + "'s Display Name to " + newDisplayName);
-            DialogueLua.SetActorField(actorName, "Display Name", newDisplayName);
+            DialogueSystem.SetActorField(actorName, "Display Name", newDisplayName);
             if (DialogueManager.isConversationActive)
             {
                 var actor = DialogueManager.MasterDatabase.GetActor(actorName);

@@ -2562,9 +2562,9 @@ namespace PixelCrushers.DialogueSystem
                 int picNumber;
                 if (!int.TryParse(picValue, out picNumber))
                 {
-                    if (DialogueLua.DoesVariableExist(picValue))
+                    if (DialogueSystem.DoesVariableExist(picValue))
                     {
-                        picNumber = DialogueLua.GetVariable(picValue).asInt;
+                        picNumber = DialogueSystem.GetVariable(picValue).asInt;
                     }
                     else
                     {
@@ -2581,7 +2581,7 @@ namespace PixelCrushers.DialogueSystem
                 }
                 else if (isDefault)
                 {
-                    DialogueLua.SetActorField(actorName, DialogueSystemFields.CurrentPortrait, string.Empty);
+                    DialogueSystem.SetActorField(actorName, DialogueSystemFields.CurrentPortrait, string.Empty);
                 }
                 else
                 {
@@ -2591,7 +2591,7 @@ namespace PixelCrushers.DialogueSystem
                         var spriteAsset = asset as Sprite;
                         if (spriteAsset != null)
                         {
-                            DialogueLua.SetActorField(actorName, DialogueSystemFields.CurrentPortrait, textureName);
+                            DialogueSystem.SetActorField(actorName, DialogueSystemFields.CurrentPortrait, textureName);
                             DialogueManager.instance.SetActorPortraitSprite(actorName, spriteAsset);
                         }
                         else
@@ -2604,7 +2604,7 @@ namespace PixelCrushers.DialogueSystem
                                 {
                                     if (DialogueDebug.logWarnings) Debug.LogWarning(string.Format("{0}: Sequencer: SetPortrait() command: sprite/texture '{1}' not found.", new System.Object[] { DialogueDebug.Prefix, textureName }));
                                 }
-                                DialogueLua.SetActorField(actorName, DialogueSystemFields.CurrentPortrait, textureName);
+                                DialogueSystem.SetActorField(actorName, DialogueSystemFields.CurrentPortrait, textureName);
                                 DialogueManager.instance.SetActorPortraitSprite(actorName, spriteAsset);
                             });
                         }
@@ -2622,11 +2622,11 @@ namespace PixelCrushers.DialogueSystem
             {
                 if (isDefault)
                 {
-                    DialogueLua.SetActorField(actorName, DialogueSystemFields.CurrentPortrait, string.Empty);
+                    DialogueSystem.SetActorField(actorName, DialogueSystemFields.CurrentPortrait, string.Empty);
                 }
                 else
                 {
-                    if (sprite != null) DialogueLua.SetActorField(actorName, DialogueSystemFields.CurrentPortrait, textureName);
+                    if (sprite != null) DialogueSystem.SetActorField(actorName, DialogueSystemFields.CurrentPortrait, textureName);
                 }
                 DialogueManager.instance.SetActorPortraitSprite(actorName, sprite);
             }
@@ -2795,15 +2795,15 @@ namespace PixelCrushers.DialogueSystem
                 float floatValue;
                 if (bool.TryParse(variableValue, out boolValue))
                 {
-                    DialogueLua.SetVariable(variableName, boolValue);
+                    DialogueSystem.SetVariable(variableName, boolValue);
                 }
                 else if (float.TryParse(variableValue, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out floatValue))
                 {
-                    DialogueLua.SetVariable(variableName, floatValue);
+                    DialogueSystem.SetVariable(variableName, floatValue);
                 }
                 else
                 {
-                    DialogueLua.SetVariable(variableName, variableValue);
+                    DialogueSystem.SetVariable(variableName, variableValue);
                 }
             }
             return true;

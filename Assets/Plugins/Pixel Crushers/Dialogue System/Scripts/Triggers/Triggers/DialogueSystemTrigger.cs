@@ -803,8 +803,8 @@ namespace PixelCrushers.DialogueSystem
             {
                 var dialogueActor = DialogueActor.GetDialogueActorComponent(actor);
                 var actorName = (dialogueActor != null) ? dialogueActor.actor : actor.name;
-                DialogueLua.SetVariable("ActorIndex", actorName);
-                DialogueLua.SetVariable("Actor", DialogueActor.GetActorName(actor));
+                DialogueSystem.SetVariable("ActorIndex", actorName);
+                DialogueSystem.SetVariable("Actor", DialogueActor.GetActorName(actor));
             }
             DoLuaAction();
         }
@@ -1188,7 +1188,7 @@ namespace PixelCrushers.DialogueSystem
         {
             if (enabled && !string.IsNullOrEmpty(barkConversation))
             {
-                DialogueLua.SetActorField(GetBarkerName(), "Bark_Index", barkHistory.index);
+                DialogueSystem.SetActorField(GetBarkerName(), "Bark_Index", barkHistory.index);
             }
         }
 
@@ -1200,7 +1200,7 @@ namespace PixelCrushers.DialogueSystem
             if (enabled && !string.IsNullOrEmpty(barkConversation))
             {
                 if (barkHistory == null) barkHistory = new BarkHistory(barkOrder);
-                barkHistory.index = DialogueLua.GetActorField(GetBarkerName(), "Bark_Index").asInt;
+                barkHistory.index = DialogueSystem.GetActorField(GetBarkerName(), "Bark_Index").asInt;
             }
         }
 

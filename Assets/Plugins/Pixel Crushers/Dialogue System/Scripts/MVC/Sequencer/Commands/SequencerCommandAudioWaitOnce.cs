@@ -147,7 +147,7 @@ namespace PixelCrushers.DialogueSystem.SequencerCommands
         /// <returns></returns>
         private bool hasPlayedAlready(string audioClipName)
         {
-            return DialogueLua.GetVariable(this.buildOnceVarName(audioClipName)).asBool;
+            return DialogueSystem.GetVariable(this.buildOnceVarName(audioClipName)).asBool;
         }
 
         /// <summary>
@@ -156,7 +156,7 @@ namespace PixelCrushers.DialogueSystem.SequencerCommands
         /// <param name="audioClipName"></param>
         private void markAsPlayedAlready(string audioClipName)
         {
-            DialogueLua.SetVariable(this.buildOnceVarName(audioClipName), true);
+            DialogueSystem.SetVariable(this.buildOnceVarName(audioClipName), true);
         }
 
         /// <summary>

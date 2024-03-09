@@ -615,7 +615,7 @@ namespace PixelCrushers.DialogueSystem.DialogueEditor
                 }
                 if (Application.isPlaying && DialogueManager.instance != null && DialogueManager.instance.includeSimStatus)
                 {
-                    text += "\nSimStatus=" + DialogueLua.GetSimStatus(currentHoveredEntry);
+                    text += "\nSimStatus=" + DialogueSystem.GetSimStatus(currentHoveredEntry);
                 }
                 currentHoverGUIContent = string.IsNullOrEmpty(text) ? null : new GUIContent(text);
                 if (currentHoverGUIContent != null)

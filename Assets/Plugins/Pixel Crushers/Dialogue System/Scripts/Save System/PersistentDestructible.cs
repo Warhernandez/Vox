@@ -55,7 +55,7 @@ namespace PixelCrushers.DialogueSystem
         /// </summary>
         public void OnApplyPersistentData()
         {
-            if (DialogueLua.GetVariable(ActualVariableName).asBool)
+            if (DialogueSystem.GetVariable(ActualVariableName).asBool)
             {
                 // Before destroying the object, make it think that the level is
                 // being unloaded. This will disable any persistent data scripts
@@ -106,7 +106,7 @@ namespace PixelCrushers.DialogueSystem
         {
             if (!Application.isPlaying) return;
             if (DialogueManager.instance == null || DialogueManager.databaseManager == null || DialogueManager.masterDatabase == null) return;
-            DialogueLua.SetVariable(ActualVariableName, true);
+            DialogueSystem.SetVariable(ActualVariableName, true);
             SpawnCorpse();
         }
 

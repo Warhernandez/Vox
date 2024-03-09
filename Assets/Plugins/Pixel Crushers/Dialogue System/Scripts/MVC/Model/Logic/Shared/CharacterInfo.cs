@@ -124,10 +124,10 @@ namespace PixelCrushers.DialogueSystem
 
         public static string GetLocalizedDisplayNameInDatabase(string nameInDatabase)
         {
-            var result = DialogueLua.GetLocalizedActorField(nameInDatabase, "Display Name").asString;
+            var result = DialogueSystem.GetLocalizedActorField(nameInDatabase, "Display Name").asString;
             if (string.IsNullOrEmpty(result) || string.Equals(result, "nil"))
             {
-                result = DialogueLua.GetLocalizedActorField(nameInDatabase, "Name").asString;
+                result = DialogueSystem.GetLocalizedActorField(nameInDatabase, "Name").asString;
             }
             if (string.IsNullOrEmpty(result) || string.Equals(result, "nil"))
             {

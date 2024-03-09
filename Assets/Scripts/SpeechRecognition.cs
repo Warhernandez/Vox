@@ -7,6 +7,14 @@ using UnityEngine;
 
 public class SpeechRecognition : MonoBehaviour
 {
+
+    //public static bool IsYesSpeech(string command)
+    //{
+    //    if (command.Contains("yes") || command.Contains("yeah"))
+    //        return true;
+    //    else return false;
+    //}
+
     [SerializeField] private TextMeshProUGUI text;
     [SerializeField] private VoiceCommandController voiceCommandController;
 

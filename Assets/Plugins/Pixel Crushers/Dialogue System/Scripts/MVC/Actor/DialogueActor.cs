@@ -174,7 +174,7 @@ namespace PixelCrushers.DialogueSystem
         public virtual string GetActorName()
         {
             var actorName = string.IsNullOrEmpty(actor) ? name : actor;
-            var result = CharacterInfo.GetLocalizedDisplayNameInDatabase(DialogueLua.GetActorField(actorName, "Name").asString);
+            var result = CharacterInfo.GetLocalizedDisplayNameInDatabase(DialogueSystem.GetActorField(actorName, "Name").asString);
             if (!string.IsNullOrEmpty(result)) actorName = result;
             if (actorName.Contains("[lua") || actorName.Contains("[var") || actorName.Contains("[em"))
             {

@@ -17,7 +17,7 @@ namespace PixelCrushers.DialogueSystem
     /// For speed, this class occasionally bypasses the Lua wrapper class and works directly
     /// with the underlying Lua implementation, Lua Interpreter.
     /// </summary>
-    public static class DialogueLua
+    public static class DialogueSystem
     {
 
         // SimStatus values:
@@ -83,7 +83,7 @@ namespace PixelCrushers.DialogueSystem
         /// Initializes the DialogueLua class. Registers the Chat Mapper functions (xxxStatus() and 
         /// xxxRelationship()), and initializes the Chat Mapper tables.
         /// </summary>
-        static DialogueLua()
+        static DialogueSystem()
         {
             InitializeChatMapperVariables();
             RegisterLuaFunctions();
@@ -207,7 +207,7 @@ namespace PixelCrushers.DialogueSystem
             if (includeSimStatus)
             {
                 var simStatusTable = GetSimStatusTable(conversationID, entryID);
-                var result = simStatusTable.GetValue(DialogueLua.SimStatus) as LuaString;
+                var result = simStatusTable.GetValue(DialogueSystem.SimStatus) as LuaString;
                 if (result != null) return result.Text;
             }
             return Untouched;
@@ -233,7 +233,7 @@ namespace PixelCrushers.DialogueSystem
             if (simStatusTable == null)
             {
                 simStatusTable = new LuaTable();
-                simStatusTable.AddRaw(SimStatus, new LuaString(DialogueLua.Untouched));
+                simStatusTable.AddRaw(SimStatus, new LuaString(DialogueSystem.Untouched));
                 dialogTable.AddRaw(entryID, simStatusTable);
             }
             return simStatusTable;
@@ -250,7 +250,7 @@ namespace PixelCrushers.DialogueSystem
         /// </param>
         public static void MarkDialogueEntryUntouched(DialogueEntry dialogueEntry)
         {
-            MarkDialogueEntry(dialogueEntry, DialogueLua.Untouched);
+            MarkDialogueEntry(dialogueEntry, DialogueSystem.Untouched);
         }
 
         /// <summary>
@@ -264,7 +264,7 @@ namespace PixelCrushers.DialogueSystem
         /// </param>
         public static void MarkDialogueEntryDisplayed(DialogueEntry dialogueEntry)
         {
-            MarkDialogueEntry(dialogueEntry, DialogueLua.WasDisplayed);
+            MarkDialogueEntry(dialogueEntry, DialogueSystem.WasDisplayed);
         }
 
         /// <summary>
@@ -282,9 +282,9 @@ namespace PixelCrushers.DialogueSystem
             if (includeSimStatus && (dialogueEntry != null))
             {
                 string simStatus = GetSimStatus(dialogueEntry);
-                if (!string.Equals(simStatus, DialogueLua.WasDisplayed))
+                if (!string.Equals(simStatus, DialogueSystem.WasDisplayed))
                 {
-                    MarkDialogueEntry(dialogueEntry, DialogueLua.WasOffered);
+                    MarkDialogueEntry(dialogueEntry, DialogueSystem.WasOffered);
                 }
             }
         }
@@ -459,7 +459,7 @@ namespace PixelCrushers.DialogueSystem
                 var dialogueEntry = conversation.dialogueEntries[j];
                 // [NOTE] To reduce Lua memory use, we only record SimStatus of dialogue entries:
                 var simStatusTable = new LuaTable();
-                simStatusTable.AddRaw(DialogueLua.SimStatus, new LuaString(DialogueLua.Untouched));
+                simStatusTable.AddRaw(DialogueSystem.SimStatus, new LuaString(DialogueSystem.Untouched));
                 dialogTable.AddRaw(dialogueEntry.id, simStatusTable);
             }
             fieldTable.AddRaw("Dialog", dialogTable);
@@ -589,8 +589,8 @@ namespace PixelCrushers.DialogueSystem
             //Lua.RegisterFunction("RandomElement", null, SymbolExtensions.GetMethodInfo(() => RandomElement(string.Empty)));
             //Lua.RegisterFunction("GetLocalizedText", null, SymbolExtensions.GetMethodInfo(() => GetLocalizedText(string.Empty, string.Empty, string.Empty)));
 
-            Lua.RegisterFunction("RandomElement", null, typeof(DialogueLua).GetMethod("RandomElement"));
-            Lua.RegisterFunction("GetLocalizedText", null, typeof(DialogueLua).GetMethod("GetLocalizedText"));
+            Lua.RegisterFunction("RandomElement", null, typeof(DialogueSystem).GetMethod("RandomElement"));
+            Lua.RegisterFunction("GetLocalizedText", null, typeof(DialogueSystem).GetMethod("GetLocalizedText"));
         }
 
         /// <summary>
@@ -631,12 +631,12 @@ namespace PixelCrushers.DialogueSystem
             //Lua.RegisterFunction("IncRelationship", null, SymbolExtensions.GetMethodInfo(() => IncRelationship(null, null, null, 0)));
             //Lua.RegisterFunction("DecRelationship", null, SymbolExtensions.GetMethodInfo(() => DecRelationship(null, null, null, 0)));
 
-            Lua.RegisterFunction("GetStatus", null, typeof(DialogueLua).GetMethod("GetStatus"));
-            Lua.RegisterFunction("SetStatus", null, typeof(DialogueLua).GetMethod("SetStatus"));
-            Lua.RegisterFunction("GetRelationship", null, typeof(DialogueLua).GetMethod("GetRelationship"));
-            Lua.RegisterFunction("SetRelationship", null, typeof(DialogueLua).GetMethod("SetRelationship"));
-            Lua.RegisterFunction("IncRelationship", null, typeof(DialogueLua).GetMethod("IncRelationship"));
-            Lua.RegisterFunction("DecRelationship", null, typeof(DialogueLua).GetMethod("DecRelationship"));
+            Lua.RegisterFunction("GetStatus", null, typeof(DialogueSystem).GetMethod("GetStatus"));
+            Lua.RegisterFunction("SetStatus", null, typeof(DialogueSystem).GetMethod("SetStatus"));
+            Lua.RegisterFunction("GetRelationship", null, typeof(DialogueSystem).GetMethod("GetRelationship"));
+            Lua.RegisterFunction("SetRelationship", null, typeof(DialogueSystem).GetMethod("SetRelationship"));
+            Lua.RegisterFunction("IncRelationship", null, typeof(DialogueSystem).GetMethod("IncRelationship"));
+            Lua.RegisterFunction("DecRelationship", null, typeof(DialogueSystem).GetMethod("DecRelationship"));
         }
 
         /// <summary>

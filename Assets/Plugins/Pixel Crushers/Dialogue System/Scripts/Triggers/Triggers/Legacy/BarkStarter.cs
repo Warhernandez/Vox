@@ -209,7 +209,7 @@ namespace PixelCrushers.DialogueSystem
         {
             if (enabled && barkHistory != null)
             {
-                DialogueLua.SetActorField(GetBarkerName(), "Bark_Index", barkHistory.index);
+                DialogueSystem.SetActorField(GetBarkerName(), "Bark_Index", barkHistory.index);
             }
         }
 
@@ -221,7 +221,7 @@ namespace PixelCrushers.DialogueSystem
             if (enabled)
             {
                 if (barkHistory == null) barkHistory = new BarkHistory(barkOrder);
-                barkHistory.index = DialogueLua.GetActorField(GetBarkerName(), "Bark_Index").asInt;
+                barkHistory.index = DialogueSystem.GetActorField(GetBarkerName(), "Bark_Index").asInt;
             }
         }
 

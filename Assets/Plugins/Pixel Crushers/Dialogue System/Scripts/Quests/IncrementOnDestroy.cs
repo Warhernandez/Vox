@@ -166,9 +166,9 @@ namespace PixelCrushers.DialogueSystem
         /// </summary>
         protected virtual void IncrementNow()
         {
-            int oldValue = DialogueLua.GetVariable(actualVariableName).asInt;
+            int oldValue = DialogueSystem.GetVariable(actualVariableName).asInt;
             int newValue = Mathf.Clamp(oldValue + increment, min, max);
-            DialogueLua.SetVariable(actualVariableName, newValue);
+            DialogueSystem.SetVariable(actualVariableName, newValue);
             DialogueManager.SendUpdateTracker();
             if (!(string.IsNullOrEmpty(alertMessage) || DialogueManager.instance == null))
             {

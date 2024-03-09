@@ -307,7 +307,7 @@ namespace PixelCrushers.DialogueSystem
                             string varName = match.Value.Substring(5, match.Value.Length - 6).Trim(); // Remove "[var=" and "]"
                             try
                             {
-                                return DialogueLua.GetVariable(varName).asString;
+                                return DialogueSystem.GetVariable(varName).asString;
                             }
                             catch (System.Exception)
                             {
@@ -355,7 +355,7 @@ namespace PixelCrushers.DialogueSystem
                             string varName = match.Value.Substring(10, match.Value.Length - 11).Trim(); // Remove "[autocase=" and "]"
                             try
                             {
-                                var variableValue = DialogueLua.GetVariable(varName).asString;
+                                var variableValue = DialogueSystem.GetVariable(varName).asString;
                                 if (variableValue.Length > 0)
                                 {
                                     variableValue = SetCapitalization(capitalize, variableValue);
@@ -542,7 +542,7 @@ namespace PixelCrushers.DialogueSystem
                 string indexString = match.Value.Substring(startPos, match.Value.Length - (startPos + 1)); // Remove "[pic[ac]=" and "]"
                 if (!int.TryParse(indexString, out index))
                 {
-                    index = DialogueLua.GetVariable(indexString).asInt;
+                    index = DialogueSystem.GetVariable(indexString).asInt;
                 }
                 return string.Empty;
             });

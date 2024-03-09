@@ -3,6 +3,7 @@ using UnityEngine.AI;
 using System.Collections.Generic;
 using TMPro;
 using cakeslice;
+using PixelCrushers.DialogueSystem;
 
 public class VoiceCommandController : MonoBehaviour
 {
@@ -29,6 +30,7 @@ public class VoiceCommandController : MonoBehaviour
 
     public void ProcessVoiceCommand(string command)
     {
+        //DialogueSystem.SetVariable("input", command);
         command = command.ToLower();
         bool commandHandled = false;
 

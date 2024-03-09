@@ -187,11 +187,11 @@ namespace PixelCrushers.DialogueSystem
             if (!string.IsNullOrEmpty(questName))
             {
                 Lua.Run(string.Format("Item[\"{0}\"] = {{ Name = \"{1}\", Is_Item = false, Description = \"{2}\", Success_Description = \"{3}\", Failure_Description = \"{4}\", State = \"{5}\" }}",
-                                      new System.Object[] { DialogueLua.StringToTableIndex(questName),
-                                      DialogueLua.DoubleQuotesToSingle(questName),
-                                      DialogueLua.DoubleQuotesToSingle(description),
-                                      DialogueLua.DoubleQuotesToSingle(successDescription),
-                                      DialogueLua.DoubleQuotesToSingle(failureDescription),
+                                      new System.Object[] { DialogueSystem.StringToTableIndex(questName),
+                                      DialogueSystem.DoubleQuotesToSingle(questName),
+                                      DialogueSystem.DoubleQuotesToSingle(description),
+                                      DialogueSystem.DoubleQuotesToSingle(successDescription),
+                                      DialogueSystem.DoubleQuotesToSingle(failureDescription),
                                        StateToString(state) }),
                         DialogueDebug.logInfo);
             }
@@ -217,9 +217,9 @@ namespace PixelCrushers.DialogueSystem
             if (!string.IsNullOrEmpty(questName))
             {
                 Lua.Run(string.Format("Item[\"{0}\"] = {{ Name = \"{1}\", Is_Item = false, Description = \"{2}\", State = \"{3}\" }}",
-                                      new System.Object[] { DialogueLua.StringToTableIndex(questName),
-                                      DialogueLua.DoubleQuotesToSingle(questName),
-                                      DialogueLua.DoubleQuotesToSingle(description),
+                                      new System.Object[] { DialogueSystem.StringToTableIndex(questName),
+                                      DialogueSystem.DoubleQuotesToSingle(questName),
+                                      DialogueSystem.DoubleQuotesToSingle(description),
                                       StateToString(state) }),
                         DialogueDebug.logInfo);
             }
@@ -256,7 +256,7 @@ namespace PixelCrushers.DialogueSystem
         {
             if (!string.IsNullOrEmpty(questName))
             {
-                Lua.Run(string.Format("Item[\"{0}\"] = nil", new System.Object[] { DialogueLua.StringToTableIndex(questName) }), DialogueDebug.logInfo);
+                Lua.Run(string.Format("Item[\"{0}\"] = nil", new System.Object[] { DialogueSystem.StringToTableIndex(questName) }), DialogueDebug.logInfo);
             }
         }
 
@@ -301,7 +301,7 @@ namespace PixelCrushers.DialogueSystem
         /// </summary>
         public static string DefaultCurrentQuestState(string questName)
         {
-            return DialogueLua.GetQuestField(questName, "State").asString;
+            return DialogueSystem.GetQuestField(questName, "State").asString;
         }
 
         /// <summary>
@@ -346,9 +346,9 @@ namespace PixelCrushers.DialogueSystem
         /// </summary>
         public static void DefaultSetQuestState(string questName, string state)
         {
-            if (DialogueLua.DoesTableElementExist("Quest", questName))
+            if (DialogueSystem.DoesTableElementExist("Quest", questName))
             {
-                DialogueLua.SetQuestField(questName, "State", state);
+                DialogueSystem.SetQuestField(questName, "State", state);
                 SendUpdateTracker();
                 InformQuestStateChange(questName);
             }
@@ -607,8 +607,8 @@ namespace PixelCrushers.DialogueSystem
         /// </param>
         public static string GetQuestTitle(string questName)
         {
-            var title = DialogueLua.GetLocalizedQuestField(questName, "Display Name").asString;
-            if (string.IsNullOrEmpty(title)) title = DialogueLua.GetLocalizedQuestField(questName, "Name").asString;
+            var title = DialogueSystem.GetLocalizedQuestField(questName, "Display Name").asString;
+            if (string.IsNullOrEmpty(title)) title = DialogueSystem.GetLocalizedQuestField(questName, "Name").asString;
             return title;
         }
 
@@ -652,7 +652,7 @@ namespace PixelCrushers.DialogueSystem
         public static string GetQuestDescription(string questName, QuestState state)
         {
             string descriptionFieldName = GetDefaultDescriptionFieldForState(state);
-            string result = DialogueLua.GetLocalizedQuestField(questName, descriptionFieldName).asString;
+            string result = DialogueSystem.GetLocalizedQuestField(questName, descriptionFieldName).asString;
             return (string.Equals(result, "nil") || string.IsNullOrEmpty(result)) ? null : result;
         }
 
@@ -683,9 +683,9 @@ namespace PixelCrushers.DialogueSystem
         /// </param>
         public static void SetQuestDescription(string questName, QuestState state, string description)
         {
-            if (DialogueLua.DoesTableElementExist("Quest", questName))
+            if (DialogueSystem.DoesTableElementExist("Quest", questName))
             {
-                DialogueLua.SetQuestField(questName, GetDefaultDescriptionFieldForState(state), description);
+                DialogueSystem.SetQuestField(questName, GetDefaultDescriptionFieldForState(state), description);
             }
         }
 
@@ -697,7 +697,7 @@ namespace PixelCrushers.DialogueSystem
         /// <param name="questName">Quest name.</param>
         public static string GetQuestAbandonSequence(string questName)
         {
-            return DialogueLua.GetLocalizedQuestField(questName, "Abandon Sequence").asString;
+            return DialogueSystem.GetLocalizedQuestField(questName, "Abandon Sequence").asString;
         }
 
         /// <summary>
@@ -708,7 +708,7 @@ namespace PixelCrushers.DialogueSystem
         /// <param name="sequence">Sequence to play when the quest is abandoned.</param>
         public static void SetQuestAbandonSequence(string questName, string sequence)
         {
-            DialogueLua.SetLocalizedQuestField(questName, "Abandon Sequence", sequence);
+            DialogueSystem.SetLocalizedQuestField(questName, "Abandon Sequence", sequence);
         }
 
         /// <summary>
@@ -718,7 +718,7 @@ namespace PixelCrushers.DialogueSystem
         /// <param name="questName">Name of the quest.</param>
         public static int GetQuestEntryCount(string questName)
         {
-            return DialogueLua.GetQuestField(questName, "Entry_Count").asInt;
+            return DialogueSystem.GetQuestField(questName, "Entry_Count").asInt;
         }
 
         /// <summary>
@@ -729,15 +729,15 @@ namespace PixelCrushers.DialogueSystem
         /// <param name="description">The quest entry description.</param>
         public static void AddQuestEntry(string questName, string description)
         {
-            if (DialogueLua.DoesTableElementExist("Quest", questName))
+            if (DialogueSystem.DoesTableElementExist("Quest", questName))
             {
                 int entryCount = GetQuestEntryCount(questName);
                 entryCount++;
-                DialogueLua.SetQuestField(questName, "Entry_Count", entryCount);
+                DialogueSystem.SetQuestField(questName, "Entry_Count", entryCount);
                 string entryFieldName = GetEntryFieldName(entryCount);
-                DialogueLua.SetQuestField(questName, entryFieldName, DialogueLua.DoubleQuotesToSingle(description));
+                DialogueSystem.SetQuestField(questName, entryFieldName, DialogueSystem.DoubleQuotesToSingle(description));
                 string entryStateFieldName = GetEntryStateFieldName(entryCount);
-                DialogueLua.SetQuestField(questName, entryStateFieldName, "unassigned");
+                DialogueSystem.SetQuestField(questName, entryStateFieldName, "unassigned");
             }
         }
 
@@ -751,15 +751,15 @@ namespace PixelCrushers.DialogueSystem
         {
             var state = GetQuestEntryState(questName, entryNumber);
             string entryFieldName = GetEntryFieldName(entryNumber);
-            if (state == QuestState.Success && DialogueLua.DoesTableElementExist("Quest", entryFieldName + " Success"))
+            if (state == QuestState.Success && DialogueSystem.DoesTableElementExist("Quest", entryFieldName + " Success"))
             {
                 entryFieldName += " Success";
             }
-            else if (state == QuestState.Failure && DialogueLua.DoesTableElementExist("Quest", entryFieldName + " Failure"))
+            else if (state == QuestState.Failure && DialogueSystem.DoesTableElementExist("Quest", entryFieldName + " Failure"))
             {
                 entryFieldName += " Failure";
             }
-            return DialogueLua.GetLocalizedQuestField(questName, entryFieldName).asString;
+            return DialogueSystem.GetLocalizedQuestField(questName, entryFieldName).asString;
         }
 
         /// <summary>
@@ -771,7 +771,7 @@ namespace PixelCrushers.DialogueSystem
         public static void SetQuestEntry(string questName, int entryNumber, string description)
         {
             string entryFieldName = GetEntryFieldName(entryNumber);
-            DialogueLua.SetLocalizedQuestField(questName, entryFieldName, DialogueLua.DoubleQuotesToSingle(description));
+            DialogueSystem.SetLocalizedQuestField(questName, entryFieldName, DialogueSystem.DoubleQuotesToSingle(description));
         }
 
         /// <summary>
@@ -810,7 +810,7 @@ namespace PixelCrushers.DialogueSystem
         /// </summary>
         public static string DefaultCurrentQuestEntryState(string questName, int entryNumber)
         {
-            return DialogueLua.GetQuestField(questName, GetEntryStateFieldName((int)entryNumber)).asString;
+            return DialogueSystem.GetQuestField(questName, GetEntryStateFieldName((int)entryNumber)).asString;
         }
 
         /// <summary>
@@ -847,9 +847,9 @@ namespace PixelCrushers.DialogueSystem
         /// </summary>
         public static void DefaultSetQuestEntryState(string questName, int entryNumber, string state)
         {
-            if (DialogueLua.DoesTableElementExist("Quest", questName))
+            if (DialogueSystem.DoesTableElementExist("Quest", questName))
             {
-                DialogueLua.SetQuestField(questName, GetEntryStateFieldName((int)entryNumber), state);
+                DialogueSystem.SetQuestField(questName, GetEntryStateFieldName((int)entryNumber), state);
                 InformQuestStateChange(questName);
                 InformQuestEntryStateChange(questName, (int)entryNumber);
                 SendUpdateTracker();
@@ -877,7 +877,7 @@ namespace PixelCrushers.DialogueSystem
         /// <param name="questName">Quest name.</param>
         public static bool IsQuestTrackingAvailable(string questName)
         {
-            return DialogueLua.GetQuestField(questName, "Trackable").asBool;
+            return DialogueSystem.GetQuestField(questName, "Trackable").asBool;
         }
 
         /// <summary>
@@ -887,9 +887,9 @@ namespace PixelCrushers.DialogueSystem
         /// <param name="value">Trackable or not.</param>
         public static void SetQuestTrackingAvailable(string questName, bool value)
         {
-            if (DialogueLua.DoesTableElementExist("Quest", questName))
+            if (DialogueSystem.DoesTableElementExist("Quest", questName))
             {
-                DialogueLua.SetQuestField(questName, "Trackable", value);
+                DialogueSystem.SetQuestField(questName, "Trackable", value);
                 SendUpdateTracker();
             }
         }
@@ -902,7 +902,7 @@ namespace PixelCrushers.DialogueSystem
         public static bool IsQuestTrackingEnabled(string questName)
         {
             return IsQuestTrackingAvailable(questName)
-                ? DialogueLua.GetQuestField(questName, "Track").asBool
+                ? DialogueSystem.GetQuestField(questName, "Track").asBool
                 : false;
         }
 
@@ -915,7 +915,7 @@ namespace PixelCrushers.DialogueSystem
         /// <param name="value">If set to <c>true</c>, tracking is enabled.</param>
         public static void SetQuestTracking(string questName, bool value)
         {
-            if (DialogueLua.DoesTableElementExist("Quest", questName))
+            if (DialogueSystem.DoesTableElementExist("Quest", questName))
             {
                 if (value == true)
                 {
@@ -928,7 +928,7 @@ namespace PixelCrushers.DialogueSystem
                             if (string.Equals(otherQuestName, questName)) continue;
                             if (IsQuestTrackingEnabled(otherQuestName))
                             {
-                                DialogueLua.SetQuestField(otherQuestName, "Track", false);
+                                DialogueSystem.SetQuestField(otherQuestName, "Track", false);
                                 DialogueManager.instance.BroadcastMessage(DialogueSystemMessages.OnQuestTrackingDisabled, otherQuestName, SendMessageOptions.DontRequireReceiver);
                             }
                         }
@@ -940,7 +940,7 @@ namespace PixelCrushers.DialogueSystem
                     }
                 }
                 // Track this quest:
-                DialogueLua.SetQuestField(questName, "Track", value);
+                DialogueSystem.SetQuestField(questName, "Track", value);
                 SendUpdateTracker();
                 DialogueManager.instance.BroadcastMessage(value ? DialogueSystemMessages.OnQuestTrackingEnabled : DialogueSystemMessages.OnQuestTrackingDisabled, questName, SendMessageOptions.DontRequireReceiver);
             }
@@ -953,7 +953,7 @@ namespace PixelCrushers.DialogueSystem
         /// <param name="questName">Quest name.</param>
         public static bool IsQuestAbandonable(string questName)
         {
-            return DialogueLua.GetQuestField(questName, "Abandonable").asBool;
+            return DialogueSystem.GetQuestField(questName, "Abandonable").asBool;
         }
 
         /// <summary>
@@ -961,7 +961,7 @@ namespace PixelCrushers.DialogueSystem
         /// </summary>
         public static bool IsQuestVisible(string questName)
         {
-            var result = Lua.Run($"return Quest[{DialogueLua.StringToTableIndex(questName)}].Visible").asString;
+            var result = Lua.Run($"return Quest[{DialogueSystem.StringToTableIndex(questName)}].Visible").asString;
             if (string.IsNullOrEmpty(result) || string.Equals(result, "nil")) return true;
             return string.Compare(result, "false", true) == 0;
         }
@@ -971,9 +971,9 @@ namespace PixelCrushers.DialogueSystem
         /// </summary>
         public static void SetQuestVisibility(string questName)
         {
-            if (DialogueLua.DoesTableElementExist("Quest", questName))
+            if (DialogueSystem.DoesTableElementExist("Quest", questName))
             {
-                DialogueLua.SetQuestField(questName, "Visible", true);
+                DialogueSystem.SetQuestField(questName, "Visible", true);
             }
         }
 
@@ -983,7 +983,7 @@ namespace PixelCrushers.DialogueSystem
         /// </summary>
         public static bool WasQuestViewed(string questName)
         {
-            return DialogueLua.GetQuestField(questName, "Viewed").asBool;
+            return DialogueSystem.GetQuestField(questName, "Viewed").asBool;
         }
 
         /// <summary>
@@ -993,9 +993,9 @@ namespace PixelCrushers.DialogueSystem
         /// <param name="questName"></param>
         public static void MarkQuestViewed(string questName)
         {
-            if (DialogueLua.DoesTableElementExist("Quest", questName))
+            if (DialogueSystem.DoesTableElementExist("Quest", questName))
             {
-                DialogueLua.SetQuestField(questName, "Viewed", true);
+                DialogueSystem.SetQuestField(questName, "Viewed", true);
             }
         }
 
@@ -1006,12 +1006,12 @@ namespace PixelCrushers.DialogueSystem
         /// <param name="questName">Quest name.</param>
         public static string GetQuestGroup(string questName)
         {
-            return DialogueLua.GetLocalizedQuestField(questName, "Group").asString;
+            return DialogueSystem.GetLocalizedQuestField(questName, "Group").asString;
         }
 
         public static string GetQuestGroupDisplayName(string questName)
         {
-            var result = DialogueLua.GetLocalizedQuestField(questName, "Group Display Name").asString;
+            var result = DialogueSystem.GetLocalizedQuestField(questName, "Group Display Name").asString;
             if (string.IsNullOrEmpty(result) || result == "nil") result = GetQuestGroup(questName);
             return result;
         }
@@ -1283,7 +1283,7 @@ namespace PixelCrushers.DialogueSystem
                 this.questName = questName;
                 this.entryNumber = 0;
                 this.frequency = frequency;
-                this.luaExpression = string.Format("return Item[\"{0}\"].State", new System.Object[] { DialogueLua.StringToTableIndex(questName) });
+                this.luaExpression = string.Format("return Item[\"{0}\"].State", new System.Object[] { DialogueSystem.StringToTableIndex(questName) });
                 this.questChangedHandler = questChangedHandler;
                 DialogueManager.AddLuaObserver(luaExpression, frequency, OnLuaChanged);
             }
@@ -1293,7 +1293,7 @@ namespace PixelCrushers.DialogueSystem
                 this.questName = questName;
                 this.entryNumber = entryNumber;
                 this.frequency = frequency;
-                this.luaExpression = string.Format("return Item[\"{0}\"].Entry_{1}_State", new System.Object[] { DialogueLua.StringToTableIndex(questName), entryNumber });
+                this.luaExpression = string.Format("return Item[\"{0}\"].Entry_{1}_State", new System.Object[] { DialogueSystem.StringToTableIndex(questName), entryNumber });
                 this.questChangedHandler = questChangedHandler;
                 DialogueManager.AddLuaObserver(luaExpression, frequency, OnLuaChanged);
             }

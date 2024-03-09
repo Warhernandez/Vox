@@ -83,7 +83,7 @@ namespace PixelCrushers.DialogueSystem
                 // Put saveData in Lua so we can get Variable["SavedLevelName"]:
                 if (DialogueDebug.logInfo) Debug.Log("Dialogue System: LevelManager: Applying save data to get value of 'SavedLevelName' variable");
                 Lua.Run(saveData, DialogueDebug.logInfo);
-                levelName = DialogueLua.GetVariable("SavedLevelName").asString;
+                levelName = DialogueSystem.GetVariable("SavedLevelName").asString;
                 if (string.IsNullOrEmpty(levelName) || string.Equals(levelName, "nil"))
                 {
                     levelName = defaultStartingLevel;
@@ -208,7 +208,7 @@ namespace PixelCrushers.DialogueSystem
         /// </summary>
         public virtual void OnRecordPersistentData()
         {
-            DialogueLua.SetVariable("SavedLevelName", Tools.loadedLevelName);
+            DialogueSystem.SetVariable("SavedLevelName", Tools.loadedLevelName);
         }
 
     }

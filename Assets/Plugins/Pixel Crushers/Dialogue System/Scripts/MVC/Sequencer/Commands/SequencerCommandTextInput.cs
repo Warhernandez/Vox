@@ -54,9 +54,9 @@ namespace PixelCrushers.DialogueSystem.SequencerCommands
             {
                 if (labelText.StartsWith("var="))
                 {
-                    labelText = DialogueLua.GetVariable(labelText.Substring(4)).asString;
+                    labelText = DialogueSystem.GetVariable(labelText.Substring(4)).asString;
                 }
-                string variableValue = clearField ? string.Empty : DialogueLua.GetVariable(variableName).asString;
+                string variableValue = clearField ? string.Empty : DialogueSystem.GetVariable(variableName).asString;
                 textFieldUI.StartTextInput(labelText, variableValue, maxLength, OnAcceptedText);
             }
         }
@@ -103,11 +103,11 @@ namespace PixelCrushers.DialogueSystem.SequencerCommands
                 {
                     // If the variable is a number, convert to float:
                     var number = Tools.StringToFloat(text);
-                    DialogueLua.SetVariable(variableName, number);
+                    DialogueSystem.SetVariable(variableName, number);
                 }
                 else
                 {
-                    DialogueLua.SetVariable(variableName, text);
+                    DialogueSystem.SetVariable(variableName, text);
                     //---Was: Lua.Run(string.Format("Variable[\"{0}\"] = \"{1}\"", new System.Object[] { variableName, DialogueLua.DoubleQuotesToSingle(text) }));
                 }
             }

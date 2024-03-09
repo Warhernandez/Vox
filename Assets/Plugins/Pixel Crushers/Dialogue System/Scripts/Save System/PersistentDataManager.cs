@@ -471,7 +471,7 @@ namespace PixelCrushers.DialogueSystem
                     var database = DialogueManager.masterDatabase;
                     for (int i = 0; i < database.items.Count; i++)
                     {
-                        itemsInDatabase.Add(DialogueLua.StringToTableIndex(database.items[i].Name));
+                        itemsInDatabase.Add(DialogueSystem.StringToTableIndex(database.items[i].Name));
                     }
                 }
 
@@ -491,18 +491,18 @@ namespace PixelCrushers.DialogueSystem
                                 string fieldTitle = fieldKey.ToString();
                                 if (fieldTitle.EndsWith("State"))
                                 {
-                                    sb.AppendFormat("Item[\"{0}\"].{1}=\"{2}\"; ", new System.Object[] { DialogueLua.StringToTableIndex(title), (System.Object)fieldTitle, (System.Object)fields[fieldTitle] });
+                                    sb.AppendFormat("Item[\"{0}\"].{1}=\"{2}\"; ", new System.Object[] { DialogueSystem.StringToTableIndex(title), (System.Object)fieldTitle, (System.Object)fields[fieldTitle] });
                                 }
                                 else if (string.Equals(fieldTitle, "Track") || string.Equals(fieldTitle, "Viewed"))
                                 {
-                                    sb.AppendFormat("Item[\"{0}\"].{1}={2}; ", new System.Object[] { DialogueLua.StringToTableIndex(title), fieldTitle, fields[fieldTitle].ToString().ToLower() });
+                                    sb.AppendFormat("Item[\"{0}\"].{1}={2}; ", new System.Object[] { DialogueSystem.StringToTableIndex(title), fieldTitle, fields[fieldTitle].ToString().ToLower() });
                                 }
                             }
                         }
                         else
                         {
                             // If saving all data or item is not in the database, record all fields:
-                            sb.AppendFormat("Item[\"{0}\"]=", new System.Object[] { DialogueLua.StringToTableIndex(title) });
+                            sb.AppendFormat("Item[\"{0}\"]=", new System.Object[] { DialogueSystem.StringToTableIndex(title) });
                             AppendFields(sb, fields);
                         }
                     }
@@ -541,7 +541,7 @@ namespace PixelCrushers.DialogueSystem
         // Faster to check manually than use Regex:
         private static string GetFieldKeyString(string key)
         {
-            key = DialogueLua.StringToTableIndex(key);
+            key = DialogueSystem.StringToTableIndex(key);
             return IsValidVarName(key) ? key : ("[\"" + key + "\"]");
         }
 
@@ -569,7 +569,7 @@ namespace PixelCrushers.DialogueSystem
                 System.Type type = o.GetType();
                 if (type == typeof(string))
                 {
-                    return string.Format("\"{0}\"", new System.Object[] { DialogueLua.DoubleQuotesToSingle(o.ToString().Replace("\n", "\\n").Replace("\\ ", "/ ")) });
+                    return string.Format("\"{0}\"", new System.Object[] { DialogueSystem.DoubleQuotesToSingle(o.ToString().Replace("\n", "\\n").Replace("\\ ", "/ ")) });
                 }
                 else if (type == typeof(bool))
                 {
@@ -699,8 +699,8 @@ namespace PixelCrushers.DialogueSystem
         {
             try
             {
-                sb.Append(DialogueLua.GetStatusTableAsLua());
-                sb.Append(DialogueLua.GetRelationshipTableAsLua());
+                sb.Append(DialogueSystem.GetStatusTableAsLua());
+                sb.Append(DialogueSystem.GetRelationshipTableAsLua());
             }
             catch (System.Exception e)
             {
@@ -715,8 +715,8 @@ namespace PixelCrushers.DialogueSystem
         /// </summary>
         public static void RefreshRelationshipAndStatusTablesFromLua()
         {
-            DialogueLua.RefreshStatusTableFromLua();
-            DialogueLua.RefreshRelationshipTableFromLua();
+            DialogueSystem.RefreshStatusTableFromLua();
+            DialogueSystem.RefreshRelationshipTableFromLua();
         }
 
         #endregion
@@ -964,7 +964,7 @@ namespace PixelCrushers.DialogueSystem
             }
             else
             {
-                sb.AppendFormat("Variable[\"Conversation_SimX_{0}\"]=\"", DialogueLua.StringToTableIndex(conversation.LookupValue(saveConversationSimStatusWithField)));
+                sb.AppendFormat("Variable[\"Conversation_SimX_{0}\"]=\"", DialogueSystem.StringToTableIndex(conversation.LookupValue(saveConversationSimStatusWithField)));
             }
             var first = true;
             for (int i = 0; i < dialogTable.List.Count; i++)
@@ -985,7 +985,7 @@ namespace PixelCrushers.DialogueSystem
                     sb.Append(fieldName);
                 }
                 sb.Append(";");
-                var simStatus = simStatusTable.GetValue(DialogueLua.SimStatus).ToString();
+                var simStatus = simStatusTable.GetValue(DialogueSystem.SimStatus).ToString();
                 sb.Append(SimStatusToChar(simStatus));
             }
 
@@ -1018,7 +1018,7 @@ namespace PixelCrushers.DialogueSystem
                     sb.Append(s_dialogueEntrySimStatusFieldLookupTable[entryID]);
                 }
                 sb.Append(";");
-                var simStatus = simStatusTable.GetValue(DialogueLua.SimStatus).ToString();
+                var simStatus = simStatusTable.GetValue(DialogueSystem.SimStatus).ToString();
                 sb.Append(SimStatusToChar(simStatus));
             }
             sb.Append("\"; ");
@@ -1085,7 +1085,7 @@ namespace PixelCrushers.DialogueSystem
 #if SAFE_SIMSTATUS
                     if (DialogueDebug.logInfo) Debug.Log("DEBUG: Add SimStatus for new conversation [" + conversationID + "]: " + conversation.Title);
 #endif
-                        DialogueLua.AddToConversationTable(conversationTable, conversation, true);
+                        DialogueSystem.AddToConversationTable(conversationTable, conversation, true);
                 }
             }
         }
@@ -1118,7 +1118,7 @@ namespace PixelCrushers.DialogueSystem
             }
             else
             {
-                var fieldValue = DialogueLua.StringToTableIndex(conversation.LookupValue(saveConversationSimStatusWithField));
+                var fieldValue = DialogueSystem.StringToTableIndex(conversation.LookupValue(saveConversationSimStatusWithField));
                 if (string.IsNullOrEmpty(fieldValue)) fieldValue = conversation.id.ToString();
                 simX = Lua.Run("return Variable[\"Conversation_SimX_" + fieldValue + "\"]").AsString;
                 sb.Append("Variable[\"Conversation_SimX_" + fieldValue + "\"]=nil;");
@@ -1155,7 +1155,7 @@ namespace PixelCrushers.DialogueSystem
                 var simXEntryIDValue = simXFields[2 * i];
                 var simStatus = CharToSimStatus(simXFields[(2 * i) + 1][0]);
                 var simStatusTable = new Language.Lua.LuaTable();
-                simStatusTable.AddRaw(DialogueLua.SimStatus, new Language.Lua.LuaString(simStatus));
+                simStatusTable.AddRaw(DialogueSystem.SimStatus, new Language.Lua.LuaString(simStatus));
                 if (!useEntryID && !simStatusFieldValueToID.ContainsKey(simXEntryIDValue)) continue;
                 var entryID = useEntryID ? Tools.StringToInt(simXEntryIDValue) : simStatusFieldValueToID[simXEntryIDValue];
                 dialogueEntryCache[entryID] = null; // Mark that SimStatus has been added for this entry.
@@ -1183,7 +1183,7 @@ namespace PixelCrushers.DialogueSystem
 #endif
                     // Missing. Need to add:
                     var simStatusTable = new Language.Lua.LuaTable();
-                    simStatusTable.AddRaw(DialogueLua.SimStatus, new Language.Lua.LuaString(DialogueLua.Untouched));
+                    simStatusTable.AddRaw(DialogueSystem.SimStatus, new Language.Lua.LuaString(DialogueSystem.Untouched));
                     dialogTable.AddRaw(entry.id, simStatusTable);
                 }
             }
@@ -1198,11 +1198,11 @@ namespace PixelCrushers.DialogueSystem
             {
                 default:
                     return 'X';
-                case DialogueLua.Untouched:
+                case DialogueSystem.Untouched:
                     return 'u';
-                case DialogueLua.WasDisplayed:
+                case DialogueSystem.WasDisplayed:
                     return 'd';
-                case DialogueLua.WasOffered:
+                case DialogueSystem.WasOffered:
                     return 'o';
             }
         }
@@ -1214,11 +1214,11 @@ namespace PixelCrushers.DialogueSystem
                 default:
                     return "ERROR";
                 case 'u':
-                    return DialogueLua.Untouched;
+                    return DialogueSystem.Untouched;
                 case 'd':
-                    return DialogueLua.WasDisplayed;
+                    return DialogueSystem.WasDisplayed;
                 case 'o':
-                    return DialogueLua.WasOffered;
+                    return DialogueSystem.WasOffered;
             }
         }
 
@@ -1247,22 +1247,22 @@ namespace PixelCrushers.DialogueSystem
                 {
                     var variable = database.variables[i];
                     var variableName = variable.Name;
-                    var variableIndex = DialogueLua.StringToTableIndex(variableName);
+                    var variableIndex = DialogueSystem.StringToTableIndex(variableName);
                     if (!inLua.Contains(variableIndex))
                     {
                         switch (variable.Type)
                         {
                             case FieldType.Boolean:
-                                DialogueLua.SetVariable(variableName, variable.InitialBoolValue);
+                                DialogueSystem.SetVariable(variableName, variable.InitialBoolValue);
                                 break;
                             case FieldType.Actor:
                             case FieldType.Item:
                             case FieldType.Location:
                             case FieldType.Number:
-                                DialogueLua.SetVariable(variableName, variable.InitialFloatValue);
+                                DialogueSystem.SetVariable(variableName, variable.InitialFloatValue);
                                 break;
                             default:
-                                DialogueLua.SetVariable(variableName, variable.InitialValue);
+                                DialogueSystem.SetVariable(variableName, variable.InitialValue);
                                 break;
                         }
                     }
@@ -1352,7 +1352,7 @@ namespace PixelCrushers.DialogueSystem
                 {
                     var dbActor = database.actors[i];
                     var actorName = dbActor.Name;
-                    var actorNameTableIndex = DialogueLua.StringToTableIndex(actorName);
+                    var actorNameTableIndex = DialogueSystem.StringToTableIndex(actorName);
                     var fieldTable = actorTable.luaTable.GetValue(actorNameTableIndex) as Language.Lua.LuaTable;
 
                     if (fieldTable == null)
@@ -1362,8 +1362,8 @@ namespace PixelCrushers.DialogueSystem
                         for (int j = 0; j < dbActor.fields.Count; j++)
                         {
                             var field = dbActor.fields[j];
-                            var fieldIndex = DialogueLua.StringToFieldName(field.title);
-                            fieldTable.AddRaw(fieldIndex, DialogueLua.GetFieldLuaValue(field));
+                            var fieldIndex = DialogueSystem.StringToFieldName(field.title);
+                            fieldTable.AddRaw(fieldIndex, DialogueSystem.GetFieldLuaValue(field));
                         }
                         actorTable.luaTable.AddRaw(actorNameTableIndex, fieldTable);
                     }
@@ -1378,10 +1378,10 @@ namespace PixelCrushers.DialogueSystem
                         for (int j = 0; j < dbActor.fields.Count; j++)
                         {
                             var field = dbActor.fields[j];
-                            var fieldTableIndex = DialogueLua.StringToFieldName(field.title);
+                            var fieldTableIndex = DialogueSystem.StringToFieldName(field.title);
                             if (!existingFields.Contains(fieldTableIndex))
                             {
-                                var fieldValue = DialogueLua.GetFieldLuaValue(field);
+                                var fieldValue = DialogueSystem.GetFieldLuaValue(field);
                                 fieldTable.AddRaw(fieldTableIndex, fieldValue);
                             }
                         }
@@ -1413,18 +1413,18 @@ namespace PixelCrushers.DialogueSystem
                     if (database.items[i].IsItem) continue;
                     var dbQuest = database.items[i];
                     var questName = dbQuest.Name;
-                    var questNameTableIndex = DialogueLua.StringToTableIndex(questName);
+                    var questNameTableIndex = DialogueSystem.StringToTableIndex(questName);
 
                     // Add any missing quests:
-                    if (!DialogueLua.DoesTableElementExist("Item", questName))
+                    if (!DialogueSystem.DoesTableElementExist("Item", questName))
                     {
                         var questCode = string.Empty;
-                        questCode = "Item[\"" + DialogueLua.StringToTableIndex(questName) + "\"] = {{";
+                        questCode = "Item[\"" + DialogueSystem.StringToTableIndex(questName) + "\"] = {{";
                         for (int j = 0; j < dbQuest.fields.Count; j++)
                         {
                             var field = dbQuest.fields[j];
-                            questCode += DialogueLua.StringToFieldName(field.title) + "=" +
-                                DialogueLua.ValueAsString(field.type, field.value) + ", ";
+                            questCode += DialogueSystem.StringToFieldName(field.title) + "=" +
+                                DialogueSystem.ValueAsString(field.type, field.value) + ", ";
                         }
                         questCode += "}}; ";
                         luaCode += questCode;
@@ -1432,7 +1432,7 @@ namespace PixelCrushers.DialogueSystem
 
                     // Add any missing entries:
                     var dbEntryCount = dbQuest.LookupInt("Entry Count");
-                    var luaEntryCount = DialogueLua.GetQuestField(questName, "Entry Count").AsInt;
+                    var luaEntryCount = DialogueSystem.GetQuestField(questName, "Entry Count").AsInt;
                     if (luaEntryCount < dbEntryCount)
                     {
                         luaCode += "Item[\"" + questNameTableIndex + "\"].Entry_Count=" + dbEntryCount + "; ";
@@ -1442,8 +1442,8 @@ namespace PixelCrushers.DialogueSystem
                             if (field.title.StartsWith("Entry ") && !field.title.EndsWith(" Count"))
                             {
                                 luaCode += "Item[\"" + questNameTableIndex + "\"]." +
-                                    DialogueLua.StringToFieldName(field.title) + " = " +
-                                    DialogueLua.ValueAsString(field.type, field.value) + "; ";
+                                    DialogueSystem.StringToFieldName(field.title) + " = " +
+                                    DialogueSystem.ValueAsString(field.type, field.value) + "; ";
                             }
                         }
                     }
@@ -2097,7 +2097,7 @@ namespace PixelCrushers.DialogueSystem
             }
             else
             {
-                var fieldName = DialogueLua.StringToTableIndex(conversation.LookupValue(saveConversationSimStatusWithField));
+                var fieldName = DialogueSystem.StringToTableIndex(conversation.LookupValue(saveConversationSimStatusWithField));
                 Lua.Run("Variable[\"Conversation_SimX_" + fieldName + "\"]=\"" + sb.ToString() + "\"");
 
             }

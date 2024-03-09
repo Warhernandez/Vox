@@ -291,15 +291,15 @@ namespace PixelCrushers.DialogueSystem.DialogueEditor
                     switch (variable.Type)
                     {
                         case FieldType.Boolean:
-                            runtimeValues[variableName] = new RuntimeValue(DialogueLua.GetVariable(variableName).asBool);
+                            runtimeValues[variableName] = new RuntimeValue(DialogueSystem.GetVariable(variableName).asBool);
                             break;
                         case FieldType.Number:
-                            runtimeValues[variableName] = new RuntimeValue(DialogueLua.GetVariable(variableName).asFloat);
+                            runtimeValues[variableName] = new RuntimeValue(DialogueSystem.GetVariable(variableName).asFloat);
                             break;
                         case FieldType.Actor:
                         case FieldType.Item:
                         case FieldType.Location:
-                            int assetID = DialogueLua.GetVariable(variableName).asInt;
+                            int assetID = DialogueSystem.GetVariable(variableName).asInt;
                             runtimeValues[variableName] = new RuntimeValue(variable.Type, assetID);
                             switch (variable.Type)
                             {
@@ -318,7 +318,7 @@ namespace PixelCrushers.DialogueSystem.DialogueEditor
                             }
                             break;
                         default:
-                            runtimeValues[variableName] = new RuntimeValue(variable.Type, DialogueLua.GetVariable(variableName).asString);
+                            runtimeValues[variableName] = new RuntimeValue(variable.Type, DialogueSystem.GetVariable(variableName).asString);
                             break;
                     }
                 }
@@ -521,13 +521,13 @@ namespace PixelCrushers.DialogueSystem.DialogueEditor
                             case FieldType.Boolean:
                                 EditorGUI.BeginChangeCheck();
                                 runtimeValue.boolValue = (BooleanType)EditorGUI.EnumPopup(runtimeRect, runtimeValue.boolValue ? BooleanType.True : BooleanType.False) == BooleanType.True;
-                                if (EditorGUI.EndChangeCheck()) DialogueLua.SetVariable(variableName, runtimeValue.boolValue);
+                                if (EditorGUI.EndChangeCheck()) DialogueSystem.SetVariable(variableName, runtimeValue.boolValue);
                                 break;
 
                             case FieldType.Number:
                                 EditorGUI.BeginChangeCheck();
                                 runtimeValue.floatValue = EditorGUI.FloatField(runtimeRect, runtimeValue.floatValue);
-                                if (EditorGUI.EndChangeCheck()) DialogueLua.SetVariable(variableName, runtimeValue.floatValue);
+                                if (EditorGUI.EndChangeCheck()) DialogueSystem.SetVariable(variableName, runtimeValue.floatValue);
                                 break;
 
                             case FieldType.Actor:
@@ -544,7 +544,7 @@ namespace PixelCrushers.DialogueSystem.DialogueEditor
                             case FieldType.Text:
                                 EditorGUI.BeginChangeCheck();
                                 runtimeValue.stringValue = EditorGUI.TextField(runtimeRect, runtimeValue.stringValue);
-                                if (EditorGUI.EndChangeCheck()) DialogueLua.SetVariable(variableName, runtimeValue.stringValue);
+                                if (EditorGUI.EndChangeCheck()) DialogueSystem.SetVariable(variableName, runtimeValue.stringValue);
                                 break;
                         }
                     }

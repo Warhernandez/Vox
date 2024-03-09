@@ -250,7 +250,7 @@ namespace PixelCrushers.DialogueSystem.DialogueEditor
         {
             if (watch == null) return;
             var variableName = GetWatchedVariableName(watch.variableIndex);
-            watch.variableValue = string.IsNullOrEmpty(variableName) ? Lua.noResult : DialogueLua.GetVariable(variableName);
+            watch.variableValue = string.IsNullOrEmpty(variableName) ? Lua.noResult : DialogueSystem.GetVariable(variableName);
         }
 
         private void DrawVariableWatch(Watch watch)
@@ -278,7 +278,7 @@ namespace PixelCrushers.DialogueSystem.DialogueEditor
                 var actorIndex = DrawAssetPopup<Actor>(watch.variableValue.asString, database.actors, GUIContent.none);
                 if (EditorGUI.EndChangeCheck())
                 {
-                    DialogueLua.SetVariable(variableName, Tools.StringToInt(actorIndex));
+                    DialogueSystem.SetVariable(variableName, Tools.StringToInt(actorIndex));
                     needToEvaluate = true;
                 }
             }
@@ -288,7 +288,7 @@ namespace PixelCrushers.DialogueSystem.DialogueEditor
                 var locationIndex = DrawAssetPopup<Location>(watch.variableValue.asString, database.locations, GUIContent.none);
                 if (EditorGUI.EndChangeCheck())
                 {
-                    DialogueLua.SetVariable(variableName, Tools.StringToInt(locationIndex));
+                    DialogueSystem.SetVariable(variableName, Tools.StringToInt(locationIndex));
                     needToEvaluate = true;
                 }
             }
@@ -304,7 +304,7 @@ namespace PixelCrushers.DialogueSystem.DialogueEditor
                 var booleanTypeValue = (BooleanType)EditorGUILayout.EnumPopup(watch.variableValue.asBool ? BooleanType.True : BooleanType.False);
                 if (EditorGUI.EndChangeCheck())
                 {
-                    DialogueLua.SetVariable(variableName, booleanTypeValue == BooleanType.True);
+                    DialogueSystem.SetVariable(variableName, booleanTypeValue == BooleanType.True);
                     needToEvaluate = true;
                 }
             }
@@ -314,7 +314,7 @@ namespace PixelCrushers.DialogueSystem.DialogueEditor
                 var floatValue = EditorGUILayout.FloatField(watch.variableValue.asFloat);
                 if (EditorGUI.EndChangeCheck())
                 {
-                    DialogueLua.SetVariable(variableName, floatValue);
+                    DialogueSystem.SetVariable(variableName, floatValue);
                     needToEvaluate = true;
                 }
             }
@@ -324,7 +324,7 @@ namespace PixelCrushers.DialogueSystem.DialogueEditor
                 var stringValue = EditorGUILayout.TextField(watch.variableValue.asString);
                 if (EditorGUI.EndChangeCheck())
                 {
-                    DialogueLua.SetVariable(variableName, stringValue);
+                    DialogueSystem.SetVariable(variableName, stringValue);
                     needToEvaluate = true;
                 }
             }
@@ -338,7 +338,7 @@ namespace PixelCrushers.DialogueSystem.DialogueEditor
 
         public Variable FindVariableInDatabase(int variableIndex)
         {
-            return (database == null) ? null : database.variables.Find(x => string.Equals(DialogueLua.StringToTableIndex(x.Name), watchableVariableNames[variableIndex]));
+            return (database == null) ? null : database.variables.Find(x => string.Equals(DialogueSystem.StringToTableIndex(x.Name), watchableVariableNames[variableIndex]));
         }
 
         #endregion
