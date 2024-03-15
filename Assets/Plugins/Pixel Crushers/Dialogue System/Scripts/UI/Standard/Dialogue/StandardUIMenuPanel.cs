@@ -1,5 +1,4 @@
-// Recompile at 2/2/2024 2:03:47 PM
-// Copyright (c) Pixel Crushers. All rights reserved.
+﻿// Copyright (c) Pixel Crushers. All rights reserved.
 
 using System.Collections;
 using System.Collections.Generic;
@@ -540,16 +539,27 @@ namespace PixelCrushers.DialogueSystem
                 if (autonumber.enabled)
                 {
                     button.text = string.Format(m_processedAutonumberFormat, buttonNumber + 1, button.text);
-                    var keyTrigger = button.GetComponent<UIButtonKeyTrigger>();
+                    // Add UIButtonKeyTrigger(s) if needed:
+                    var numKeyTriggersNeeded = 0;
+                    if (autonumber.regularNumberHotkeys) numKeyTriggersNeeded++;
+                    if (autonumber.numpadHotkeys) numKeyTriggersNeeded++;
+                    var keyTriggers = button.GetComponents<UIButtonKeyTrigger>();
+                    if (keyTriggers.Length < numKeyTriggersNeeded)
+                    {
+                        for (int i = keyTriggers.Length; i < numKeyTriggersNeeded; i++)
+                        {
+                            button.gameObject.AddComponent<UIButtonKeyTrigger>();
+                        }
+                        keyTriggers = button.GetComponents<UIButtonKeyTrigger>();
+                    }
+                    int index = 0;
                     if (autonumber.regularNumberHotkeys)
                     {
-                        if (keyTrigger == null) keyTrigger = button.gameObject.AddComponent<UIButtonKeyTrigger>();
-                        keyTrigger.key = (KeyCode)((int)KeyCode.Alpha1 + buttonNumber);
+                        keyTriggers[index++].key = (KeyCode)((int)KeyCode.Alpha1 + buttonNumber);
                     }
                     if (autonumber.numpadHotkeys)
                     {
-                        if (autonumber.regularNumberHotkeys || keyTrigger == null) keyTrigger = button.gameObject.AddComponent<UIButtonKeyTrigger>();
-                        keyTrigger.key = (KeyCode)((int)KeyCode.Keypad1 + buttonNumber);
+                        keyTriggers[index].key = (KeyCode)((int)KeyCode.Keypad1 + buttonNumber);
                     }
                 }
             }

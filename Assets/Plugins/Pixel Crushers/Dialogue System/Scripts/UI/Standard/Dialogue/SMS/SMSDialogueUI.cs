@@ -405,7 +405,7 @@ namespace PixelCrushers.DialogueSystem
 
         public string conversationVariableValue
         {
-            get { return DialogueSystem.GetVariable("Conversation").AsString; }
+            get { return DialogueLua.GetVariable("Conversation").AsString; }
         }
 
         public string currentConversationActor
@@ -430,12 +430,13 @@ namespace PixelCrushers.DialogueSystem
         {
             if (DontLoadInThisScene()) return;
             if (!DialogueManager.IsConversationActive) return;
+            if (records == null || records.Count == 0) return;
             if (Debug.isDebugBuild) Debug.Log("TextlineDialogueUI.OnRecordPersistentData: Saving current conversation to " + currentDialogueEntryRecords);
             // Save actor & conversant:
             var actorName = (DialogueManager.CurrentActor != null) ? DialogueManager.CurrentActor.name : string.Empty;
             var conversantName = (DialogueManager.CurrentConversant != null) ? DialogueManager.CurrentConversant.name : string.Empty;
-            DialogueSystem.SetVariable(currentConversationActor, actorName);
-            DialogueSystem.SetVariable(currentConversationConversant, conversantName);
+            DialogueLua.SetVariable(currentConversationActor, actorName);
+            DialogueLua.SetVariable(currentConversationConversant, conversantName);
 
             // Save dialogue entry records:
             var s = records.Count + ";";
@@ -443,7 +444,7 @@ namespace PixelCrushers.DialogueSystem
             {
                 s += record.conversationID + ";" + record.entryID + ";";
             }
-            DialogueSystem.SetVariable(currentDialogueEntryRecords, s);
+            DialogueLua.SetVariable(currentDialogueEntryRecords, s);
         }
 
         /// <summary>
@@ -453,20 +454,21 @@ namespace PixelCrushers.DialogueSystem
         {
             if (!string.IsNullOrEmpty(conversationVariableOverride))
             {
-                DialogueSystem.SetVariable("Conversation", conversationVariableOverride);
+                DialogueLua.SetVariable("Conversation", conversationVariableOverride);
             }
 
             if (DontLoadInThisScene()) Debug.Log("OnApplyPersistentData Dont Load in this scene: " + SceneManager.GetActiveScene().buildIndex);
             if (DontLoadInThisScene()) return;
             records.Clear();
-            if (!DialogueSystem.DoesVariableExist(currentDialogueEntryRecords)) return;
+            if (!DialogueLua.DoesVariableExist(currentDialogueEntryRecords)) return;
             StopAllCoroutines();
 
             // Load dialogue entry records:
-            var s = DialogueSystem.GetVariable(currentDialogueEntryRecords).AsString;
+            var s = DialogueLua.GetVariable(currentDialogueEntryRecords).AsString;
             if (Debug.isDebugBuild) Debug.Log("TextlineDialogueUI.OnApplyPersistentData: Restoring current conversation from " + currentDialogueEntryRecords + ": " + s);
             var ints = s.Split(';');
             var numRecords = Tools.StringToInt(ints[0]);
+            if (numRecords == 0) return;
             for (int i = 0; i < numRecords; i++)
             {
                 var conversationID = Tools.StringToInt(ints[1 + i * 2]);
@@ -485,8 +487,8 @@ namespace PixelCrushers.DialogueSystem
                     // Resume conversation:
                     isLoadingGame = true;
                     var conversation = DialogueManager.MasterDatabase.GetConversation(lastRecord.conversationID);
-                    var actorName = DialogueSystem.GetVariable(currentConversationActor).AsString;
-                    var conversantName = DialogueSystem.GetVariable(currentConversationConversant).AsString;
+                    var actorName = DialogueLua.GetVariable(currentConversationActor).AsString;
+                    var conversantName = DialogueLua.GetVariable(currentConversationConversant).AsString;
                     var actor = GameObject.Find(actorName);
                     var conversant = GameObject.Find(conversantName);
                     var actorTransform = (actor != null) ? actor.transform : null;
@@ -597,9 +599,9 @@ namespace PixelCrushers.DialogueSystem
             if (isOpen) return;
             if (!string.IsNullOrEmpty(conversation))
             {
-                DialogueSystem.SetVariable("Conversation", conversation);
+                DialogueLua.SetVariable("Conversation", conversation);
             }
-            if (DialogueSystem.DoesVariableExist(currentDialogueEntryRecords))
+            if (DialogueLua.DoesVariableExist(currentDialogueEntryRecords))
             {
                 OnApplyPersistentData();
             }
@@ -607,7 +609,7 @@ namespace PixelCrushers.DialogueSystem
             {
                 if (string.IsNullOrEmpty(conversation))
                 {
-                    conversation = DialogueSystem.GetVariable("Conversation").asString;
+                    conversation = DialogueLua.GetVariable("Conversation").asString;
                 }
                 DialogueManager.StartConversation(conversation);
             }

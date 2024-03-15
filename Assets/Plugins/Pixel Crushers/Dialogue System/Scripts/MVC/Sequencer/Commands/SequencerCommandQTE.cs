@@ -67,11 +67,11 @@ namespace PixelCrushers.DialogueSystem.SequencerCommands
                 if (DialogueDebug.logInfo) Debug.Log("Dialogue System: Sequencer: QTE(" + GetParameters() + ") triggered. Setting " + variableName + " to " + variableQTEValue);
                 if (variableType == FieldType.Boolean)
                 {
-                    DialogueSystem.SetVariable(variableName, Tools.StringToBool(variableQTEValue));
+                    DialogueLua.SetVariable(variableName, Tools.StringToBool(variableQTEValue));
                 }
                 else
                 {
-                    DialogueSystem.SetVariable(variableName, ValueAsString(variableType, variableQTEValue));
+                    DialogueLua.SetVariable(variableName, ValueAsString(variableType, variableQTEValue));
                 }
                 DialogueManager.instance.SendMessage(DialogueSystemMessages.OnConversationContinueAll, SendMessageOptions.DontRequireReceiver);
                 Stop();

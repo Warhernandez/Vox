@@ -209,12 +209,12 @@ namespace PixelCrushers.DialogueSystem
             }
             else if (entryState == QuestState.Success && showCompletedEntryText)
             {
-                var text = DialogueSystem.GetQuestField(quest, "Entry " + entryNum + " Success").asString;
+                var text = DialogueLua.GetQuestField(quest, "Entry " + entryNum + " Success").asString;
                 if (!string.IsNullOrEmpty(text)) return text;
             }
             else if (entryState == QuestState.Failure && showCompletedEntryText)
             {
-                var text = DialogueSystem.GetQuestField(quest, "Entry " + entryNum + " Failure").asString;
+                var text = DialogueLua.GetQuestField(quest, "Entry " + entryNum + " Failure").asString;
                 if (!string.IsNullOrEmpty(text)) return text;
             }
             return QuestLog.GetQuestEntry(quest, entryNum);

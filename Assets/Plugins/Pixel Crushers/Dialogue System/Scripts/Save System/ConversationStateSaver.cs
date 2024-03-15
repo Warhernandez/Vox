@@ -111,8 +111,8 @@ namespace PixelCrushers.DialogueSystem
             var conversationID = data.conversationID;
             var entryID = data.entryID;
             var conversation = DialogueManager.masterDatabase.GetConversation(conversationID);
-            var actorName = DialogueSystem.GetVariable("CurrentConversationActor").AsString;
-            var conversantName = DialogueSystem.GetVariable("CurrentConversationConversant").AsString;
+            var actorName = DialogueLua.GetVariable("CurrentConversationActor").AsString;
+            var conversantName = DialogueLua.GetVariable("CurrentConversationConversant").AsString;
             if (DialogueDebug.logInfo) Debug.Log("Dialogue System: ConversationStateSaver is resuming conversation " + conversation.Title + " with actor=" + actorName + " and conversant=" + conversantName + " at entry " + entryID + ".", this);
             var actor = string.IsNullOrEmpty(actorName) ? null : GameObject.Find(actorName);
             var conversant = string.IsNullOrEmpty(conversantName) ? null : GameObject.Find(conversantName);

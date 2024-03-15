@@ -72,9 +72,9 @@ namespace PixelCrushers.DialogueSystem
         {
             if ((database != null) && !m_loadedDatabases.Contains(database))
             {
-                if (m_loadedDatabases.Count == 0) DialogueSystem.InitializeChatMapperVariables();
+                if (m_loadedDatabases.Count == 0) DialogueLua.InitializeChatMapperVariables();
                 m_masterDatabase.Add(database);
-                DialogueSystem.AddChatMapperVariables(m_masterDatabase, m_loadedDatabases);
+                DialogueLua.AddChatMapperVariables(m_masterDatabase, m_loadedDatabases);
                 m_loadedDatabases.Add(database);
             }
         }
@@ -92,7 +92,7 @@ namespace PixelCrushers.DialogueSystem
             {
                 m_loadedDatabases.Remove(database);
                 m_masterDatabase.Remove(database, m_loadedDatabases);
-                DialogueSystem.RemoveChatMapperVariables(database, m_loadedDatabases);
+                DialogueLua.RemoveChatMapperVariables(database, m_loadedDatabases);
             }
         }
 
@@ -101,7 +101,7 @@ namespace PixelCrushers.DialogueSystem
         /// </summary>
         public void Clear()
         {
-            DialogueSystem.InitializeChatMapperVariables();
+            DialogueLua.InitializeChatMapperVariables();
             m_masterDatabase.Clear();
             m_loadedDatabases.Clear();
         }

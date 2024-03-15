@@ -117,7 +117,7 @@ namespace PixelCrushers.DialogueSystem.SequencerCommands
                                     _audioSource.clip = audioClip;
                                     _audioSource.Play();
                                 }
-                                _stopTime = DialogueTime.time + audioClip.length;
+                                _stopTime = DialogueTime.time + SequencerCommandAudioWait.GetAudioClipLength(_audioSource, audioClip);
                             }
                         });
                 }
@@ -147,7 +147,7 @@ namespace PixelCrushers.DialogueSystem.SequencerCommands
         /// <returns></returns>
         private bool hasPlayedAlready(string audioClipName)
         {
-            return DialogueSystem.GetVariable(this.buildOnceVarName(audioClipName)).asBool;
+            return DialogueLua.GetVariable(this.buildOnceVarName(audioClipName)).asBool;
         }
 
         /// <summary>
@@ -156,7 +156,7 @@ namespace PixelCrushers.DialogueSystem.SequencerCommands
         /// <param name="audioClipName"></param>
         private void markAsPlayedAlready(string audioClipName)
         {
-            DialogueSystem.SetVariable(this.buildOnceVarName(audioClipName), true);
+            DialogueLua.SetVariable(this.buildOnceVarName(audioClipName), true);
         }
 
         /// <summary>

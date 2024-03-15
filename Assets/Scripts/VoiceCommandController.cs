@@ -31,7 +31,7 @@ public class VoiceCommandController : MonoBehaviour
     public void ProcessVoiceCommand(string command)
     {
         
-        //DialogueLua.SetVariable("Input", command); // Set variable in Dialogue System
+        DialogueLua.SetVariable("Input", command); // Set variable in Dialogue System
         command = command.ToLower();
         bool commandHandled = false;
 

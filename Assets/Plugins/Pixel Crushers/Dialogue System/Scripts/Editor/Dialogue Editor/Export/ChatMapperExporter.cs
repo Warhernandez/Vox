@@ -74,7 +74,7 @@ namespace PixelCrushers.DialogueSystem {
 			return cmpActors;
 		}
 
-		private static ChatMapper.Actor ActorToCmp(PixelCrushers.DialogueSystem.Actor actor) {
+		private static ChatMapper.Actor ActorToCmp(DialogueSystem.Actor actor) {
 			ChatMapper.Actor cmpActor = new ChatMapper.Actor();
 			cmpActor.ID = actor.id;
 			cmpActor.Fields = FieldsToCmp(actor.fields);
@@ -97,7 +97,7 @@ namespace PixelCrushers.DialogueSystem {
 			return cmpItems;
 		}
 		
-		private static ChatMapper.Item ItemToCmp(PixelCrushers.DialogueSystem.Item item) {
+		private static ChatMapper.Item ItemToCmp(DialogueSystem.Item item) {
 			ChatMapper.Item cmpItem = new ChatMapper.Item();
 			cmpItem.ID = item.id;
 			cmpItem.Fields = FieldsToCmp(item.fields);
@@ -121,7 +121,7 @@ namespace PixelCrushers.DialogueSystem {
 			return cmpLocations;
 		}
 		
-		private static ChatMapper.Location LocationToCmp(PixelCrushers.DialogueSystem.Location location) {
+		private static ChatMapper.Location LocationToCmp(DialogueSystem.Location location) {
 			ChatMapper.Location cmpLocation = new ChatMapper.Location();
 			cmpLocation.ID = location.id;
 			cmpLocation.Fields = FieldsToCmp(location.fields);
@@ -143,7 +143,7 @@ namespace PixelCrushers.DialogueSystem {
 			return cmpVariables;
 		}
 		
-		private static ChatMapper.UserVariable VariableToCmp(PixelCrushers.DialogueSystem.Variable variable) {
+		private static ChatMapper.UserVariable VariableToCmp(DialogueSystem.Variable variable) {
 			ChatMapper.UserVariable cmpUserVariable = new ChatMapper.UserVariable();
 			cmpUserVariable.Fields = FieldsToCmp(variable.fields);
 			AddRequiredUserVariableFields(cmpUserVariable.Fields);
@@ -164,7 +164,7 @@ namespace PixelCrushers.DialogueSystem {
 			return cmpConversations;
 		}
 		
-		private static ChatMapper.Conversation ConversationToCmp(PixelCrushers.DialogueSystem.Conversation conversation, bool includeCanvasRect) {
+		private static ChatMapper.Conversation ConversationToCmp(DialogueSystem.Conversation conversation, bool includeCanvasRect) {
 			ChatMapper.Conversation cmpConversation = new ChatMapper.Conversation();
 			cmpConversation.ID = conversation.id;
 			cmpConversation.NodeColor = string.IsNullOrEmpty(conversation.nodeColor) ? "Red" : conversation.nodeColor;
@@ -186,13 +186,13 @@ namespace PixelCrushers.DialogueSystem {
 		
 		//============================================================================================================
 		
-		private static List<ChatMapper.DialogEntry> DialogEntriesToCmp(List<PixelCrushers.DialogueSystem.DialogueEntry> entries, bool includeCanvasRect) {
+		private static List<ChatMapper.DialogEntry> DialogEntriesToCmp(List<DialogueSystem.DialogueEntry> entries, bool includeCanvasRect) {
 			List<ChatMapper.DialogEntry> cmpEntries = new List<DialogEntry>();
 			entries.ForEach(entry => cmpEntries.Add(DialogEntryToCmp(entry, includeCanvasRect)));
 			return cmpEntries;
 		}
 
-		private static ChatMapper.DialogEntry DialogEntryToCmp(PixelCrushers.DialogueSystem.DialogueEntry entry, bool includeCanvasRect) {
+		private static ChatMapper.DialogEntry DialogEntryToCmp(DialogueSystem.DialogueEntry entry, bool includeCanvasRect) {
 			ChatMapper.DialogEntry cmpEntry = new DialogEntry();
 			cmpEntry.ID = entry.id;
 			cmpEntry.IsRoot = entry.isRoot || ((entry.id == 0) && string.Equals(entry.Title, "START"));
@@ -215,7 +215,7 @@ namespace PixelCrushers.DialogueSystem {
 			return cmpEntry;
 		}
 
-        private static void AddCanvasRectField(PixelCrushers.DialogueSystem.DialogueEntry entry, ChatMapper.DialogEntry cmpEntry)
+        private static void AddCanvasRectField(DialogueSystem.DialogueEntry entry, ChatMapper.DialogEntry cmpEntry)
         {
             var canvasRectField = cmpEntry.Fields.Find(f => string.Equals(f.Title, "canvasRect"));
             if (canvasRectField == null)
@@ -244,13 +244,13 @@ namespace PixelCrushers.DialogueSystem {
 			RequireField(cmpFields, 9, "Video File", "Text", "", "A WMV video file to be played for this dialogue.");
 		}
 
-		private static List<ChatMapper.Link> LinksToCmp(List<PixelCrushers.DialogueSystem.Link> links) {
+		private static List<ChatMapper.Link> LinksToCmp(List<DialogueSystem.Link> links) {
 			List<ChatMapper.Link> cmpLinks = new List<ChatMapper.Link>();
 			links.ForEach(link => cmpLinks.Add(LinkToCmp(link)));
 			return cmpLinks;
 		}
 
-		private static ChatMapper.Link LinkToCmp(PixelCrushers.DialogueSystem.Link link) {
+		private static ChatMapper.Link LinkToCmp(DialogueSystem.Link link) {
 			ChatMapper.Link cmpLink = new ChatMapper.Link();
 			cmpLink.ConversationID = link.originConversationID;
 			cmpLink.OriginConvoID = link.originConversationID;
@@ -263,13 +263,13 @@ namespace PixelCrushers.DialogueSystem {
 
 		//============================================================================================================
 		
-		private static List<ChatMapper.Field> FieldsToCmp(List<PixelCrushers.DialogueSystem.Field> fields) {
+		private static List<ChatMapper.Field> FieldsToCmp(List<DialogueSystem.Field> fields) {
 			List<ChatMapper.Field> cmpFields = new List<ChatMapper.Field>();
 			fields.ForEach(field => cmpFields.Add(FieldToCmp(field)));
 			return cmpFields;
 		}
 
-		private static ChatMapper.Field FieldToCmp(PixelCrushers.DialogueSystem.Field field) {
+		private static ChatMapper.Field FieldToCmp(DialogueSystem.Field field) {
 			return NewCmpField(field.title, field.type.ToString(), field.value, string.Empty);
 		}
 

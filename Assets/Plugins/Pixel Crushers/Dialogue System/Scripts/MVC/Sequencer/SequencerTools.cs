@@ -383,7 +383,7 @@ namespace PixelCrushers.DialogueSystem
         /// <returns><c>true</c> if audio is muted; otherwise, <c>false</c>.</returns>
         public static bool IsAudioMuted()
         {
-            return DialogueSystem.GetVariable("Mute").asBool;
+            return DialogueLua.GetVariable("Mute").asBool;
         }
 
     }

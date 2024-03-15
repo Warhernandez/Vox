@@ -36,7 +36,7 @@ namespace PixelCrushers.DialogueSystem.SequencerCommands
             else
             {
                 if (DialogueDebug.logInfo) Debug.Log(string.Format("{0}: Sequencer: LoadLevel({1})", DialogueDebug.Prefix, GetParameters()));
-                DialogueSystem.SetActorField("Player", "Spawnpoint", spawnpoint);
+                DialogueLua.SetActorField("Player", "Spawnpoint", spawnpoint);
                 if (SaveSystem.hasInstance)
                 {
                     if (additive)

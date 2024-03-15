@@ -247,10 +247,10 @@ namespace PixelCrushers.DialogueSystem
                 if (DialogueManager.instance.activeConversations.Count > 1)
                 {
                     // If multiple conversations are active, set the right participants in Lua:
-                    DialogueSystem.SetParticipants(m_actorInfo.Name, m_conversantInfo.Name, m_actorInfo.nameInDatabase, m_conversantInfo.nameInDatabase);
+                    DialogueLua.SetParticipants(m_actorInfo.Name, m_conversantInfo.Name, m_actorInfo.nameInDatabase, m_conversantInfo.nameInDatabase);
                 }
                 DialogueManager.instance.SendMessage(DialogueSystemMessages.OnPrepareConversationLine, entry, SendMessageOptions.DontRequireReceiver);
-                DialogueSystem.MarkDialogueEntryDisplayed(entry);
+                DialogueLua.MarkDialogueEntryDisplayed(entry);
                 Lua.Run("thisID = " + entry.id);
                 SetDialogTable(entry.conversationID);
                 if (!skipExecution)
@@ -470,7 +470,7 @@ namespace PixelCrushers.DialogueSystem
                                     if (m_emTagForOldResponses != EmTag.None)
                                     {
                                         string simStatus = Lua.Run(string.Format("return Conversation[{0}].Dialog[{1}].SimStatus", new System.Object[] { destinationEntry.conversationID, destinationEntry.id })).asString;
-                                        bool isOldResponse = string.Equals(simStatus, DialogueSystem.WasDisplayed);
+                                        bool isOldResponse = string.Equals(simStatus, DialogueLua.WasDisplayed);
                                         if (isOldResponse)
                                         {
                                             text = UITools.StripEmTags(text);
@@ -492,7 +492,7 @@ namespace PixelCrushers.DialogueSystem
                                         formattedText.forceMenu = false;
                                     }
                                     pcResponses.Add(new Response(formattedText, destinationEntry, isValid));
-                                    DialogueSystem.MarkDialogueEntryOffered(destinationEntry);
+                                    DialogueLua.MarkDialogueEntryOffered(destinationEntry);
                                 }
                             }
                             if (isValid && stopAtFirstValid) return;
@@ -544,7 +544,7 @@ namespace PixelCrushers.DialogueSystem
             m_conversantInfo = GetCharacterInfo(conversation.ConversantID, conversant);
             if (m_actorInfo != null) m_characterInfoCache[m_actorInfo.id] = m_actorInfo;
             if (m_conversantInfo != null) m_characterInfoCache[m_conversantInfo.id] = m_conversantInfo;
-            DialogueSystem.SetParticipants(m_actorInfo.Name, m_conversantInfo.Name, m_actorInfo.nameInDatabase, m_conversantInfo.nameInDatabase);
+            DialogueLua.SetParticipants(m_actorInfo.Name, m_conversantInfo.Name, m_actorInfo.nameInDatabase, m_conversantInfo.nameInDatabase);
             IdentifyPCPortrait(conversation);
         }
 
@@ -716,7 +716,7 @@ namespace PixelCrushers.DialogueSystem
             // Also suppress logging for Lua return Actor[].Current_Portrait.
             var originalDebugLevel = DialogueDebug.level;
             DialogueDebug.level = DialogueDebug.DebugLevel.Warning;
-            string imageName = DialogueSystem.GetActorField(actorName, DialogueSystemFields.CurrentPortrait).asString;
+            string imageName = DialogueLua.GetActorField(actorName, DialogueSystemFields.CurrentPortrait).asString;
             DialogueDebug.level = originalDebugLevel;
             if (string.IsNullOrEmpty(imageName))
             {

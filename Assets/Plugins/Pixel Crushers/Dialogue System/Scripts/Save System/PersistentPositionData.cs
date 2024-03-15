@@ -62,7 +62,7 @@ namespace PixelCrushers.DialogueSystem
             string positionString = GetPositionString();
             var fieldName = recordCurrentLevel ? "Position_" + SanitizeLevelName(Tools.loadedLevelName) : "Position";
             if (DialogueDebug.logInfo) Debug.Log("Dialogue System: Persistent Position Data Actor[" + actorName + "]." + fieldName + "='" + positionString + "'", this);
-            DialogueSystem.SetActorField(actorName, fieldName, positionString);
+            DialogueLua.SetActorField(actorName, fieldName, positionString);
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace PixelCrushers.DialogueSystem
         /// </summary>
         public void OnApplyPersistentData()
         {
-            string spawnpointName = DialogueSystem.GetActorField(actorName, "Spawnpoint").asString;
+            string spawnpointName = DialogueLua.GetActorField(actorName, "Spawnpoint").asString;
             if (!string.IsNullOrEmpty(spawnpointName))
             {
                 var spawnpoint = Tools.GameObjectHardFind(spawnpointName);
@@ -85,11 +85,11 @@ namespace PixelCrushers.DialogueSystem
                     transform.rotation = spawnpoint.transform.rotation;
                     if (DialogueDebug.logInfo) Debug.Log("Dialogue System: Persistent Position Data spawning " + actorName + " at spawnpoint " + spawnpoint, this);
                 }
-                DialogueSystem.SetActorField(actorName, "Spawnpoint", string.Empty);
+                DialogueLua.SetActorField(actorName, "Spawnpoint", string.Empty);
                 if (spawnpoint != null) return;
             }
             var fieldName = recordCurrentLevel ? "Position_" + SanitizeLevelName(Tools.loadedLevelName) : "Position";
-            var positionString = DialogueSystem.GetActorField(actorName, fieldName).asString;
+            var positionString = DialogueLua.GetActorField(actorName, fieldName).asString;
             if (!string.IsNullOrEmpty(positionString))
             {
                 if (DialogueDebug.logInfo) Debug.Log("Dialogue System: Persistent Position Data restoring " + actorName + " to position " + positionString, this);
@@ -103,7 +103,7 @@ namespace PixelCrushers.DialogueSystem
 
         private string GetPositionString()
         {
-            string optionalLevelName = recordCurrentLevel ? DialogueSystem.DoubleQuotesToSingle("," + Tools.loadedLevelName) : string.Empty;
+            string optionalLevelName = recordCurrentLevel ? DialogueLua.DoubleQuotesToSingle("," + Tools.loadedLevelName) : string.Empty;
             return string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0},{1},{2},{3},{4},{5},{6}{7}",
                 new System.Object[] { transform.position.x, transform.position.y, transform.position.z,
                 transform.rotation.x, transform.rotation.y, transform.rotation.z, transform.rotation.w,
@@ -136,7 +136,7 @@ namespace PixelCrushers.DialogueSystem
 
         public static string SanitizeLevelName(string levelName)
         {
-            return DialogueSystem.StringToTableIndex(levelName).Replace(".", "_");
+            return DialogueLua.StringToTableIndex(levelName).Replace(".", "_");
         }
 
     }

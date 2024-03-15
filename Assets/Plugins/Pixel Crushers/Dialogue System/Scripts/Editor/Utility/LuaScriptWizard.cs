@@ -530,13 +530,13 @@ namespace PixelCrushers.DialogueSystem
                                 if (item.netSetMode == NetSetMode.NetSet)
                                 {
                                     sb.AppendFormat("NetSetBool(\"{0}\", {1})",
-                                                    DialogueSystem.StringToTableIndex(variableName),
+                                                    DialogueLua.StringToTableIndex(variableName),
                                                     (item.booleanValue == BooleanType.True) ? "true" : "false");
                                 }
                                 else
                                 {
                                     sb.AppendFormat("Variable[\"{0}\"] = {1}",
-                                                    DialogueSystem.StringToTableIndex(variableName),
+                                                    DialogueLua.StringToTableIndex(variableName),
                                                     (item.booleanValue == BooleanType.True) ? "true" : "false");
                                 }
                                 break;
@@ -547,17 +547,17 @@ namespace PixelCrushers.DialogueSystem
                                     {
                                         case ValueSetMode.To:
                                             sb.AppendFormat("NetSetNumber(\"{0}\", {1})",
-                                                            DialogueSystem.StringToTableIndex(variableName),
+                                                            DialogueLua.StringToTableIndex(variableName),
                                                             item.floatValue.ToString(System.Globalization.CultureInfo.InvariantCulture));
                                             break;
                                         case ValueSetMode.Add:
                                             sb.AppendFormat("NetSetNumber(\"{0}\", Variable[\"{0}\"] + {1})",
-                                                            DialogueSystem.StringToTableIndex(variableName),
+                                                            DialogueLua.StringToTableIndex(variableName),
                                                             item.floatValue.ToString(System.Globalization.CultureInfo.InvariantCulture));
                                             break;
                                         case ValueSetMode.Subtract:
                                             sb.AppendFormat("NetSetNumber(\"{0}\", Variable[\"{0}\"] - {1})",
-                                                            DialogueSystem.StringToTableIndex(variableName),
+                                                            DialogueLua.StringToTableIndex(variableName),
                                                             item.floatValue.ToString(System.Globalization.CultureInfo.InvariantCulture));
                                             break;
                                     }
@@ -568,17 +568,17 @@ namespace PixelCrushers.DialogueSystem
                                     {
                                         case ValueSetMode.To:
                                             sb.AppendFormat("Variable[\"{0}\"] = {1}",
-                                                            DialogueSystem.StringToTableIndex(variableName),
+                                                            DialogueLua.StringToTableIndex(variableName),
                                                             item.floatValue.ToString(System.Globalization.CultureInfo.InvariantCulture));
                                             break;
                                         case ValueSetMode.Add:
                                             sb.AppendFormat("Variable[\"{0}\"] = Variable[\"{0}\"] + {1}",
-                                                            DialogueSystem.StringToTableIndex(variableName),
+                                                            DialogueLua.StringToTableIndex(variableName),
                                                             item.floatValue.ToString(System.Globalization.CultureInfo.InvariantCulture));
                                             break;
                                         case ValueSetMode.Subtract:
                                             sb.AppendFormat("Variable[\"{0}\"] = Variable[\"{0}\"] - {1}",
-                                                            DialogueSystem.StringToTableIndex(variableName),
+                                                            DialogueLua.StringToTableIndex(variableName),
                                                             item.floatValue.ToString(System.Globalization.CultureInfo.InvariantCulture));
                                             break;
                                     }
@@ -588,13 +588,13 @@ namespace PixelCrushers.DialogueSystem
                                 if (item.netSetMode == NetSetMode.NetSet)
                                 {
                                     sb.AppendFormat("NetSetString(\"{0}\", \"{1}\")",
-                                                    DialogueSystem.StringToTableIndex(variableName),
+                                                    DialogueLua.StringToTableIndex(variableName),
                                                     item.stringValue);
                                 }
                                 else
                                 {
                                     sb.AppendFormat("Variable[\"{0}\"] = \"{1}\"",
-                                                    DialogueSystem.StringToTableIndex(variableName),
+                                                    DialogueLua.StringToTableIndex(variableName),
                                                     item.stringValue);
                                 }
                                 break;
@@ -690,7 +690,7 @@ namespace PixelCrushers.DialogueSystem
                                         break;
                                     case CustomLuaParameterType.Variable:
                                         var variableIndex = (int)item.customParamValues[p];
-                                        sb.Append((0 <= variableIndex && variableIndex < variableNames.Length) ? ("Variable[\"" + DialogueSystem.StringToTableIndex(variableNames[variableIndex]) + "\"]") : "\"\"");
+                                        sb.Append((0 <= variableIndex && variableIndex < variableNames.Length) ? ("Variable[\"" + DialogueLua.StringToTableIndex(variableNames[variableIndex]) + "\"]") : "\"\"");
                                         break;
                                     case CustomLuaParameterType.VariableName:
                                         var variableNameIndex = (int)item.customParamValues[p];
@@ -736,8 +736,8 @@ namespace PixelCrushers.DialogueSystem
                 case FieldType.Boolean:
                     sb.AppendFormat("{0}[\"{1}\"].{2} = {3}",
                                     tableName,
-                                    DialogueSystem.StringToTableIndex(elementName),
-                                    DialogueSystem.StringToFieldName(fieldName),
+                                    DialogueLua.StringToTableIndex(elementName),
+                                    DialogueLua.StringToFieldName(fieldName),
                                     (item.booleanValue == BooleanType.True) ? "true" : "false");
                     break;
                 case FieldType.Number:
@@ -746,22 +746,22 @@ namespace PixelCrushers.DialogueSystem
                         case ValueSetMode.To:
                             sb.AppendFormat("{0}[\"{1}\"].{2} = {3}",
                                             tableName,
-                                            DialogueSystem.StringToTableIndex(elementName),
-                                            DialogueSystem.StringToFieldName(fieldName),
+                                            DialogueLua.StringToTableIndex(elementName),
+                                            DialogueLua.StringToFieldName(fieldName),
                                             item.floatValue.ToString(System.Globalization.CultureInfo.InvariantCulture));
                             break;
                         case ValueSetMode.Add:
                             sb.AppendFormat("{0}[\"{1}\"].{2} = {0}[\"{1}\"].{2} + {3}",
                                             tableName,
-                                            DialogueSystem.StringToTableIndex(elementName),
-                                            DialogueSystem.StringToFieldName(fieldName),
+                                            DialogueLua.StringToTableIndex(elementName),
+                                            DialogueLua.StringToFieldName(fieldName),
                                             item.floatValue.ToString(System.Globalization.CultureInfo.InvariantCulture));
                             break;
                         case ValueSetMode.Subtract:
                             sb.AppendFormat("{0}[\"{1}\"].{2} = {0}[\"{1}\"].{2} - {3}",
                                             tableName,
-                                            DialogueSystem.StringToTableIndex(elementName),
-                                            DialogueSystem.StringToFieldName(fieldName),
+                                            DialogueLua.StringToTableIndex(elementName),
+                                            DialogueLua.StringToFieldName(fieldName),
                                             item.floatValue.ToString(System.Globalization.CultureInfo.InvariantCulture));
                             break;
                     }
@@ -769,8 +769,8 @@ namespace PixelCrushers.DialogueSystem
                 default:
                     sb.AppendFormat("{0}[\"{1}\"].{2} = \"{3}\"",
                                     tableName,
-                                    DialogueSystem.StringToTableIndex(elementName),
-                                    DialogueSystem.StringToFieldName(fieldName),
+                                    DialogueLua.StringToTableIndex(elementName),
+                                    DialogueLua.StringToFieldName(fieldName),
                                     item.stringValue.ToString(System.Globalization.CultureInfo.InvariantCulture));
                     break;
             }

@@ -1,4 +1,3 @@
-// Recompile at 2/2/2024 2:03:47 PM
 // Copyright (c) Pixel Crushers. All rights reserved.
 
 using System.Collections.Generic;
@@ -307,7 +306,7 @@ namespace PixelCrushers.DialogueSystem
                             string varName = match.Value.Substring(5, match.Value.Length - 6).Trim(); // Remove "[var=" and "]"
                             try
                             {
-                                return DialogueSystem.GetVariable(varName).asString;
+                                return DialogueLua.GetVariable(varName).asString;
                             }
                             catch (System.Exception)
                             {
@@ -355,7 +354,7 @@ namespace PixelCrushers.DialogueSystem
                             string varName = match.Value.Substring(10, match.Value.Length - 11).Trim(); // Remove "[autocase=" and "]"
                             try
                             {
-                                var variableValue = DialogueSystem.GetVariable(varName).asString;
+                                var variableValue = DialogueLua.GetVariable(varName).asString;
                                 if (variableValue.Length > 0)
                                 {
                                     variableValue = SetCapitalization(capitalize, variableValue);
@@ -542,7 +541,7 @@ namespace PixelCrushers.DialogueSystem
                 string indexString = match.Value.Substring(startPos, match.Value.Length - (startPos + 1)); // Remove "[pic[ac]=" and "]"
                 if (!int.TryParse(indexString, out index))
                 {
-                    index = DialogueSystem.GetVariable(indexString).asInt;
+                    index = DialogueLua.GetVariable(indexString).asInt;
                 }
                 return string.Empty;
             });

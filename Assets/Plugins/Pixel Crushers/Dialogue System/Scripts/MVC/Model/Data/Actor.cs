@@ -132,7 +132,7 @@ namespace PixelCrushers.DialogueSystem
             //--- Instead, check for override set by SetPortrait():
             var originalDebugLevel = DialogueDebug.level; // Suppress logging for Lua return Actor[].Current_Portrait.
             DialogueDebug.level = DialogueDebug.DebugLevel.Warning;
-            string imageName = DialogueSystem.GetActorField(Name, DialogueSystemFields.CurrentPortrait).asString;
+            string imageName = DialogueLua.GetActorField(Name, DialogueSystemFields.CurrentPortrait).asString;
             DialogueDebug.level = originalDebugLevel;
             if (string.IsNullOrEmpty(imageName))
             {
@@ -173,7 +173,7 @@ namespace PixelCrushers.DialogueSystem
         {
             var originalDebugLevel = DialogueDebug.level; // Suppress logging for Lua return Actor[].Current_Portrait.
             DialogueDebug.level = DialogueDebug.DebugLevel.Warning;
-            string imageName = DialogueSystem.GetActorField(Name, DialogueSystemFields.CurrentPortrait).asString;
+            string imageName = DialogueLua.GetActorField(Name, DialogueSystemFields.CurrentPortrait).asString;
             DialogueDebug.level = originalDebugLevel;
             if (string.IsNullOrEmpty(imageName))
             {

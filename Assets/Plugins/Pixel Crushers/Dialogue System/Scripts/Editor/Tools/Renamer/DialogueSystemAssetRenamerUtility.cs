@@ -219,8 +219,8 @@ namespace PixelCrushers.DialogueSystem
             var replace = !string.IsNullOrEmpty(replacementName);
 
             // Find/replace Lua expressions that use the original variable name:
-            var originalLuaExpression = "Variable[\"" + DialogueSystem.StringToTableIndex(originalName) + "\"]";
-            var replacementLuaExpression = string.IsNullOrEmpty(replacementName.Trim()) ? string.Empty : "Variable[\"" + DialogueSystem.StringToTableIndex(replacementName) + "\"]";
+            var originalLuaExpression = "Variable[\"" + DialogueLua.StringToTableIndex(originalName) + "\"]";
+            var replacementLuaExpression = string.IsNullOrEmpty(replacementName.Trim()) ? string.Empty : "Variable[\"" + DialogueLua.StringToTableIndex(replacementName) + "\"]";
             var found = text.Contains(originalLuaExpression);
             if (found && replace)
             {
@@ -228,8 +228,8 @@ namespace PixelCrushers.DialogueSystem
             }
 
             // Find/replace [var=variable] tags that use the original variable name:
-            var originalVarTag = "[var=" + DialogueSystem.StringToTableIndex(originalName) + "]";
-            var replacementVarTag = string.IsNullOrEmpty(replacementName.Trim()) ? string.Empty : "Variable[\"" + DialogueSystem.StringToTableIndex(replacementName) + "\"]";
+            var originalVarTag = "[var=" + DialogueLua.StringToTableIndex(originalName) + "]";
+            var replacementVarTag = string.IsNullOrEmpty(replacementName.Trim()) ? string.Empty : "Variable[\"" + DialogueLua.StringToTableIndex(replacementName) + "\"]";
             var foundVarTag = text.Contains(originalVarTag);
             if (foundVarTag)
             {
@@ -373,8 +373,8 @@ namespace PixelCrushers.DialogueSystem
             var replace = !string.IsNullOrEmpty(replacementName);
 
             // Find/replace Lua expressions that use the original actor name:
-            var originalLuaExpression = "Actor[\"" + DialogueSystem.StringToTableIndex(originalName) + "\"]";
-            var replacementLuaExpression = string.IsNullOrEmpty(replacementName.Trim()) ? string.Empty : "Actor[\"" + DialogueSystem.StringToTableIndex(replacementName) + "\"]";
+            var originalLuaExpression = "Actor[\"" + DialogueLua.StringToTableIndex(originalName) + "\"]";
+            var replacementLuaExpression = string.IsNullOrEmpty(replacementName.Trim()) ? string.Empty : "Actor[\"" + DialogueLua.StringToTableIndex(replacementName) + "\"]";
             var found = text.Contains(originalLuaExpression);
             if (found && replace)
             {
@@ -517,8 +517,8 @@ namespace PixelCrushers.DialogueSystem
 
         public static bool FindLuaFunction(string funcName, string originalName, string replacementName, bool replace, ref string text)
         {
-            var originalLuaCode = funcName + "(\"" + DialogueSystem.StringToTableIndex(originalName) + "\"";
-            var replacementLuaCode = string.IsNullOrEmpty(replacementName.Trim()) ? string.Empty : funcName + "(\"" + DialogueSystem.StringToTableIndex(replacementName) + "\"";
+            var originalLuaCode = funcName + "(\"" + DialogueLua.StringToTableIndex(originalName) + "\"";
+            var replacementLuaCode = string.IsNullOrEmpty(replacementName.Trim()) ? string.Empty : funcName + "(\"" + DialogueLua.StringToTableIndex(replacementName) + "\"";
             return FindText(originalLuaCode, replacementLuaCode, replace, ref text);
         }
 
@@ -532,12 +532,12 @@ namespace PixelCrushers.DialogueSystem
 
             // Find/replace Lua expressions that use the original quest name:
             // Item[]
-            var originalLuaExpression = "Item[\"" + DialogueSystem.StringToTableIndex(originalName) + "\"]";
-            var replacementLuaExpression = string.IsNullOrEmpty(replacementName.Trim()) ? string.Empty : "Item[\"" + DialogueSystem.StringToTableIndex(replacementName) + "\"]";
+            var originalLuaExpression = "Item[\"" + DialogueLua.StringToTableIndex(originalName) + "\"]";
+            var replacementLuaExpression = string.IsNullOrEmpty(replacementName.Trim()) ? string.Empty : "Item[\"" + DialogueLua.StringToTableIndex(replacementName) + "\"]";
             var found = FindText(originalLuaExpression, replacementLuaExpression, replace, ref text);
             // Quest[]
-            originalLuaExpression = "Quest[\"" + DialogueSystem.StringToTableIndex(originalName) + "\"]";
-            replacementLuaExpression = string.IsNullOrEmpty(replacementName.Trim()) ? string.Empty : "Quest[\"" + DialogueSystem.StringToTableIndex(replacementName) + "\"]";
+            originalLuaExpression = "Quest[\"" + DialogueLua.StringToTableIndex(originalName) + "\"]";
+            replacementLuaExpression = string.IsNullOrEmpty(replacementName.Trim()) ? string.Empty : "Quest[\"" + DialogueLua.StringToTableIndex(replacementName) + "\"]";
             found = FindText(originalLuaExpression, replacementLuaExpression, replace, ref text) || found;
             // Quest functions
             found = FindLuaFunction("CurrentQuestState", originalName, replacementName, replace, ref text) || found;

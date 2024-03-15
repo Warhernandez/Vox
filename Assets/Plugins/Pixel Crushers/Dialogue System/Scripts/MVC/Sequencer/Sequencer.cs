@@ -1,5 +1,4 @@
-// Recompile at 2/2/2024 2:03:48 PM
-
+// Recompile at 9/25/2023 11:33:17 AM
 // Copyright (c) Pixel Crushers. All rights reserved.
 
 using PixelCrushers.DialogueSystem.SequencerCommands;
@@ -582,6 +581,9 @@ namespace PixelCrushers.DialogueSystem
                             break;
                         case DialogueTime.TimeMode.Gameplay:
                             m_delayTimeLeft -= Time.deltaTime;
+                            break;
+                        default:
+                            m_delayTimeLeft -= DialogueTime.deltaTime;
                             break;
                     }
                 }
@@ -2562,9 +2564,9 @@ namespace PixelCrushers.DialogueSystem
                 int picNumber;
                 if (!int.TryParse(picValue, out picNumber))
                 {
-                    if (DialogueSystem.DoesVariableExist(picValue))
+                    if (DialogueLua.DoesVariableExist(picValue))
                     {
-                        picNumber = DialogueSystem.GetVariable(picValue).asInt;
+                        picNumber = DialogueLua.GetVariable(picValue).asInt;
                     }
                     else
                     {
@@ -2581,7 +2583,7 @@ namespace PixelCrushers.DialogueSystem
                 }
                 else if (isDefault)
                 {
-                    DialogueSystem.SetActorField(actorName, DialogueSystemFields.CurrentPortrait, string.Empty);
+                    DialogueLua.SetActorField(actorName, DialogueSystemFields.CurrentPortrait, string.Empty);
                 }
                 else
                 {
@@ -2591,7 +2593,7 @@ namespace PixelCrushers.DialogueSystem
                         var spriteAsset = asset as Sprite;
                         if (spriteAsset != null)
                         {
-                            DialogueSystem.SetActorField(actorName, DialogueSystemFields.CurrentPortrait, textureName);
+                            DialogueLua.SetActorField(actorName, DialogueSystemFields.CurrentPortrait, textureName);
                             DialogueManager.instance.SetActorPortraitSprite(actorName, spriteAsset);
                         }
                         else
@@ -2604,7 +2606,7 @@ namespace PixelCrushers.DialogueSystem
                                 {
                                     if (DialogueDebug.logWarnings) Debug.LogWarning(string.Format("{0}: Sequencer: SetPortrait() command: sprite/texture '{1}' not found.", new System.Object[] { DialogueDebug.Prefix, textureName }));
                                 }
-                                DialogueSystem.SetActorField(actorName, DialogueSystemFields.CurrentPortrait, textureName);
+                                DialogueLua.SetActorField(actorName, DialogueSystemFields.CurrentPortrait, textureName);
                                 DialogueManager.instance.SetActorPortraitSprite(actorName, spriteAsset);
                             });
                         }
@@ -2622,11 +2624,11 @@ namespace PixelCrushers.DialogueSystem
             {
                 if (isDefault)
                 {
-                    DialogueSystem.SetActorField(actorName, DialogueSystemFields.CurrentPortrait, string.Empty);
+                    DialogueLua.SetActorField(actorName, DialogueSystemFields.CurrentPortrait, string.Empty);
                 }
                 else
                 {
-                    if (sprite != null) DialogueSystem.SetActorField(actorName, DialogueSystemFields.CurrentPortrait, textureName);
+                    if (sprite != null) DialogueLua.SetActorField(actorName, DialogueSystemFields.CurrentPortrait, textureName);
                 }
                 DialogueManager.instance.SetActorPortraitSprite(actorName, sprite);
             }
@@ -2668,6 +2670,38 @@ namespace PixelCrushers.DialogueSystem
 
         private static DisplaySettings.SubtitleSettings.ContinueButtonMode savedContinueButtonMode = DisplaySettings.SubtitleSettings.ContinueButtonMode.Always;
 
+        public static void SetContinueMode(bool value)
+        {
+            SetContinueMode(value ? DisplaySettings.SubtitleSettings.ContinueButtonMode.Always : DisplaySettings.SubtitleSettings.ContinueButtonMode.Never);
+            UpdateActiveConversationContinueButton();
+        }
+
+        public static void SetContinueMode(DisplaySettings.SubtitleSettings.ContinueButtonMode mode)
+        {
+            savedContinueButtonMode = DialogueManager.displaySettings.subtitleSettings.continueButton;
+            DialogueManager.displaySettings.subtitleSettings.continueButton = mode;
+            UpdateActiveConversationContinueButton();
+        }
+
+        public static void SetOriginalContinueMode()
+        {
+            DialogueManager.displaySettings.subtitleSettings.continueButton = savedContinueButtonMode;
+            UpdateActiveConversationContinueButton();
+        }
+
+        private static void UpdateActiveConversationContinueButton()
+        {
+            // If a conversation is open, update its continue button mode immediately:
+            if (DialogueManager.conversationView != null)
+            {
+                if (DialogueManager.conversationView.displaySettings.conversationOverrideSettings != null)
+                {
+                    DialogueManager.conversationView.displaySettings.conversationOverrideSettings.continueButton = DialogueManager.displaySettings.subtitleSettings.continueButton;
+                }
+                DialogueManager.conversationView.SetupContinueButton();
+            }
+        }
+
         /// <summary>
         /// Handles "SetContinueMode(true|false)".
         /// </summary>
@@ -2687,7 +2721,7 @@ namespace PixelCrushers.DialogueSystem
                 {
                     // Restore original mode:
                     if (DialogueDebug.logInfo) Debug.Log(string.Format("{0}: Sequencer: SetContinueMode({1}): Restoring original mode {2}", new System.Object[] { DialogueDebug.Prefix, arg, savedContinueButtonMode }));
-                    DialogueManager.displaySettings.subtitleSettings.continueButton = savedContinueButtonMode;
+                    //DialogueManager.displaySettings.subtitleSettings.continueButton = savedContinueButtonMode;
                 }
                 else
                 {
@@ -2695,8 +2729,9 @@ namespace PixelCrushers.DialogueSystem
                     DisplaySettings.SubtitleSettings.ContinueButtonMode mode;
                     if (TryGetContinueMode(arg, out mode))
                     {
-                        savedContinueButtonMode = DialogueManager.displaySettings.subtitleSettings.continueButton;
-                        DialogueManager.displaySettings.subtitleSettings.continueButton = mode;
+                        SetContinueMode(mode);
+                        //savedContinueButtonMode = DialogueManager.displaySettings.subtitleSettings.continueButton;
+                        //DialogueManager.displaySettings.subtitleSettings.continueButton = mode;
                     }
                     else
                     {
@@ -2704,15 +2739,16 @@ namespace PixelCrushers.DialogueSystem
                         return true;
                     }
                 }
-                // If a conversation is open, update its continue button mode immediately:
-                if (DialogueManager.conversationView != null)
-                {
-                    if (DialogueManager.conversationView.displaySettings.conversationOverrideSettings != null)
-                    {
-                        DialogueManager.conversationView.displaySettings.conversationOverrideSettings.continueButton = DialogueManager.displaySettings.subtitleSettings.continueButton;
-                    }
-                    DialogueManager.conversationView.SetupContinueButton();
-                }
+                UpdateActiveConversationContinueButton();
+                //// If a conversation is open, update its continue button mode immediately:
+                //if (DialogueManager.conversationView != null)
+                //{
+                //    if (DialogueManager.conversationView.displaySettings.conversationOverrideSettings != null)
+                //    {
+                //        DialogueManager.conversationView.displaySettings.conversationOverrideSettings.continueButton = DialogueManager.displaySettings.subtitleSettings.continueButton;
+                //    }
+                //    DialogueManager.conversationView.SetupContinueButton();
+                //}
                 return true;
             }
         }
@@ -2795,15 +2831,15 @@ namespace PixelCrushers.DialogueSystem
                 float floatValue;
                 if (bool.TryParse(variableValue, out boolValue))
                 {
-                    DialogueSystem.SetVariable(variableName, boolValue);
+                    DialogueLua.SetVariable(variableName, boolValue);
                 }
                 else if (float.TryParse(variableValue, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out floatValue))
                 {
-                    DialogueSystem.SetVariable(variableName, floatValue);
+                    DialogueLua.SetVariable(variableName, floatValue);
                 }
                 else
                 {
-                    DialogueSystem.SetVariable(variableName, variableValue);
+                    DialogueLua.SetVariable(variableName, variableValue);
                 }
             }
             return true;

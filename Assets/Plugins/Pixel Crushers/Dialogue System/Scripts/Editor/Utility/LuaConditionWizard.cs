@@ -506,7 +506,7 @@ namespace PixelCrushers.DialogueSystem
                             case FieldType.Boolean:
                                 sb.AppendFormat("{0}Variable[\"{1}\"] {2} {3}{4}",
                                                 openParen,
-                                                DialogueSystem.StringToTableIndex(variableName),
+                                                DialogueLua.StringToTableIndex(variableName),
                                                 GetWizardEqualityText(item.equalityType),
                                                 (item.booleanValue == BooleanType.True) ? "true" : "false",
                                                 closeParen);
@@ -516,7 +516,7 @@ namespace PixelCrushers.DialogueSystem
                                 {
                                     sb.AppendFormat("{0}{3} <= Variable[\"{1}\"] and Variable[\"{1}\"] <= {4}{5}",
                                                     openParen,
-                                                    DialogueSystem.StringToTableIndex(variableName),
+                                                    DialogueLua.StringToTableIndex(variableName),
                                                     GetWizardComparisonText(item.comparisonType),
                                                     item.floatValue.ToString(System.Globalization.CultureInfo.InvariantCulture),
                                                     item.floatValue2.ToString(System.Globalization.CultureInfo.InvariantCulture),
@@ -526,7 +526,7 @@ namespace PixelCrushers.DialogueSystem
                                 {
                                     sb.AppendFormat("{0}Variable[\"{1}\"] {2} {3}{4}",
                                                     openParen,
-                                                    DialogueSystem.StringToTableIndex(variableName),
+                                                    DialogueLua.StringToTableIndex(variableName),
                                                     GetWizardComparisonText(item.comparisonType),
                                                     item.floatValue.ToString(System.Globalization.CultureInfo.InvariantCulture),
                                                     closeParen);
@@ -535,7 +535,7 @@ namespace PixelCrushers.DialogueSystem
                             default:
                                 sb.AppendFormat("{0}Variable[\"{1}\"] {2} \"{3}\"{4}",
                                                 openParen,
-                                                DialogueSystem.StringToTableIndex(variableName),
+                                                DialogueLua.StringToTableIndex(variableName),
                                                 GetWizardEqualityText(item.equalityType),
                                                 item.stringValue,
                                                 closeParen);
@@ -658,7 +658,7 @@ namespace PixelCrushers.DialogueSystem
                                     case CustomLuaParameterType.Variable:
                                         if (item.customParamValues[p] == null) item.customParamValues[p] = (int)0;
                                         var variableIndex = (int)item.customParamValues[p];
-                                        sb.Append((0 <= variableIndex && variableIndex < variableNames.Length) ? ("Variable[\"" + DialogueSystem.StringToTableIndex(variableNames[variableIndex]) + "\"]") : "\"\"");
+                                        sb.Append((0 <= variableIndex && variableIndex < variableNames.Length) ? ("Variable[\"" + DialogueLua.StringToTableIndex(variableNames[variableIndex]) + "\"]") : "\"\"");
                                         break;
                                     case CustomLuaParameterType.VariableName:
                                         if (item.customParamValues[p] == null) item.customParamValues[p] = (int)0;
@@ -719,8 +719,8 @@ namespace PixelCrushers.DialogueSystem
                     sb.AppendFormat("{0}{1}[\"{2}\"].{3} {4} {5}{6}",
                                     openParen,
                                     tableName,
-                                    DialogueSystem.StringToTableIndex(elementName),
-                                    DialogueSystem.StringToFieldName(fieldName),
+                                    DialogueLua.StringToTableIndex(elementName),
+                                    DialogueLua.StringToFieldName(fieldName),
                                     GetWizardEqualityText(item.equalityType),
                                     (item.booleanValue == BooleanType.True) ? "true" : "false",
                                     closeParen);
@@ -731,8 +731,8 @@ namespace PixelCrushers.DialogueSystem
                         sb.AppendFormat("{0}{5} <= {1}[\"{2}\"].{3} and {1}[\"{2}\"].{3} <= {6}{7}",
                                         openParen,
                                         tableName,
-                                        DialogueSystem.StringToTableIndex(elementName),
-                                        DialogueSystem.StringToFieldName(fieldName),
+                                        DialogueLua.StringToTableIndex(elementName),
+                                        DialogueLua.StringToFieldName(fieldName),
                                         GetWizardComparisonText(item.comparisonType),
                                         item.floatValue.ToString(System.Globalization.CultureInfo.InvariantCulture),
                                         item.floatValue2.ToString(System.Globalization.CultureInfo.InvariantCulture),
@@ -743,8 +743,8 @@ namespace PixelCrushers.DialogueSystem
                         sb.AppendFormat("{0}{1}[\"{2}\"].{3} {4} {5}{6}",
                                         openParen,
                                         tableName,
-                                        DialogueSystem.StringToTableIndex(elementName),
-                                        DialogueSystem.StringToFieldName(fieldName),
+                                        DialogueLua.StringToTableIndex(elementName),
+                                        DialogueLua.StringToFieldName(fieldName),
                                         GetWizardComparisonText(item.comparisonType),
                                         item.floatValue.ToString(System.Globalization.CultureInfo.InvariantCulture),
                                         closeParen);
@@ -754,8 +754,8 @@ namespace PixelCrushers.DialogueSystem
                     sb.AppendFormat("{0}{1}[\"{2}\"].{3} {4} \"{5}\"{6}",
                                     openParen,
                                     tableName,
-                                    DialogueSystem.StringToTableIndex(elementName),
-                                    DialogueSystem.StringToFieldName(fieldName),
+                                    DialogueLua.StringToTableIndex(elementName),
+                                    DialogueLua.StringToFieldName(fieldName),
                                     GetWizardEqualityText(item.equalityType),
                                     item.stringValue,
                                     closeParen);

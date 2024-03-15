@@ -648,7 +648,7 @@ namespace PixelCrushers.DialogueSystem
                 var myActor = GetActor(sourceActor.id);
                 if (myActor != null && myActor.Name != sourceActor.Name)
                 {
-                    renamedActors.Add(DialogueSystem.StringToTableIndex(myActor.Name), DialogueSystem.StringToTableIndex(sourceActor.Name));
+                    renamedActors.Add(DialogueLua.StringToTableIndex(myActor.Name), DialogueLua.StringToTableIndex(sourceActor.Name));
                 }
             }
 
@@ -696,7 +696,7 @@ namespace PixelCrushers.DialogueSystem
                 var myItem = GetItem(sourceItem.id);
                 if (myItem != null && myItem.Name != sourceItem.Name)
                 {
-                    renamedItems.Add(DialogueSystem.StringToTableIndex(myItem.Name), DialogueSystem.StringToTableIndex(sourceItem.Name));
+                    renamedItems.Add(DialogueLua.StringToTableIndex(myItem.Name), DialogueLua.StringToTableIndex(sourceItem.Name));
                 }
             }
 
@@ -744,7 +744,7 @@ namespace PixelCrushers.DialogueSystem
                 var myLocation = GetLocation(sourceLocation.id);
                 if (myLocation != null && myLocation.Name != sourceLocation.Name)
                 {
-                    renamedLocations.Add(DialogueSystem.StringToTableIndex(myLocation.Name), DialogueSystem.StringToTableIndex(sourceLocation.Name));
+                    renamedLocations.Add(DialogueLua.StringToTableIndex(myLocation.Name), DialogueLua.StringToTableIndex(sourceLocation.Name));
                 }
             }
 
@@ -792,7 +792,7 @@ namespace PixelCrushers.DialogueSystem
                 var myVariable = GetVariable(sourceVariable.id);
                 if (myVariable != null && myVariable.Name != sourceVariable.Name)
                 {
-                    renamedVariables.Add(DialogueSystem.StringToTableIndex(myVariable.Name), DialogueSystem.StringToTableIndex(sourceVariable.Name));
+                    renamedVariables.Add(DialogueLua.StringToTableIndex(myVariable.Name), DialogueLua.StringToTableIndex(sourceVariable.Name));
                 }
             }
 

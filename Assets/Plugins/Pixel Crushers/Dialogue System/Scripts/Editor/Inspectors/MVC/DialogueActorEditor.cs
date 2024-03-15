@@ -91,7 +91,7 @@ namespace PixelCrushers.DialogueSystem
                 var dialogueActor = t as DialogueActor;
                 if (dialogueActor == null) continue;
                 Undo.RecordObject(dialogueActor, "Unique ID");
-                dialogueActor.persistentDataName = DialogueSystem.StringToTableIndex(DialogueActor.GetActorName(dialogueActor.transform) + "_" + dialogueActor.GetInstanceID());
+                dialogueActor.persistentDataName = DialogueLua.StringToTableIndex(DialogueActor.GetActorName(dialogueActor.transform) + "_" + dialogueActor.GetInstanceID());
                 EditorUtility.SetDirty(dialogueActor);
                 UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(dialogueActor.gameObject.scene);
             }
