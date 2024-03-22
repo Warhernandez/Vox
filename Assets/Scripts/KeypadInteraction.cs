@@ -1,13 +1,14 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-
+using UnityEngine.SceneManagement;
 public class KeypadInteraction : MonoBehaviour
 {
     public GameObject keypadUI;
     public TMP_InputField codeInputField;
     public string correctCode = "1234";
     public GameObject door;
+
 
     private bool isKeypadActive = false;
 
@@ -45,7 +46,10 @@ public class KeypadInteraction : MonoBehaviour
         if (enteredCode == correctCode)
         {
             // Code is correct, unlock the door
-            door.SetActive(false);
+            //door.SetActive(false);
+
+            //FOR DEMO ONLY - SEND PLAYER TO WIN SCENE 
+            SceneManager.LoadScene("ENDOFDEMO"); 
         }
         else
         {

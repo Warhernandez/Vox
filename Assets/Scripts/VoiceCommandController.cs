@@ -2,8 +2,6 @@ using UnityEngine;
 using UnityEngine.AI;
 using System.Collections.Generic;
 using TMPro;
-using PixelCrushers.DialogueSystem;
-using cakeslice;
 
 public class VoiceCommandController : MonoBehaviour
 {
@@ -11,13 +9,18 @@ public class VoiceCommandController : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private List<DestinationObject> destinationObjects = new List<DestinationObject>();
     [SerializeField] private float movementThreshold = 0.1f;
+
     public GameObject player;
-    [SerializeField] private TextMeshProUGUI InventoryText;
-    private List<Item> inventory = new List<Item>(); // Inventory list to store collected items
+    public GameObject noteImage;
+    private bool isNoteEnabled = false;
+    private bool isNearInteractable = false;
+    private List<Item> inventory = new List<Item>();
 
     private void Start()
     {
         SetDestination(navMeshAgent.transform.position);
+        // Disable the note image initially
+        noteImage.SetActive(false);
     }
 
     private void Update()
@@ -26,42 +29,52 @@ public class VoiceCommandController : MonoBehaviour
         bool isMoving = navMeshAgent.velocity.magnitude > movementThreshold;
         animator.SetBool("IsMoving", isMoving);
         animator.SetFloat("Speed", Mathf.Clamp(navMeshAgent.velocity.magnitude / movementThreshold, 0f, 1f));
+
+        // Face the destination if moving
+        if (isMoving)
+        {
+            FaceDestination();
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        foreach (var destinationObject in destinationObjects)
+        {
+            if (other.gameObject == destinationObject.gameObject)
+            {
+                isNearInteractable = true;
+                break;
+            }
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        foreach (var destinationObject in destinationObjects)
+        {
+            if (other.gameObject == destinationObject.gameObject)
+            {
+                isNearInteractable = false;
+                break;
+            }
+        }
     }
 
     public void ProcessVoiceCommand(string command)
     {
-        
-        DialogueLua.SetVariable("Input", command); // Set variable in Dialogue System
-        command = command.ToLower();
+        command = command.Trim().ToLower(); // Convert command to lowercase and trim whitespace
+
         bool commandHandled = false;
 
-
-        if (command.Contains("look"))
-        {
-            foreach (var destinationObject in destinationObjects)
-            {
-                Outline outlineScript = destinationObject.gameObject.GetComponent<Outline>();
-
-                if (outlineScript != null)
-                {
-                    Debug.Log(destinationObject.gameObject.name + " has the Outline script attached.");
-                    // Do something with the object that has the Outline script attached, still figurin' that out loool
-                }
-                else
-                {
-                    Debug.Log(destinationObject.gameObject.name + " does not have the Outline script attached.");
-                }
-
-            }
-        }
-
-        if (command.Contains("examine") || command.Contains("look"))
+        // Check for "use" command separately
+        if (command.StartsWith("use"))
         {
             foreach (var destinationObject in destinationObjects)
             {
                 foreach (var keyword in destinationObject.keywords)
                 {
-                    if (command.Contains(keyword)) // Check lowercase keyword
+                    if (command.Contains(keyword.ToLower())) // Check lowercase keyword
                     {
                         // Check if the player is near an interactable object and if it has an item
                         if (destinationObject.isInteractable && destinationObject.hasItem)
@@ -72,10 +85,8 @@ public class VoiceCommandController : MonoBehaviour
                             {
                                 inventory.Add(item);
                                 Debug.Log("Picked up " + item.name);
-                                InventoryText.text += item.name;
                                 commandHandled = true;
                                 break;
-                                
                             }
                         }
                         else
@@ -91,7 +102,7 @@ public class VoiceCommandController : MonoBehaviour
             }
         }
 
-        // Check for move commands
+        // Check for other commands
         if (!commandHandled)
         {
             foreach (var destinationObject in destinationObjects)
@@ -101,6 +112,7 @@ public class VoiceCommandController : MonoBehaviour
                     if (command.Contains(keyword.ToLower())) // Check lowercase keyword
                     {
                         // Set destination regardless of interaction
+                        FaceDestination();
                         SetDestination(destinationObject.transform.position);
                         commandHandled = true;
                         break;
@@ -117,23 +129,29 @@ public class VoiceCommandController : MonoBehaviour
             Debug.Log("Unknown command: " + command);
         }
     }
-    //private void UseItemOnObject(Item item, DestinationObject targetObject)
-    //{
-    //    // Implement logic for using the item on the object
-    //    Debug.Log("Using " + item.name + " on " + targetObject.gameObject.name);
-
-    //    // Remove the item from the inventory
-    //    inventory.Remove(item);
-
-    //    // Interact with the target object
-    //    targetObject.Interact();
-    //}
 
     private void SetDestination(Vector3 targetPosition)
     {
         navMeshAgent.SetDestination(targetPosition);
     }
+
+    private void FaceDestination()
+    {
+        Vector3 direction = (navMeshAgent.destination - transform.position).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0f, direction.z));
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 10f);
+    }
+
+    //private void InteractWithNote()
+    //{
+    //    isNoteEnabled = !isNoteEnabled; // Toggle note state
+
+    //    // Enable/disable note image and button
+    //    noteImage.sprite = isNoteEnabled ? noteSprite : null;
+    //    noteButton.interactable = isNoteEnabled;
+    //}
 }
+
 [System.Serializable]
 public class DestinationObject
 {
@@ -144,35 +162,18 @@ public class DestinationObject
     public bool hasItem = false;
     public Item item; // Reference to the item associated with this object
 
-    private bool isNearby = false; // Flag to track if the player is nearby
-
-    public bool IsNearby => isNearby;
-
-    public void OnPlayerEnter()
-    {
-        isNearby = true;
-    }
-
-    public void OnPlayerExit()
-    {
-        isNearby = false;
-    }
-
     public void Interact()
     {
-        // Implement interaction behavior here (e.g., open door)
-        Debug.Log("Interacting with object: " + gameObject.name);
+        // Implement interaction behavior here (I.E. open door)
+        Debug.Log("Interacting with object");
     }
 
     public Item GetItem()
     {
         if (hasItem)
         {
-            
             hasItem = false; // Remove the item from the object
-            //Debug.Log("Got: " + item);
             return item;
-            
         }
         return null;
     }
