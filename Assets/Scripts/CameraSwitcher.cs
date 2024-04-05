@@ -5,6 +5,8 @@ public class CameraSwitcher : MonoBehaviour
 {
     public CinemachineVirtualCamera[] cameras;
     private int currentCameraIndex = 0;
+    public GameObject staticCanvas;
+    public float staticDuration = 0.5f; // Duration of static effect in seconds
 
     private void Start()
     {
@@ -22,12 +24,25 @@ public class CameraSwitcher : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Alpha1 + i)) // Alpha1 (KeyCode.1) corresponds to index 0, Alpha2 (KeyCode.2) corresponds to index 1, and so on
             {
-                SwitchCamera(i);
+                StartCoroutine(SwitchCameraWithStatic(i));
                 break; // Break out of the loop after finding the corresponding camera 
             }
         }
     }
+    private System.Collections.IEnumerator SwitchCameraWithStatic(int newIndex)
+    {
+        // Show static
+        staticCanvas.SetActive(true);
 
+        // Wait for a brief duration
+        yield return new WaitForSeconds(staticDuration);
+
+        // Disable static
+        staticCanvas.SetActive(false);
+
+        // Switch camera
+        SwitchCamera(newIndex);
+    }
     private void SwitchCamera(int newIndex)
     {
         if (newIndex == currentCameraIndex)

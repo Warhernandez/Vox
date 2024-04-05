@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using System.Collections.Generic;
 using TMPro;
+using PixelCrushers.DialogueSystem;
 
 public class VoiceCommandController : MonoBehaviour
 {
@@ -11,16 +12,12 @@ public class VoiceCommandController : MonoBehaviour
     [SerializeField] private float movementThreshold = 0.1f;
 
     public GameObject player;
-    public GameObject noteImage;
-    private bool isNoteEnabled = false;
     private bool isNearInteractable = false;
     private List<Item> inventory = new List<Item>();
 
     private void Start()
     {
         SetDestination(navMeshAgent.transform.position);
-        // Disable the note image initially
-        noteImage.SetActive(false);
     }
 
     private void Update()
@@ -63,6 +60,7 @@ public class VoiceCommandController : MonoBehaviour
 
     public void ProcessVoiceCommand(string command)
     {
+        DialogueVariableHandler(command);
         command = command.Trim().ToLower(); // Convert command to lowercase and trim whitespace
 
         bool commandHandled = false;
@@ -140,6 +138,18 @@ public class VoiceCommandController : MonoBehaviour
         Vector3 direction = (navMeshAgent.destination - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0f, direction.z));
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 10f);
+    }
+
+    public void DialogueVariableHandler(string command)
+    {
+        command = command.Trim().ToLower();
+
+        DialogueLua.SetVariable("Input", command);
+
+        if (command.Contains("yes") || command.Contains("yeah") || command.Contains("yep") || command.Contains("i do") || command.Contains("i can") || command.Contains(""))
+        {
+            DialogueLua.SetVariable("YesorNo", true);
+        }
     }
 
     //private void InteractWithNote()
