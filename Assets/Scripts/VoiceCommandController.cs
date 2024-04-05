@@ -3,6 +3,7 @@ using UnityEngine.AI;
 using System.Collections.Generic;
 using TMPro;
 using PixelCrushers.DialogueSystem;
+using Language.Lua;
 
 public class VoiceCommandController : MonoBehaviour
 {
@@ -145,10 +146,18 @@ public class VoiceCommandController : MonoBehaviour
         command = command.Trim().ToLower();
 
         DialogueLua.SetVariable("Input", command);
-
-        if (command.Contains("yes") || command.Contains("yeah") || command.Contains("yep") || command.Contains("i do") || command.Contains("i can") || command.Contains(""))
+        //!!!!!!!IMPORTANT!!!!!!! ALL INPUT IS READ LOWERCASE YOU STUPID FUCK!!!!!!!! DO NOT PUT ANY CAPS IN THE "CONTAINS" STATEMENT!!!!!!!!!!!!!!!!! Okay thanks :D 
+        if (command.Contains("yes") || command.Contains("yeah") || command.Contains("yep") || command.Contains("i do") || command.Contains("i can") || command.Contains("i'm here"))
         {
-            DialogueLua.SetVariable("YesorNo", true);
+            DialogueLua.SetVariable("Y/N/E", 1);
+        }
+        else if(command.Contains("no") || command.Contains("nah") || command.Contains("nope"))
+        {
+            DialogueLua.SetVariable("Y/N/E", 2);
+        }
+        else
+        {
+            DialogueLua.SetVariable("Y/N/E", 3);
         }
     }
 
