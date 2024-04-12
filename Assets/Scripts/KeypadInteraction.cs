@@ -37,6 +37,7 @@ public class KeypadInteraction : MonoBehaviour
         // Check for Enter key press to submit code
         if (isKeypadActive && Input.GetKeyDown(KeyCode.Return))
         {
+            codeInputField.text = codeInputField.text.ToLower();
             CheckCode(codeInputField.text);
         }
     }

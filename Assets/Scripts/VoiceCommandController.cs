@@ -161,6 +161,9 @@ public class VoiceCommandController : MonoBehaviour
         }
     }
 
+    //TO-DO: MAKE A CLASS THAT "SUBMITS" INPUT WHEN SPACEBAR IS LET GO
+
+
     //private void InteractWithNote()
     //{
     //    isNoteEnabled = !isNoteEnabled; // Toggle note state

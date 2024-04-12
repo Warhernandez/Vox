@@ -103,7 +103,7 @@ MonoBehaviour:
       type: 0
       typeString: 
     - title: Initial Value
-      value: 0
+      value: 1
       type: 1
       typeString: CustomFieldType_Number
     - title: Description
@@ -364,19 +364,7 @@ MonoBehaviour:
       - originConversationID: 1
         originDialogueID: 3
         destinationConversationID: 1
-        destinationDialogueID: 14
-        isConnector: 0
-        priority: 2
-      - originConversationID: 1
-        originDialogueID: 3
-        destinationConversationID: 1
         destinationDialogueID: 15
-        isConnector: 0
-        priority: 2
-      - originConversationID: 1
-        originDialogueID: 3
-        destinationConversationID: 1
-        destinationDialogueID: 16
         isConnector: 0
         priority: 2
       conditionsString: 
@@ -417,7 +405,7 @@ MonoBehaviour:
         type: 0
         typeString: 
       - title: Sequence
-        value: 
+        value: Delay(2)@{{end}}
         type: 0
         typeString: 
       conversationID: 1
@@ -434,14 +422,14 @@ MonoBehaviour:
         destinationDialogueID: 7
         isConnector: 0
         priority: 2
-      conditionsString: 
+      conditionsString: Variable["Y_N_E"] == 1
       userScript: 
       onExecute:
         m_PersistentCalls:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 498.05072
+        x: 498.9436
         y: 601.5931
         width: 160
         height: 30
@@ -472,7 +460,7 @@ MonoBehaviour:
         type: 0
         typeString: 
       - title: Sequence
-        value: 
+        value: Delay(2)@{{end}}
         type: 0
         typeString: 
       conversationID: 1
@@ -489,7 +477,7 @@ MonoBehaviour:
         destinationDialogueID: 7
         isConnector: 0
         priority: 2
-      conditionsString: 
+      conditionsString: Variable["Y_N_E"] == 2
       userScript: 
       onExecute:
         m_PersistentCalls:
@@ -544,14 +532,14 @@ MonoBehaviour:
         destinationDialogueID: 7
         isConnector: 0
         priority: 2
-      conditionsString: 
+      conditionsString: Variable["Y_N_E"] == 3
       userScript: 
       onExecute:
         m_PersistentCalls:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 923.5449
+        x: 924.48834
         y: 597.2079
         width: 160
         height: 30
@@ -578,8 +566,10 @@ MonoBehaviour:
         type: 0
         typeString: 
       - title: Dialogue Text
-        value: "\"I got thrown in here a little bit ago... \nProbably since I didn'y
-          have any support!\""
+        value: '"I got thrown in here about an hour ago...
+
+          Probably since
+          I didn''y have any support!"'
         type: 0
         typeString: 
       - title: Sequence
@@ -990,7 +980,7 @@ MonoBehaviour:
       canvasRect:
         serializedVersion: 2
         x: 522.7865
-        y: 495.6148
+        y: 492.7453
         width: 160
         height: 30
     - id: 15
@@ -1012,7 +1002,7 @@ MonoBehaviour:
         type: 5
         typeString: CustomFieldType_Actor
       - title: Menu Text
-        value: no
+        value: input
         type: 0
         typeString: 
       - title: Dialogue Text
@@ -1035,6 +1025,18 @@ MonoBehaviour:
         originDialogueID: 15
         destinationConversationID: 1
         destinationDialogueID: 5
+        isConnector: 0
+        priority: 2
+      - originConversationID: 1
+        originDialogueID: 15
+        destinationConversationID: 1
+        destinationDialogueID: 4
+        isConnector: 0
+        priority: 2
+      - originConversationID: 1
+        originDialogueID: 15
+        destinationConversationID: 1
+        destinationDialogueID: 6
         isConnector: 0
         priority: 2
       conditionsString: 
@@ -1078,6 +1080,10 @@ MonoBehaviour:
         value: 
         type: 0
         typeString: 
+      - title: Response Menu Sequence
+        value: 
+        type: 0
+        typeString: 
       conversationID: 1
       isRoot: 0
       isGroup: 0
@@ -1100,12 +1106,12 @@ MonoBehaviour:
       canvasRect:
         serializedVersion: 2
         x: 938.08075
-        y: 499.1443
+        y: 498.1443
         width: 160
         height: 30
     entryGroups: []
-    canvasScrollPosition: {x: 366.14917, y: 189.16492}
-    canvasZoom: 0.99999976
+    canvasScrollPosition: {x: 48.256668, y: 429.70038}
+    canvasZoom: 0.81999993
   - id: 2
     fields:
     - title: Title
