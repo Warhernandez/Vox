@@ -6,6 +6,7 @@ using PixelCrushers.DialogueSystem;
 using Language.Lua;
 using System.Threading;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class VoiceCommandController : MonoBehaviour
 {
@@ -142,27 +143,35 @@ public class VoiceCommandController : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 10f);
     }
 
-    public void DialogueVariableHandler(string command)
+    public void DialogueVariableHandler(string input)
     {
-        var firstResponse = DialogueManager.currentConversationState.pcResponses[0];
-        command = command.Trim().ToLower();
+        // Check if the current scene is "IntroScene"
+        if (SceneManager.GetActiveScene().name == "IntroScene")
+        {
+            var firstResponse = DialogueManager.currentConversationState.pcResponses[0];
+            input = input.Trim().ToLower();
+            DialogueLua.SetVariable("Input", input);
 
-        DialogueLua.SetVariable("Input", command);
-        //!!!!!!!IMPORTANT!!!!!!! ALL INPUT IS READ LOWERCASE YOU STUPID FUCK!!!!!!!! DO NOT PUT ANY CAPS IN THE "CONTAINS" STATEMENT!!!!!!!!!!!!!!!!! Okay thanks :D 
-        if (command.Contains("yes") || command.Contains("yeah") || command.Contains("yep") || command.Contains("i do") || command.Contains("i can") || command.Contains("i'm here"))
-        {
-            DialogueLua.SetVariable("Y/N/E", 1);
-            DialogueManager.standardDialogueUI.OnClick(firstResponse);
-        }
-        else if(command.Contains("no") || command.Contains("nah") || command.Contains("nope"))
-        {
-            DialogueLua.SetVariable("Y/N/E", 2);
-            DialogueManager.standardDialogueUI.OnClick(firstResponse);
+            // All input is read lowercase
+            if (input.Contains("yes") || input.Contains("yeah") || input.Contains("yep") || input.Contains("i do") || input.Contains("i can") || input.Contains("i'm here"))
+            {
+                DialogueLua.SetVariable("Y/N/E", 1);
+                DialogueManager.standardDialogueUI.OnClick(firstResponse);
+            }
+            else if (input.Contains("no") || input.Contains("nah") || input.Contains("nope"))
+            {
+                DialogueLua.SetVariable("Y/N/E", 2);
+                DialogueManager.standardDialogueUI.OnClick(firstResponse);
+            }
+            else
+            {
+                DialogueLua.SetVariable("Y/N/E", 3);
+                DialogueManager.standardDialogueUI.OnClick(firstResponse);
+            }
         }
         else
         {
-            DialogueLua.SetVariable("Y/N/E", 3);
-            DialogueManager.standardDialogueUI.OnClick(firstResponse);
+            Debug.Log("Command Processed, skipping Variable Handler.");
         }
     }
 
