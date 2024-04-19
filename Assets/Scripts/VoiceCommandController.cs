@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using TMPro;
 using PixelCrushers.DialogueSystem;
 using Language.Lua;
+using System.Threading;
+using System.Collections;
 
 public class VoiceCommandController : MonoBehaviour
 {
@@ -11,7 +13,6 @@ public class VoiceCommandController : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private List<DestinationObject> destinationObjects = new List<DestinationObject>();
     [SerializeField] private float movementThreshold = 0.1f;
-
     public GameObject player;
     private bool isNearInteractable = false;
     private List<Item> inventory = new List<Item>();
@@ -143,6 +144,7 @@ public class VoiceCommandController : MonoBehaviour
 
     public void DialogueVariableHandler(string command)
     {
+        var firstResponse = DialogueManager.currentConversationState.pcResponses[0];
         command = command.Trim().ToLower();
 
         DialogueLua.SetVariable("Input", command);
@@ -150,17 +152,17 @@ public class VoiceCommandController : MonoBehaviour
         if (command.Contains("yes") || command.Contains("yeah") || command.Contains("yep") || command.Contains("i do") || command.Contains("i can") || command.Contains("i'm here"))
         {
             DialogueLua.SetVariable("Y/N/E", 1);
-            DialogueManager.standardDialogueUI.OnClick("input");
+            DialogueManager.standardDialogueUI.OnClick(firstResponse);
         }
         else if(command.Contains("no") || command.Contains("nah") || command.Contains("nope"))
         {
             DialogueLua.SetVariable("Y/N/E", 2);
-            DialogueManager.standardDialogueUI.OnClick("input");
+            DialogueManager.standardDialogueUI.OnClick(firstResponse);
         }
         else
         {
             DialogueLua.SetVariable("Y/N/E", 3);
-            DialogueManager.standardDialogueUI.OnClick("input");
+            DialogueManager.standardDialogueUI.OnClick(firstResponse);
         }
     }
 
@@ -202,7 +204,10 @@ public class DestinationObject
         }
         return null;
     }
+
 }
+
+
 
 [System.Serializable]
 public class Item

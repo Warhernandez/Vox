@@ -1024,13 +1024,13 @@ MonoBehaviour:
       - originConversationID: 1
         originDialogueID: 15
         destinationConversationID: 1
-        destinationDialogueID: 4
+        destinationDialogueID: 6
         isConnector: 0
         priority: 2
       - originConversationID: 1
         originDialogueID: 15
         destinationConversationID: 1
-        destinationDialogueID: 6
+        destinationDialogueID: 4
         isConnector: 0
         priority: 2
       conditionsString: 
@@ -1098,8 +1098,8 @@ MonoBehaviour:
         width: 160
         height: 30
     entryGroups: []
-    canvasScrollPosition: {x: 285.95023, y: 109.88362}
-    canvasZoom: 0.9399998
+    canvasScrollPosition: {x: 171.02374, y: 196.8764}
+    canvasZoom: 0.9699998
   - id: 2
     fields:
     - title: Title
