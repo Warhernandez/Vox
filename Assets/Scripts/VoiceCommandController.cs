@@ -150,14 +150,17 @@ public class VoiceCommandController : MonoBehaviour
         if (command.Contains("yes") || command.Contains("yeah") || command.Contains("yep") || command.Contains("i do") || command.Contains("i can") || command.Contains("i'm here"))
         {
             DialogueLua.SetVariable("Y/N/E", 1);
+            DialogueManager.standardDialogueUI.OnClick("input");
         }
         else if(command.Contains("no") || command.Contains("nah") || command.Contains("nope"))
         {
             DialogueLua.SetVariable("Y/N/E", 2);
+            DialogueManager.standardDialogueUI.OnClick("input");
         }
         else
         {
             DialogueLua.SetVariable("Y/N/E", 3);
+            DialogueManager.standardDialogueUI.OnClick("input");
         }
     }
 

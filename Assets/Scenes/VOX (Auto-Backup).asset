@@ -103,7 +103,7 @@ MonoBehaviour:
       type: 0
       typeString: 
     - title: Initial Value
-      value: 0
+      value: 1
       type: 1
       typeString: CustomFieldType_Number
     - title: Description
@@ -364,13 +364,7 @@ MonoBehaviour:
       - originConversationID: 1
         originDialogueID: 3
         destinationConversationID: 1
-        destinationDialogueID: 5
-        isConnector: 0
-        priority: 2
-      - originConversationID: 1
-        originDialogueID: 3
-        destinationConversationID: 1
-        destinationDialogueID: 6
+        destinationDialogueID: 15
         isConnector: 0
         priority: 2
       conditionsString: 
@@ -380,8 +374,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 729.8454
-        y: 409.14435
+        x: 734.5513
+        y: 386.79138
         width: 160
         height: 30
     - id: 4
@@ -435,8 +429,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 498.05072
-        y: 600.4166
+        x: 498.9436
+        y: 601.5931
         width: 160
         height: 30
     - id: 5
@@ -491,7 +485,7 @@ MonoBehaviour:
       canvasRect:
         serializedVersion: 2
         x: 727.0896
-        y: 620.48596
+        y: 619.3095
         width: 160
         height: 30
     - id: 6
@@ -545,7 +539,7 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 924.7213
+        x: 924.48834
         y: 597.2079
         width: 160
         height: 30
@@ -572,8 +566,10 @@ MonoBehaviour:
         type: 0
         typeString: 
       - title: Dialogue Text
-        value: '"I got thrown in here a little bit ago... Probably since I didn''y
-          have any support!"'
+        value: '"I got thrown in here about an hour ago...
+
+          Probably since
+          I didn''y have any support!"'
         type: 0
         typeString: 
       - title: Sequence
@@ -628,8 +624,8 @@ MonoBehaviour:
         type: 0
         typeString: 
       - title: Dialogue Text
-        value: '"You''re lucky the idiot who tossed me in here said the code out
-          loud as he locked me in!"'
+        value: "\"You're lucky the idiot who tossed me in here said\n the code out
+          loud as he locked me in!\""
         type: 0
         typeString: 
       - title: Sequence
@@ -684,8 +680,8 @@ MonoBehaviour:
         type: 0
         typeString: 
       - title: Dialogue Text
-        value: '"Y''see those digital locks over there? You need security clearance
-          to access them."'
+        value: "\"Y'see those digital locks over there? \nYou need security clearance
+          to access them.\""
         type: 0
         typeString: 
       - title: Sequence
@@ -713,7 +709,7 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 737.1497
+        x: 738.21356
         y: 918.04987
         width: 160
         height: 30
@@ -928,13 +924,182 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 737.83954
-        y: 1348.1322
+        x: 740.1123
+        y: 1316.3141
+        width: 160
+        height: 30
+    - id: 14
+      fields:
+      - title: Title
+        value: 
+        type: 0
+        typeString: 
+      - title: Description
+        value: 
+        type: 0
+        typeString: 
+      - title: Actor
+        value: 1
+        type: 5
+        typeString: CustomFieldType_Actor
+      - title: Conversant
+        value: 2
+        type: 5
+        typeString: CustomFieldType_Actor
+      - title: Menu Text
+        value: 
+        type: 0
+        typeString: 
+      - title: Dialogue Text
+        value: yes
+        type: 0
+        typeString: 
+      - title: Sequence
+        value: 
+        type: 0
+        typeString: 
+      conversationID: 1
+      isRoot: 0
+      isGroup: 0
+      nodeColor: 
+      delaySimStatus: 0
+      falseConditionAction: Block
+      conditionPriority: 2
+      outgoingLinks: []
+      conditionsString: 
+      userScript: 
+      onExecute:
+        m_PersistentCalls:
+          m_Calls: []
+      canvasRect:
+        serializedVersion: 2
+        x: 522.7865
+        y: 492.7453
+        width: 160
+        height: 30
+    - id: 15
+      fields:
+      - title: Title
+        value: 
+        type: 0
+        typeString: 
+      - title: Description
+        value: 
+        type: 0
+        typeString: 
+      - title: Actor
+        value: 1
+        type: 5
+        typeString: CustomFieldType_Actor
+      - title: Conversant
+        value: 2
+        type: 5
+        typeString: CustomFieldType_Actor
+      - title: Menu Text
+        value: input
+        type: 0
+        typeString: 
+      - title: Dialogue Text
+        value: 
+        type: 0
+        typeString: 
+      - title: Sequence
+        value: 
+        type: 0
+        typeString: 
+      conversationID: 1
+      isRoot: 0
+      isGroup: 0
+      nodeColor: 
+      delaySimStatus: 0
+      falseConditionAction: Block
+      conditionPriority: 2
+      outgoingLinks:
+      - originConversationID: 1
+        originDialogueID: 15
+        destinationConversationID: 1
+        destinationDialogueID: 5
+        isConnector: 0
+        priority: 2
+      - originConversationID: 1
+        originDialogueID: 15
+        destinationConversationID: 1
+        destinationDialogueID: 4
+        isConnector: 0
+        priority: 2
+      - originConversationID: 1
+        originDialogueID: 15
+        destinationConversationID: 1
+        destinationDialogueID: 6
+        isConnector: 0
+        priority: 2
+      conditionsString: 
+      userScript: 
+      onExecute:
+        m_PersistentCalls:
+          m_Calls: []
+      canvasRect:
+        serializedVersion: 2
+        x: 728.01056
+        y: 503.85028
+        width: 160
+        height: 30
+    - id: 16
+      fields:
+      - title: Title
+        value: 
+        type: 0
+        typeString: 
+      - title: Description
+        value: 
+        type: 0
+        typeString: 
+      - title: Actor
+        value: 1
+        type: 5
+        typeString: CustomFieldType_Actor
+      - title: Conversant
+        value: 2
+        type: 5
+        typeString: CustomFieldType_Actor
+      - title: Menu Text
+        value: other
+        type: 0
+        typeString: 
+      - title: Dialogue Text
+        value: 
+        type: 0
+        typeString: 
+      - title: Sequence
+        value: 
+        type: 0
+        typeString: 
+      - title: Response Menu Sequence
+        value: 
+        type: 0
+        typeString: 
+      conversationID: 1
+      isRoot: 0
+      isGroup: 0
+      nodeColor: 
+      delaySimStatus: 0
+      falseConditionAction: Block
+      conditionPriority: 2
+      outgoingLinks: []
+      conditionsString: 
+      userScript: 
+      onExecute:
+        m_PersistentCalls:
+          m_Calls: []
+      canvasRect:
+        serializedVersion: 2
+        x: 938.08075
+        y: 498.1443
         width: 160
         height: 30
     entryGroups: []
-    canvasScrollPosition: {x: 283.40305, y: 124.82674}
-    canvasZoom: 0.8799999
+    canvasScrollPosition: {x: 542.01447, y: 216.49171}
+    canvasZoom: 1.0899997
   - id: 2
     fields:
     - title: Title
