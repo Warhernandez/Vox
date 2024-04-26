@@ -2,6 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+
 public class KeypadInteraction : MonoBehaviour
 {
     public GameObject keypadUI;
@@ -9,6 +10,8 @@ public class KeypadInteraction : MonoBehaviour
     public string correctCode = "1234";
     public GameObject door;
 
+    public AudioSource keypadClickSound;
+    public AudioSource wrongCodeSound;
 
     private bool isKeypadActive = false;
 
@@ -29,6 +32,10 @@ public class KeypadInteraction : MonoBehaviour
                         isKeypadActive = true;
                         keypadUI.SetActive(true);
                         codeInputField.Select(); // Focus on the input field
+
+                        // Play the keypad click sound
+                        if (keypadClickSound != null)
+                            keypadClickSound.Play();
                     }
                 }
             }
@@ -50,11 +57,15 @@ public class KeypadInteraction : MonoBehaviour
             //door.SetActive(false);
 
             //FOR DEMO ONLY - SEND PLAYER TO WIN SCENE 
-            SceneManager.LoadScene("ENDOFDEMO"); 
+            SceneManager.LoadScene("ENDOFDEMO");
         }
         else
         {
-            // Code is incorrect, do something (e.g., display an error message)
+            // Code is incorrect, play wrong code sound
+            if (wrongCodeSound != null)
+                wrongCodeSound.Play();
+
+            // Display an error message
             Debug.Log("Incorrect code entered!");
         }
 
