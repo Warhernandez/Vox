@@ -24,6 +24,6 @@ public class SplashScreen : MonoBehaviour
         splashImage.CrossFadeAlpha(0.0f, fadeOutTime, false);
         yield return new WaitForSeconds(fadeOutTime);
         // Load your main menu scene or whatever scene you want to load next
-        UnityEngine.SceneManagement.SceneManager.LoadScene("MansionScene");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Title");
     }
 }
