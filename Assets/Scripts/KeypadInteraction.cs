@@ -58,7 +58,7 @@ public class KeypadInteraction : MonoBehaviour
                 doorAnimator.SetTrigger("OpenDoorTrigger");
 
             //FOR DEMO ONLY - SEND PLAYER TO WIN SCENE 
-            //SceneManager.LoadScene("ENDOFDEMO");
+            SceneManager.LoadScene("ENDOFDEMO");
         }
         else
         {
