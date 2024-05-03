@@ -55,6 +55,7 @@ public class IntroKeypadInteraction : MonoBehaviour
         if (enteredCode == correctCode)
         {
             // Code is correct, play door opening animation
+            StopAllConversations();
             if (doorAnimator != null)
                 doorAnimator.SetTrigger("OpenDoorTrigger");
             DialogueManager.StartConversation("EndOfIntro");
@@ -76,5 +77,13 @@ public class IntroKeypadInteraction : MonoBehaviour
         isKeypadActive = false;
         keypadUI.SetActive(false);
         codeInputField.text = ""; // Clear the input field
+    }
+
+    public void StopAllConversations()
+    {
+        for (int i = DialogueManager.instance.activeConversations.Count - 1; i >= 0; i--)
+        {
+            DialogueManager.instance.activeConversations[i].conversationController.Close();
+        }
     }
 }

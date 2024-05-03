@@ -6138,6 +6138,10 @@ PrefabInstance:
       propertyPath: timerSlider
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 11447230, guid: 5ba51781a19f8a843abeb2d304d0d26e, type: 3}
+      propertyPath: m_Value
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 22410494, guid: 5ba51781a19f8a843abeb2d304d0d26e, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -6216,6 +6220,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 22433532, guid: 5ba51781a19f8a843abeb2d304d0d26e, type: 3}
       propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22433532, guid: 5ba51781a19f8a843abeb2d304d0d26e, type: 3}
+      propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22436064, guid: 5ba51781a19f8a843abeb2d304d0d26e, type: 3}
@@ -6576,6 +6584,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 22498406, guid: 5ba51781a19f8a843abeb2d304d0d26e, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22498406, guid: 5ba51781a19f8a843abeb2d304d0d26e, type: 3}
+      propertyPath: m_AnchorMin.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22498666, guid: 5ba51781a19f8a843abeb2d304d0d26e, type: 3}
@@ -7225,10 +7237,14 @@ PrefabInstance:
       propertyPath: keypadClickSound
       value: 
       objectReference: {fileID: 1740804067}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5090100565694832645, guid: 838a63fe108fad54dace738b8ad3588e, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1210253785729489878, guid: 838a63fe108fad54dace738b8ad3588e, type: 3}
+      insertIndex: 4
+      addedObject: {fileID: 1265935970}
     - targetCorrespondingSourceObject: {fileID: 1210253785729489878, guid: 838a63fe108fad54dace738b8ad3588e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1265935962}
@@ -8110,6 +8126,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c72b3f4c374d0ba47824d73874ac6fd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1265935970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1265935955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8851648de018b64ba7570dd649f5d0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  keypadUI: {fileID: 652275795}
+  codeInputField: {fileID: 652275797}
+  correctCode: password
+  doorAnimator: {fileID: 2023318840}
+  keypadClickSound: {fileID: 1740804067}
+  wrongCodeSound: {fileID: 266617230}
 --- !u!1 &1281306673
 GameObject:
   m_ObjectHideFlags: 0
@@ -10887,6 +10921,7 @@ GameObject:
   - component: {fileID: 2041515456}
   - component: {fileID: 2041515455}
   - component: {fileID: 2041515457}
+  - component: {fileID: 2041515458}
   m_Layer: 0
   m_Name: DialogueHandler
   m_TagString: Untagged
@@ -11063,6 +11098,18 @@ MonoBehaviour:
   useBarkTitlePicker: 1
   useQuestNamePicker: 1
   selectedDatabase: {fileID: 11400000, guid: 56e7a98cc14090b4f9fc91043d06755d, type: 2}
+--- !u!114 &2041515458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2041515454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bcb1d4ef62d71894ca5cc0a9f513f71e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &2060743575 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 22461342, guid: 5ba51781a19f8a843abeb2d304d0d26e, type: 3}
