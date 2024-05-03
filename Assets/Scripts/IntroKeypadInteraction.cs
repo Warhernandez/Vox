@@ -2,8 +2,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using PixelCrushers.DialogueSystem;
 
-public class KeypadInteraction : MonoBehaviour
+public class IntroKeypadInteraction : MonoBehaviour
 {
     public GameObject keypadUI;
     public TMP_InputField codeInputField;
@@ -56,9 +57,9 @@ public class KeypadInteraction : MonoBehaviour
             // Code is correct, play door opening animation
             if (doorAnimator != null)
                 doorAnimator.SetTrigger("OpenDoorTrigger");
+            DialogueManager.StartConversation("EndOfIntro");
 
-            //FOR DEMO ONLY - SEND PLAYER TO WIN SCENE 
-            //SceneManager.LoadScene("ENDOFDEMO");
+
         }
         else
         {
@@ -68,6 +69,7 @@ public class KeypadInteraction : MonoBehaviour
 
             // Display an error message
             Debug.Log("Incorrect code entered!");
+            
         }
 
         // Reset the keypad state

@@ -1,11 +1,13 @@
 using UnityEngine;
 using Cinemachine;
+using UnityEngine.UI;
 
 public class CameraSwitcher : MonoBehaviour
 {
     public CinemachineVirtualCamera[] cameras;
     private int currentCameraIndex = 0;
     public GameObject staticCanvas;
+    public Image[] miniMaps; // Array of mini-map images
     public float staticDuration = 0.5f; // Duration of static effect in seconds
 
     private void Start()
@@ -56,5 +58,23 @@ public class CameraSwitcher : MonoBehaviour
 
         // Enable new camera
         cameras[currentCameraIndex].gameObject.SetActive(true);
+
+        //update mini maps
+        UpdateMiniMaps(); 
+    }
+
+    private void UpdateMiniMaps()
+    {
+        // Disable all mini-maps
+        foreach (var miniMap in miniMaps)
+        {
+            miniMap.gameObject.SetActive(false);
+        }
+
+        // Enable the mini-map corresponding to the current camera
+        if (currentCameraIndex >= 0 && currentCameraIndex < miniMaps.Length)
+        {
+            miniMaps[currentCameraIndex].gameObject.SetActive(true);
+        }
     }
 }
