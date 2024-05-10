@@ -9,6 +9,7 @@ public class CameraSwitcher : MonoBehaviour
     public GameObject staticCanvas;
     public Image[] miniMaps; // Array of mini-map images
     public float staticDuration = 0.5f; // Duration of static effect in seconds
+    public AudioSource staticsound;
 
     private void Start()
     {
@@ -35,6 +36,9 @@ public class CameraSwitcher : MonoBehaviour
     {
         // Show static
         staticCanvas.SetActive(true);
+
+        //play sound
+        staticsound.Play();
 
         // Wait for a brief duration
         yield return new WaitForSeconds(staticDuration);
