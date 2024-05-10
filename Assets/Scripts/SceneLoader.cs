@@ -1,3 +1,4 @@
+using PixelCrushers;
 using PixelCrushers.DialogueSystem;
 using System.Collections;
 using UnityEngine;
@@ -10,18 +11,27 @@ public class SceneLoader : MonoBehaviour
     // Functions to be called when the button is clicked
     private bool introclear;
     private bool gameclear;
+    public SceneFader sceneFader;
+
+    public void Start()
+    {
+        introclear = false;
+        gameclear = false; 
+    }
     private void Update()
     {
         introclear = DialogueLua.GetVariable("IntroQuestClear").AsBool;
-        if (introclear)
+        if (introclear && SceneManager.GetActiveScene().name != "mansionscene")
         {
-            SceneManager.LoadScene("MansionScene");
+
+            sceneFader.FadeToScene("mansionscene");
+            
         }
 
         gameclear = DialogueLua.GetVariable("GameClear").AsBool;
-        if (gameclear)
+        if (gameclear && SceneManager.GetActiveScene().name != "ENDOFDEMO")
         {
-            SceneManager.LoadScene("ENDOFDEMO");
+            sceneFader.FadeToScene("ENDOFDEMO");
         }
     }
     public void LoadMainSceneOnClick()
@@ -36,6 +46,7 @@ public class SceneLoader : MonoBehaviour
 
     public void LoadTitleSceneOnClick()
     {
+        //StopAllConversations();
         SceneManager.LoadScene("Title");
     }
 
@@ -46,5 +57,12 @@ public class SceneLoader : MonoBehaviour
         SceneManager.LoadScene(sceneName);
     }
 
+    public void StopAllConversations()
+    {
+        for (int i = DialogueManager.instance.activeConversations.Count - 1; i >= 0; i--)
+        {
+            DialogueManager.instance.activeConversations[i].conversationController.Close();
+        }
+    }
 
 }

@@ -13,6 +13,7 @@ public class KeypadInteraction : MonoBehaviour
 
     public AudioSource keypadClickSound;
     public AudioSource wrongCodeSound;
+    public AudioSource rightInputSound;
 
     private bool isKeypadActive = false;
     private void Update()
@@ -53,6 +54,8 @@ public class KeypadInteraction : MonoBehaviour
     {
         if (enteredCode == correctCode)
         {
+            StopAllConversations();
+            rightInputSound.Play();
             // Code is correct, play door opening animation
             if (doorAnimator != null)
                 doorAnimator.SetTrigger("OpenDoorTrigger");
@@ -74,5 +77,13 @@ public class KeypadInteraction : MonoBehaviour
         isKeypadActive = false;
         keypadUI.SetActive(false);
         codeInputField.text = ""; // Clear the input field
+    }
+
+    public void StopAllConversations()
+    {
+        for (int i = DialogueManager.instance.activeConversations.Count - 1; i >= 0; i--)
+        {
+            DialogueManager.instance.activeConversations[i].conversationController.Close();
+        }
     }
 }

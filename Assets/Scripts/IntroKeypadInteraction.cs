@@ -13,6 +13,7 @@ public class IntroKeypadInteraction : MonoBehaviour
 
     public AudioSource keypadClickSound;
     public AudioSource wrongCodeSound;
+    public AudioSource rightInputSound;
 
     private bool isKeypadActive = false;
 
@@ -55,6 +56,7 @@ public class IntroKeypadInteraction : MonoBehaviour
         if (enteredCode == correctCode)
         {
             // Code is correct, play door opening animation
+            rightInputSound.Play();
             StopAllConversations();
             if (doorAnimator != null)
                 doorAnimator.SetTrigger("OpenDoorTrigger");
