@@ -2,6 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using PixelCrushers.DialogueSystem;
 
 public class KeypadInteraction : MonoBehaviour
 {
@@ -14,7 +15,6 @@ public class KeypadInteraction : MonoBehaviour
     public AudioSource wrongCodeSound;
 
     private bool isKeypadActive = false;
-
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))
@@ -56,9 +56,9 @@ public class KeypadInteraction : MonoBehaviour
             // Code is correct, play door opening animation
             if (doorAnimator != null)
                 doorAnimator.SetTrigger("OpenDoorTrigger");
-
+            DialogueManager.StartConversation("End");
             //FOR DEMO ONLY - SEND PLAYER TO WIN SCENE 
-            SceneManager.LoadScene("ENDOFDEMO");
+            //SceneManager.LoadScene("ENDOFDEMO");
         }
         else
         {

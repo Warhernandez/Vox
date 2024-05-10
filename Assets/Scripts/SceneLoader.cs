@@ -8,13 +8,20 @@ public class SceneLoader : MonoBehaviour
     //public float fadeOutTime = 1.0f;
     //public Animator fadeOutAnimator; // Reference to the fade out animator
     // Functions to be called when the button is clicked
-    private bool clear;
+    private bool introclear;
+    private bool gameclear;
     private void Update()
     {
-        clear = DialogueLua.GetVariable("IntroQuestClear").AsBool;
-        if (clear)
+        introclear = DialogueLua.GetVariable("IntroQuestClear").AsBool;
+        if (introclear)
         {
             SceneManager.LoadScene("MansionScene");
+        }
+
+        gameclear = DialogueLua.GetVariable("GameClear").AsBool;
+        if (gameclear)
+        {
+            SceneManager.LoadScene("ENDOFDEMO");
         }
     }
     public void LoadMainSceneOnClick()
@@ -26,7 +33,12 @@ public class SceneLoader : MonoBehaviour
     {
         SceneManager.LoadScene("IntroScene");
     }
-    
+
+    public void LoadTitleSceneOnClick()
+    {
+        SceneManager.LoadScene("Title");
+    }
+
 
     // Call this function to change scene after fade out
     public void ChangeScene(string sceneName)
